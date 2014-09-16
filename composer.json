@@ -1,0 +1,19 @@
+{
+    "name": "dreamcommerce/shop-appstore-lib",
+    "description": "SDK for Dreamcommerce based shops REST-API",
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Dreamcommerce\\": "src/Dreamcommerce"
+        }
+    },
+    "authors": [
+        {
+            "name": "Przemysław eRIZ Pawliczuk",
+            "email": "przemyslaw.pawliczuk@shoper.pl"
+        }
+    ]
+}
