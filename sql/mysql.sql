@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS `access_tokens` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `shop_id` int(10) unsigned DEFAULT NULL,
   `expires_at` timestamp NULL DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `access_token` char(50) COLLATE utf8_polish_ci DEFAULT NULL,
   `refresh_token` char(50) COLLATE utf8_polish_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -46,6 +46,18 @@ CREATE TABLE IF NOT EXISTS `shops` (
   `auth_code` char(50) COLLATE utf8_polish_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `shop` (`shop`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
+
+-- Data exporting was unselected.
+
+
+-- Dumping structure for table app.subscriptions
+CREATE TABLE IF NOT EXISTS `subscriptions` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `shop_id` int(10) unsigned NOT NULL,
+  `expires_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `shop_id` (`shop_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 -- Data exporting was unselected.
