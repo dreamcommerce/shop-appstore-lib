@@ -83,7 +83,7 @@ class Http
         // determine allowed methods
         $methodName = strtoupper($method);
 
-        if (in_array($methodName, array(
+        if (!in_array($methodName, array(
             'GET', 'POST', 'PUT', 'DELETE'
         ))
         ) {
@@ -97,15 +97,15 @@ class Http
             ));
 
         // request body
-        if($methodName=='POST' || $methodName=='PUT'){
+        if ($methodName == 'POST' || $methodName == 'PUT') {
             $contextParams['http']['content'] = http_build_query($body);
         }
 
         // stringifying headers
-        if($headers){
+        if ($headers) {
             $headersString = '';
-            foreach($headers as $k=>$v){
-                $headersString .= $k.': '.$v."\r\n";
+            foreach ($headers as $k => $v) {
+                $headersString .= $k . ': ' . $v . "\r\n";
             }
             $contextParams['http']['header'] = $headersString;
         }
@@ -116,45 +116,61 @@ class Http
         // query string processing
         $processedUrl = $url;
 
-        if($query){
+        if ($query) {
             // URL has already query string, merge
-            if(strpos($url, '?')!==false){
+            if (strpos($url, '?') !== false) {
                 $components = parse_url($url);
                 $params = array();
                 parse_str($components['query'], $params);
                 $params = $params + $query;
                 $components['query'] = http_build_query($params);
                 $processedUrl = http_build_url($components);
-            }else{
-                $processedUrl .= '?'.http_build_query($query);
+            } else {
+                $processedUrl .= '?' . http_build_query($query);
             }
         }
 
         // perform request
         $result = @file_get_contents($processedUrl, null, $ctx);
-        if(!$result){
-            throw new HttpException(HttpException::REQUEST_FAILED);
+        if (!$result) {
+            throw new HttpException(
+                var_export($this->parseHeaders($http_response_header, true)),
+                HttpException::REQUEST_FAILED
+            );
         }
 
         // try to decode response
         $parsedPayload = @json_decode($result, true);
-        if(!$parsedPayload){
+        if (!$parsedPayload) {
             throw new HttpException(HttpException::MALFORMED_RESULT);
         }
 
         // process response headers
+        $headers = $this->parseHeaders($http_response_header);
+
+        return array(
+            'data' => $parsedPayload,
+            'headers' => $headers
+        );
+    }
+
+    /**
+     * transform headers from $http_response_header
+     * @param string $src
+     * @internal param $headers
+     * @internal param $http_response_header
+     * @return array
+     */
+    protected function parseHeaders($src)
+    {
         $headers = array();
-        foreach ($http_response_header as $i) {
+        foreach ($src as $i) {
             $row = explode(':', $i, 2);
             $key = trim($row[0]);
             $val = trim($row[1]);
             $headers[$key] = $val;
         }
-
-        return array(
-            'data'=>$parsedPayload,
-            'headers'=>$headers
-        );
+        return $headers;
     }
 
 } 

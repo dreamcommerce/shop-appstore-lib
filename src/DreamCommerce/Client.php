@@ -76,15 +76,16 @@ class Client {
     public function getToken($authCode){
 
         $res = $this->client->post($this->entrypoint.'/oauth', array(
-            'client_id'=>$this->clientId,
-            'client_secret'=>$this->clientSecret,
             'code'=>$authCode
         ), array(
-            'grant_type'=>'authorization_code'
+            'grant_type'=>'authorization_code',
+            'action'=>'token'
+        ), array(
+            'Authorization'=>'Basic '.base64_encode($this->clientId.':'.$this->clientSecret)
         ));
 
-        if(!$res || $res['data']['error']){
-            throw new ClientException($res['error'], ClientException::API_ERROR);
+        if(!$res || !empty($res['data']['error'])){
+            throw new ClientException($res['data']['error'], ClientException::API_ERROR);
         }
 
         return $res['data'];
