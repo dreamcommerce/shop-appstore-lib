@@ -9,7 +9,7 @@
 use Dreamcommerce\Exceptions\ClientException;
 use Dreamcommerce\Exceptions\HandlerException;
 
-require __DIR__.'/../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 class SomeApplicationController
 {
@@ -53,7 +53,7 @@ class SomeApplicationController
             $handler->subscribe('billing_subscription', array($this, 'billingSubscriptionHandler'));
             $handler->subscribe('uninstall', array($this, 'uninstallHandler'));
 
-        }catch(HandlerException $ex){
+        } catch (HandlerException $ex) {
             throw new Exception('Handler initialization failed', 0, $ex);
         }
     }
@@ -266,9 +266,9 @@ try {
     $controller = new SomeApplicationController();
     $controller->dispatch();
 
-}catch(Exception $ex){
-    printf('Something went wrong: %s'.PHP_EOL, $ex->getMessage());
-    if($previous = $ex->getPrevious()){
-        printf('Previous exception details: %s'.PHP_EOL, $previous->getMessage());
+} catch (Exception $ex) {
+    printf('Something went wrong: %s' . PHP_EOL, $ex->getMessage());
+    if ($previous = $ex->getPrevious()) {
+        printf('Previous exception details: %s' . PHP_EOL, $previous->getMessage());
     }
 }
