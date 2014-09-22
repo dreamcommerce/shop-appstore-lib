@@ -18,6 +18,25 @@ class Http
 {
 
     /**
+     * retry count before giving up on leaking bucket quota exceeding
+     * @var int
+     */
+    public static $retryLimit = 5;
+
+    /**
+     * @return Http
+     */
+    public static function instance(){
+        static $instance = null;
+
+        if($instance===null){
+            $instance = new Http();
+        }
+
+        return $instance;
+    }
+
+    /**
      * performs a GET request
      * @param string $url
      * @param array $query query string params
@@ -87,7 +106,7 @@ class Http
             'GET', 'POST', 'PUT', 'DELETE'
         ))
         ) {
-            throw new HttpException(HttpException::METHOD_NOT_SUPPORTED);
+            throw new HttpException('', HttpException::METHOD_NOT_SUPPORTED);
         }
 
         // prepare request headers and fields
@@ -130,19 +149,50 @@ class Http
             }
         }
 
+        $lastRequestHeaders = array();
+
         // perform request
-        $result = @file_get_contents($processedUrl, null, $ctx);
-        if (!$result) {
-            throw new HttpException(
-                var_export($this->parseHeaders($http_response_header, true)),
-                HttpException::REQUEST_FAILED
-            );
+        $doRequest = function($url, $ctx) use(&$lastRequestHeaders) {
+            $result = @file_get_contents($url, null, $ctx);
+            if (!$result) {
+                $lastRequestHeaders = $this->parseHeaders($http_response_header, true);
+
+                throw new HttpException(
+                    var_export($lastRequestHeaders),
+                    HttpException::REQUEST_FAILED
+                );
+            }
+            return $result;
+        };
+
+        // initialize requests counter
+        $counter = self::$retryLimit;
+
+        // perform request regarding counter limit and quotas
+        while(true){
+            try {
+                $result = $doRequest($processedUrl, $ctx);
+                break;
+            }catch(HttpException $ex){
+                // server pauses request for X seconds
+                if(!empty($lastRequestHeaders['Retry-After'])){
+                    if($counter<=0){
+                        throw new HttpException(var_export($lastRequestHeaders, true), HttpException::QUOTA_EXCEEDED);
+                    }
+                    sleep($lastRequestHeaders['Retry-After']);
+                }else{
+                    // other error
+                    throw $ex;
+                }
+            }
+
+            $counter--;
         }
 
         // try to decode response
         $parsedPayload = @json_decode($result, true);
         if (!$parsedPayload) {
-            throw new HttpException(HttpException::MALFORMED_RESULT);
+            throw new HttpException('', HttpException::MALFORMED_RESULT);
         }
 
         // process response headers
@@ -166,6 +216,11 @@ class Http
         $headers = array();
         foreach ($src as $i) {
             $row = explode(':', $i, 2);
+            if(!isset($row[1])){
+                $headers[] = $row[0];
+                continue;
+            }
+
             $key = trim($row[0]);
             $val = trim($row[1]);
             $headers[$key] = $val;
