@@ -9,6 +9,7 @@
 namespace Dreamcommerce;
 
 
+use Dreamcommerce\Exceptions\ClientException;
 use Dreamcommerce\Exceptions\HandlerException;
 
 /**
@@ -27,7 +28,7 @@ class Handler {
      * @var array
      */
     protected $eventsMap = array(
-        'install', 'uninstall'
+        'install', 'uninstall', 'billing_install', 'billing_subscription'
     );
 
     /**
@@ -40,20 +41,35 @@ class Handler {
     protected $clientSecret = null;
 
     /**
+     * @var null|string
+     */
+    protected $appStoreSecret = null;
+
+    /**
      * application requests object
      * @var Client
      */
     protected $client = null;
 
+    protected $entrypoint = null;
+
     /**
+     * @param $entrypoint
      * @param string $clientId
      * @param string $secret
+     * @throws HandlerException
      */
-    public function __construct($clientId, $secret){
+    public function __construct($entrypoint, $clientId, $secret, $appStoreSecret){
         $this->clientId = $clientId;
         $this->clientSecret = $secret;
+        $this->entrypoint = $entrypoint;
+        $this->appStoreSecret = $appStoreSecret;
 
-        $this->client = new Client($clientId, $secret);
+        try {
+            $this->client = new Client($entrypoint, $clientId, $secret);
+        }catch(ClientException $ex){
+            throw new HandlerException('', HandlerException::CLIENT_INITIALIZATION_FAILED, $ex);
+        }
     }
 
     /**
@@ -68,12 +84,12 @@ class Handler {
         }
 
         if(empty($requestBody)){
-            throw new HandlerException(HandlerException::PAYLOAD_EMPTY);
+            throw new HandlerException('', HandlerException::PAYLOAD_EMPTY);
         }
 
         // no action specified?
         if(empty($requestBody['action'])){
-            throw new HandlerException(HandlerException::ACTION_NOT_EXISTS);
+            throw new HandlerException('', HandlerException::ACTION_NOT_EXISTS);
         }
 
         $this->actionExists($requestBody['action']);
@@ -102,13 +118,15 @@ class Handler {
         $processedPayload = "";
 
         foreach($payload as $k => $v){
-            $processedPayload .= $k."=".$v;
+            $processedPayload .= '&'.$k.'='.$v;
         }
 
-        $computedHash = hash_hmac('sha512', $processedPayload, $this->clientSecret);
+        $processedPayload = substr($processedPayload, 1);
+
+        $computedHash = hash_hmac('sha512', $processedPayload, $this->appStoreSecret);
 
         if($computedHash!=$providedHash){
-            throw new HandlerException(HandlerException::HASH_FAILED);
+            throw new HandlerException('', HandlerException::HASH_FAILED);
         }
 
         return true;
@@ -122,7 +140,7 @@ class Handler {
      */
     protected function actionExists($action){
         if(!in_array($action, $this->eventsMap)){
-            throw new HandlerException(HandlerException::ACTION_NOT_EXISTS);
+            throw new HandlerException('', HandlerException::ACTION_NOT_EXISTS);
         }
 
         return true;
@@ -137,7 +155,7 @@ class Handler {
     protected function fire($action, $params){
 
         if(!isset($this->events[$action])){
-            throw new HandlerException(HandlerException::ACTION_HANDLER_NOT_EXISTS);
+            throw new HandlerException('', HandlerException::ACTION_HANDLER_NOT_EXISTS);
         }
 
         // prepare params array for handler
@@ -189,13 +207,13 @@ class Handler {
      */
     public function subscribe($event, $handler){
 
-        $this->actionExists($handler);
+        $this->actionExists($event);
 
         if(!is_callable($handler)){
-            throw new HandlerException(HandlerException::INCORRECT_HANDLER_SPECIFIED);
+            throw new HandlerException('', HandlerException::INCORRECT_HANDLER_SPECIFIED);
         }
 
-        if(!is_array($this->events[$event])){
+        if(!isset($this->events[$event])){
             $this->events[$event] = array();
         }
 
