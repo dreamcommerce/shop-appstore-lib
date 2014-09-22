@@ -10,6 +10,7 @@ use Dreamcommerce\Exceptions\ClientException;
 use Dreamcommerce\Exceptions\HandlerException;
 
 require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/config.php';
 
 class SomeApplicationController
 {
@@ -20,31 +21,24 @@ class SomeApplicationController
     protected $handler = null;
 
     /**
-     * instantiate connection
-     * @return PDO
+     * @var PDO|null
      */
-    protected function getDatabaseConnection()
-    {
-        static $connection = null;
+    protected $db = null;
 
-        if (!$connection) {
-            $connection = new PDO('mysql:host=192.168.56.101;dbname=app', 'root', 'dupa.8');
-            //$connection = new PDO('mysql:host=localhost;dbname=przemek_sync', 'sync', 'D8Q7jynaNR3AfFnN');
-        }
-
-        return $connection;
-    }
 
     /**
      * @throws Exception
+     * @internal param PDO $db
      */
     public function __construct()
     {
 
+        $this->db = Config::dbConnect();
+
         try {
             // instantiate a handler
             $handler = $this->handler = new Dreamcommerce\Handler(
-                'https://55.dev/webapi/rest/', 'afbbdb69614792d8f0318d55bf33c51f', 'haslo1', 'haslo2'
+                Config::ENTRYPOINT, Config::APPID, Config::APP_SECRET, Config::APPSTORE_SECRET
             );
 
             // subscribe to particular events
@@ -94,15 +88,14 @@ class SomeApplicationController
     {
 
         try {
-            $conn = $this->getDatabaseConnection();
 
             // shop installation
-            $shopStmt = $conn->prepare('INSERT INTO shops (shop, shop_url, auth_code) values (?,?,?)');
+            $shopStmt = $this->db->prepare('INSERT INTO shops (shop, shop_url, auth_code) values (?,?,?)');
             $shopStmt->execute(array(
                 $arguments['shop'], $arguments['shop_url'], $arguments['auth_code']
             ));
 
-            $shopId = $conn->lastInsertId();
+            $shopId = $this->db->lastInsertId();
 
             // get OAuth tokens
             try {
@@ -112,7 +105,7 @@ class SomeApplicationController
             }
 
             // store tokens in db
-            $tokensStmt = $conn->prepare('INSERT INTO access_tokens (shop_id, expires_at, access_token, refresh_token) VALUES (?,?,?,?)');
+            $tokensStmt = $this->db->prepare('INSERT INTO access_tokens (shop_id, expires_at, access_token, refresh_token) VALUES (?,?,?,?)');
             $expirationDate = date('Y-m-d H:i:s', time() + $tokens['expires_in']);
             $tokensStmt->execute(array(
                 $shopId, $expirationDate, $tokens['access_token'], $tokens['refresh_token']
@@ -146,8 +139,7 @@ class SomeApplicationController
             $shopId = $this->getShopId($arguments['shop']);
 
             // store payment event
-            $conn = $this->getDatabaseConnection();
-            $stmt = $conn->prepare('INSERT INTO billings (shop_id) VALUES (?)');
+            $stmt = $this->db->prepare('INSERT INTO billings (shop_id) VALUES (?)');
             $stmt->execute(array(
                 $shopId
             ));
@@ -178,7 +170,7 @@ class SomeApplicationController
 
             $shopId = $this->getShopId($arguments['shop']);
 
-            $conn = $this->getDatabaseConnection();
+            $conn = $this->db;
 
             // remove shop's references
             $conn->query('DELETE FROM shops WHERE id=' . (int)$shopId);
@@ -223,8 +215,7 @@ class SomeApplicationController
             }
 
             // save subscription event
-            $conn = $this->getDatabaseConnection();
-            $stmt = $conn->prepare('INSERT INTO subscriptions (shop_id, expires_at) VALUES (?,?)');
+            $stmt = $this->db->prepare('INSERT INTO subscriptions (shop_id, expires_at) VALUES (?,?)');
             $stmt->execute(array(
                 $shopId, $expiresAt
             ));
