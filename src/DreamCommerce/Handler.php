@@ -51,12 +51,17 @@ class Handler {
      */
     protected $client = null;
 
+    /**
+     * application entrypoint
+     * @var null|string
+     */
     protected $entrypoint = null;
 
     /**
-     * @param $entrypoint
+     * @param string $entrypoint
      * @param string $clientId
      * @param string $secret
+     * @param string $appStoreSecret
      * @throws HandlerException
      */
     public function __construct($entrypoint, $clientId, $secret, $appStoreSecret){

@@ -10,6 +10,7 @@ namespace Dreamcommerce;
 
 
 use Dreamcommerce\Exceptions\ClientException;
+use Dreamcommerce\Exceptions\HttpException;
 
 /**
  * Dreamcommerce requesting library
@@ -35,9 +36,21 @@ class Client {
     protected $clientSecret = null;
 
     /**
+     * HTTP Client handle
      * @var Http|null
      */
     protected $client = null;
+
+    /**
+     * access token
+     * @var string
+     */
+    protected $accessToken = null;
+
+    /**
+     * @var array
+     */
+    protected $resourcesRegistry = array();
 
     /**
      * @param string $entrypoint shop url
@@ -47,10 +60,10 @@ class Client {
      */
     public function __construct($entrypoint, $clientId, $clientSecret){
         if(!filter_var($entrypoint, FILTER_VALIDATE_URL)){
-            throw new ClientException(ClientException::ENTRYPOINT_URL_INVALID);
+            throw new ClientException('', ClientException::ENTRYPOINT_URL_INVALID);
         }
 
-        $this->client = new Http();
+        $this->client = Http::instance();
 
         // adjust base URL
         if($entrypoint[strlen($entrypoint)-1]=='/'){
@@ -75,11 +88,10 @@ class Client {
      */
     public function getToken($authCode){
 
-        $res = $this->client->post($this->entrypoint.'/oauth', array(
+        $res = $this->client->post($this->entrypoint.'/oauth/token', array(
             'code'=>$authCode
         ), array(
-            'grant_type'=>'authorization_code',
-            'action'=>'token'
+            'grant_type'=>'authorization_code'
         ), array(
             'Authorization'=>'Basic '.base64_encode($this->clientId.':'.$this->clientSecret)
         ));
@@ -87,6 +99,9 @@ class Client {
         if(!$res || !empty($res['data']['error'])){
             throw new ClientException($res['data']['error'], ClientException::API_ERROR);
         }
+
+        // automatically set token to the freshly requested
+        $this->setAccessToken($res['data']['access_token']);
 
         return $res['data'];
     }
@@ -99,7 +114,7 @@ class Client {
      */
     public function refreshToken($refreshToken){
 
-        $res = $this->client->post($this->entrypoint.'/oauth', array(
+        $res = $this->client->post($this->entrypoint.'/oauth/token', array(
             'client_id'=>$this->clientId,
             'client_secret'=>$this->clientSecret,
             'refresh_token'=>$refreshToken
@@ -107,11 +122,74 @@ class Client {
             'grant_type'=>'refresh_token'
         ));
 
-        if(!$res || $res['data']['error']){
+        if(!$res || !empty($res['data']['error'])){
             throw new ClientException($res['error'], ClientException::API_ERROR);
         }
 
+        $this->setAccessToken($res['data']['access_token']);
+
         return $res['data'];
+    }
+
+    /**
+     * sets an access token for further requests
+     * @param $token
+     */
+    public function setAccessToken($token){
+        $this->accessToken = $token;
+    }
+
+    /**
+     * @param $res
+     * @param $method
+     * @param null|int $object
+     * @param array $data
+     * @param array $query
+     * @throws ClientException
+     * @return mixed
+     */
+    public function request(Resource $res, $method, $object = null, $data = array(), $query = array()){
+        if(!method_exists($this->client, $method)){
+            throw new ClientException('', ClientException::METHOD_NOT_SUPPORTED);
+        }
+
+        $url = $this->entrypoint.'/'.$res->getName();
+        if($object){
+            $url .= '/'.$object;
+        }
+
+        $headers = array(
+            'Authorization'=>'Bearer '.$this->accessToken,
+            'Content-Type'=>'application/json'
+        );
+
+        try{
+            if(in_array($method, array('get', 'delete'))){
+                return call_user_func(array(
+                    $this->client, $method
+                ), $url, $query, $headers);
+            }else{
+                return call_user_func(array(
+                    $this->client, $method
+                ), $url, $data, $query, $headers);
+            }
+        }catch(HttpException $ex){
+            throw new ClientException('HTTP error: '.$ex->getMessage(), ClientException::API_ERROR, $ex);
+        }
+    }
+
+    /**
+     * @return Resource
+     * @param $resource
+     */
+    public function __get($resource){
+        $resourceName = ucfirst($resource);
+
+        if(isset($this->resourcesRegistry[$resourceName])){
+            return $this->resourcesRegistry[$resourceName];
+        }
+
+        return new Resource($this, $resourceName);
     }
 
 }

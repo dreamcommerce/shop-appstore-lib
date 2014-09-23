@@ -16,4 +16,6 @@ class HandlerException extends \Exception{
     const ACTION_HANDLER_NOT_EXISTS = 4;
     const INCORRECT_HANDLER_SPECIFIED = 5;
     const HASH_FAILED = 6;
-} 
+    const CLIENT_INITIALIZATION_FAILED = 7;
+
+}

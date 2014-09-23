@@ -106,18 +106,26 @@ class Http
             'GET', 'POST', 'PUT', 'DELETE'
         ))
         ) {
-            throw new HttpException('', HttpException::METHOD_NOT_SUPPORTED);
+            throw new HttpException('Method not supported', HttpException::METHOD_NOT_SUPPORTED);
         }
 
         // prepare request headers and fields
         $contextParams = array(
             'http' => array(
-                'method' => $methodName
+                'method' => $methodName,
+                'ignore_errors'=>true
             ));
 
         // request body
         if ($methodName == 'POST' || $methodName == 'PUT') {
-            $contextParams['http']['content'] = http_build_query($body);
+
+            if(!empty($headers['Content-Type']) && $headers['Content-Type']=='application/json'){
+                $content = json_encode($body);
+            }else{
+                $content = http_build_query($body);
+            }
+
+            $contextParams['http']['content'] = $content;
         }
 
         // stringifying headers
@@ -155,12 +163,26 @@ class Http
         $doRequest = function($url, $ctx) use(&$lastRequestHeaders) {
             $result = @file_get_contents($url, null, $ctx);
             $lastRequestHeaders = $this->parseHeaders($http_response_header);
-            if (!$result) {
+            try {
+                if (!$result) {
+                    throw new \Exception();
+                } else if ($lastRequestHeaders['Code'] < 200 || $lastRequestHeaders['Code'] >= 400) {
+                    $result = @json_decode($result, true);
+                    if ($result){
+                        throw new HttpException($result['error_description'], HttpException::REQUEST_FAILED, null, $lastRequestHeaders, $result);
+                    }else{
+                        throw new \Exception();
+                    }
+                }
+            }catch(Exception $ex){
                 throw new HttpException(
-                    var_export($lastRequestHeaders),
-                    HttpException::REQUEST_FAILED
+                    'HTTP request failed',
+                    HttpException::REQUEST_FAILED,
+                    null,
+                    $lastRequestHeaders
                 );
             }
+
             return $result;
         };
 
@@ -176,7 +198,7 @@ class Http
                 // server pauses request for X seconds
                 if(!empty($lastRequestHeaders['Retry-After'])){
                     if($counter<=0){
-                        throw new HttpException(var_export($lastRequestHeaders, true), HttpException::QUOTA_EXCEEDED);
+                        throw new HttpException('Retries count exceeded', HttpException::QUOTA_EXCEEDED, null, $lastRequestHeaders);
                     }
                     sleep($lastRequestHeaders['Retry-After']);
                 }else{
@@ -191,7 +213,7 @@ class Http
         // try to decode response
         $parsedPayload = @json_decode($result, true);
         if (!$parsedPayload) {
-            throw new HttpException('', HttpException::MALFORMED_RESULT);
+            throw new HttpException('Result is not a valid JSON', HttpException::MALFORMED_RESULT, null, $lastRequestHeaders, $result);
         }
 
         return array(
