@@ -88,8 +88,8 @@ class Http
 
     /**
      * make a real request
-     * @param $method HTTP method
-     * @param $url
+     * @param string $method HTTP method
+     * @param string $url
      * @param array $body
      * @param array $query
      * @param array $headers
@@ -218,6 +218,13 @@ class Http
             $row = explode(':', $i, 2);
             if(!isset($row[1])){
                 $headers[] = $row[0];
+
+                $matches = array();
+                if(preg_match('#HTTP/1.1 ([0-9]{3}) (.+)#si', $row[0], $matches)){
+                    $headers['Code'] = $matches[0];
+                    $headers['Status'] = $matches[1];
+                }
+
                 continue;
             }
 
