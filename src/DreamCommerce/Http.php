@@ -21,7 +21,7 @@ class Http
      * retry count before giving up on leaking bucket quota exceeding
      * @var int
      */
-    public static $retryLimit = 5;
+    protected static $retryLimit = 5;
 
     /**
      * @return Http
@@ -34,6 +34,19 @@ class Http
         }
 
         return $instance;
+    }
+
+    /***
+     * set connection retrying limit
+     * @param int $num
+     * @throws HttpException
+     */
+    public static function setRetryLimit($num){
+        if($num<1){
+            throw new HttpException('Limit '.(int)$num.' is too low', HttpException::LIMIT_TOO_LOW);
+        }
+
+        self::$retryLimit = $num;
     }
 
     /**

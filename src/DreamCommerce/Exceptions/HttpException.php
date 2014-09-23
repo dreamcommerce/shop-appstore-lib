@@ -15,6 +15,7 @@ class HttpException extends \Exception{
     const REQUEST_FAILED = 2;
     const MALFORMED_RESULT = 3;
     const QUOTA_EXCEEDED = 4;
+    const LIMIT_TOO_LOW = 5;
 
     protected $headers = array();
     protected $response = '';
