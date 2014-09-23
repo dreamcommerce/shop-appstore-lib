@@ -30,7 +30,7 @@ try {
 
     printf("Iterating over producers:\n");
     foreach($list as $i){
-        printf("#%d - %s (%s)\n", $i['producer_id'], $i['name'], $i['web']);
+        printf("#%d - %s (%s)\n", $i->producer_id, $i->name, $i->web);
     }
 
 

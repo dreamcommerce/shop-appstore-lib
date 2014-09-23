@@ -10,6 +10,7 @@ namespace Dreamcommerce\Exceptions;
 
 
 class HandlerException extends \Exception{
+
     const ACTION_NOT_EXISTS = 1;
     const ACTION_NOT_SPECIFIED = 2;
     const PAYLOAD_EMPTY = 3;

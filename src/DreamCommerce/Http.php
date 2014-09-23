@@ -63,8 +63,8 @@ class Http
 
     /**
      * performs a POST request
-     * @param $url
-     * @param array $body form fields
+     * @param string $url
+     * @param array|stdClass $body form fields
      * @param array $query query string params
      * @param array $headers
      * @return string
@@ -76,8 +76,8 @@ class Http
 
     /**
      * performs a PUT request
-     * @param $url
-     * @param array $body form fields
+     * @param string $url
+     * @param array|stdClass $body form fields
      * @param array $query query string params
      * @param array $headers
      * @return string
@@ -132,6 +132,8 @@ class Http
         // request body
         if ($methodName == 'POST' || $methodName == 'PUT') {
 
+            $body = (array)$body;
+
             if(!empty($headers['Content-Type']) && $headers['Content-Type']=='application/json'){
                 $content = json_encode($body);
             }else{
@@ -180,9 +182,9 @@ class Http
                 if (!$result) {
                     throw new \Exception();
                 } else if ($lastRequestHeaders['Code'] < 200 || $lastRequestHeaders['Code'] >= 400) {
-                    $result = @json_decode($result, true);
+                    $result = @json_decode($result);
                     if ($result){
-                        throw new HttpException($result['error_description'], HttpException::REQUEST_FAILED, null, $lastRequestHeaders, $result);
+                        throw new HttpException($result->error_description, HttpException::REQUEST_FAILED, null, $lastRequestHeaders, $result);
                     }else{
                         throw new \Exception();
                     }
@@ -224,7 +226,7 @@ class Http
         }
 
         // try to decode response
-        $parsedPayload = @json_decode($result, true);
+        $parsedPayload = @json_decode($result);
         if (!$parsedPayload) {
             throw new HttpException('Result is not a valid JSON', HttpException::MALFORMED_RESULT, null, $lastRequestHeaders, $result);
         }

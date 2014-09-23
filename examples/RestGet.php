@@ -25,8 +25,11 @@ try {
     printf("Page: %d of %d\n", $list->page, $list->pages);
 
     printf("Iterating over producers:\n");
+
     foreach($list as $i){
-        printf("#%d - %s (%s)\n", $i['producer_id'], $i['name'], $i['web']);
+        printf("#%d - %s (%s)\n", $i->producer_id, $i->name, $i->web);
+        // or - for your convenience:
+        //printf("#%d - %s (%s)\n", $i['producer_id'], $i['name'], $i['web']);
     }
 
 

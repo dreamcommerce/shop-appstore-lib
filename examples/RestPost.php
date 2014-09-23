@@ -22,6 +22,13 @@ try {
         'web'=>'http://example.org'
     ));
 
+    // or:
+    /*$data = new stdClass();
+    $data->name = 'Awesome Manufacturer!';
+    $data->web = 'http://example.org';
+
+    $insertedId = $req->post($data);*/
+
     printf("Added object, #%d", $insertedId);
 
 

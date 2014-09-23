@@ -37,20 +37,26 @@ class Resource{
     protected function transformResponse($response){
         $code = $response['headers']['Code'];
 
-        if($code>=200 && $code<=200){
+        if($code>=200 && $code<300){
             if(is_numeric($response['data'])){
                 return $response['data'];
             }
 
-            if(!is_array($response['data'])){
+            if(!is_object($response['data'])){
                 throw new ResourceException('', ResourceException::MALFORMED_RESPONSE);
             }
 
-            if(isset($response['data']['list'])){
+            if(isset($response['data']->list)){
 
-                $list = $response['data']['list'];
+                $list = $response['data']->list;
+
+                array_walk($list, function(&$v){
+                    $v = new \ArrayObject($v, \ArrayObject::ARRAY_AS_PROPS);
+                });
+
                 $result = new \ArrayObject($list);
-                $meta = $response['data'];
+                $meta = (array)$response['data'];
+
                 unset($meta['list']);
                 foreach($meta as $k=>$v){
                     $result->{$k} = $v;
@@ -64,8 +70,8 @@ class Resource{
 
             $msg = '';
 
-            if($response['data']['error']){
-                $msg = $response['data']['error'];
+            if(isset($response['data']->error)){
+                $msg = $response['data']->error;
             }
 
             throw new ResourceException($msg, $code);
@@ -93,7 +99,7 @@ class Resource{
 
     public function post($data){
         try {
-            $response = $this->client->request($this, 'post', null, $data, array('XDEBUG_SESSION_START'=>'PHPSTORM'));
+            $response = $this->client->request($this, 'post', null, $data);
         }catch (ClientException $ex){
             throw new ResourceException($ex->getMessage(), ResourceException::CLIENT_ERROR, $ex);
         }
