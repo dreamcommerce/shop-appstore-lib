@@ -1,13 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: eRIZ
- * Date: 16.09.14
- * Time: 11:03
- */
-
 namespace Dreamcommerce;
-
 
 use Dreamcommerce\Exceptions\ClientException;
 use Dreamcommerce\Exceptions\HandlerException;
@@ -97,8 +89,10 @@ class Handler {
             throw new HandlerException('', HandlerException::ACTION_NOT_EXISTS);
         }
 
+        // validate if specified action exists
         $this->actionExists($requestBody['action']);
 
+        // calculate hash payload
         $this->verifyPayload($requestBody);
 
         // fire handlers for specified actions
@@ -167,6 +161,7 @@ class Handler {
         // we provide a client library as a param for further requests
         $callbackParams = $params;
         $callbackParams['client'] = $this->client;
+        $callbackParams = new \ArrayObject($callbackParams, \ArrayObject::STD_PROP_LIST);
 
         // fire handlers for every event
         foreach($this->events[$action] as $e){

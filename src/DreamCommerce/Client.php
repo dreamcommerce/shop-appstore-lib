@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: eRIZ
- * Date: 16.09.14
- * Time: 10:04
- */
-
 namespace Dreamcommerce;
 
 
@@ -140,13 +133,14 @@ class Client {
     }
 
     /**
+     * performs REST request
      * @param $res
-     * @param $method
+     * @param string $method
      * @param null|int $object
      * @param array $data
      * @param array $query
      * @throws ClientException
-     * @return mixed
+     * @return array
      */
     public function request(Resource $res, $method, $object = null, $data = array(), $query = array()){
         if(!method_exists($this->client, $method)){
@@ -158,12 +152,15 @@ class Client {
             $url .= '/'.$object;
         }
 
+        // setup OAuth token and we request JSON
         $headers = array(
             'Authorization'=>'Bearer '.$this->accessToken,
             'Content-Type'=>'application/json'
         );
 
         try{
+
+            // dispatch correct method
             if(in_array($method, array('get', 'delete'))){
                 return call_user_func(array(
                     $this->client, $method
@@ -173,12 +170,16 @@ class Client {
                     $this->client, $method
                 ), $url, $data, $query, $headers);
             }
+
         }catch(HttpException $ex){
             throw new ClientException('HTTP error: '.$ex->getMessage(), ClientException::API_ERROR, $ex);
         }
     }
 
     /**
+     * automagic instantiator, alternative:
+     * $resource = new \Dreamcommerce\Resource(Client $client, 'name')
+     *
      * @return Resource
      * @param $resource
      */

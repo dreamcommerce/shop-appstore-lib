@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: eRIZ
- * Date: 16.09.14
- * Time: 10:43
- */
-
 namespace Dreamcommerce;
 
 use Dreamcommerce\Exceptions\HttpException;
@@ -24,6 +17,7 @@ class Http
     protected static $retryLimit = 5;
 
     /**
+     * Singleton
      * @return Http
      */
     public static function instance(){
@@ -64,7 +58,7 @@ class Http
     /**
      * performs a POST request
      * @param string $url
-     * @param array|stdClass $body form fields
+     * @param array|\stdClass $body form fields
      * @param array $query query string params
      * @param array $headers
      * @return string
@@ -77,7 +71,7 @@ class Http
     /**
      * performs a PUT request
      * @param string $url
-     * @param array|stdClass $body form fields
+     * @param array|\stdClass $body form fields
      * @param array $query query string params
      * @param array $headers
      * @return string
@@ -126,7 +120,7 @@ class Http
         $contextParams = array(
             'http' => array(
                 'method' => $methodName,
-                'ignore_errors'=>true
+                'ignore_errors'=>true   // we want to catch output although the error
             ));
 
         // request body
@@ -176,20 +170,30 @@ class Http
 
         // perform request
         $doRequest = function($url, $ctx) use(&$lastRequestHeaders) {
+            // make a real request
             $result = @file_get_contents($url, null, $ctx);
+
+            // catch headers
             $lastRequestHeaders = $this->parseHeaders($http_response_header);
             try {
+                // completely failed
                 if (!$result) {
                     throw new \Exception();
                 } else if ($lastRequestHeaders['Code'] < 200 || $lastRequestHeaders['Code'] >= 400) {
-                    $result = @json_decode($result);
+                    // server returned error code
+
+                    // decode if it's JSON
+                    if($lastRequestHeaders['Content-Type']=='application/json'){
+                        $result = @json_decode($result);
+                    }
+
                     if ($result){
                         throw new HttpException($result->error_description, HttpException::REQUEST_FAILED, null, $lastRequestHeaders, $result);
                     }else{
                         throw new \Exception();
                     }
                 }
-            }catch(Exception $ex){
+            }catch(\Exception $ex){
                 throw new HttpException(
                     'HTTP request failed',
                     HttpException::REQUEST_FAILED,
@@ -226,9 +230,14 @@ class Http
         }
 
         // try to decode response
-        $parsedPayload = @json_decode($result);
-        if (!$parsedPayload) {
-            throw new HttpException('Result is not a valid JSON', HttpException::MALFORMED_RESULT, null, $lastRequestHeaders, $result);
+        if($lastRequestHeaders['Content-Type']=='application/json') {
+            $parsedPayload = @json_decode($result);
+
+            if (!$parsedPayload) {
+                throw new HttpException('Result is not a valid JSON', HttpException::MALFORMED_RESULT, null, $lastRequestHeaders, $result);
+            }
+        }else{
+            $parsedPayload = $result;
         }
 
         return array(
@@ -239,7 +248,7 @@ class Http
 
     /**
      * transform headers from $http_response_header
-     * @param string $src
+     * @param array $src
      * @internal param $headers
      * @internal param $http_response_header
      * @return array
@@ -249,6 +258,8 @@ class Http
         $headers = array();
         foreach ($src as $i) {
             $row = explode(':', $i, 2);
+
+            // header with no key/value - HTTP response, get code and status
             if(!isset($row[1])){
                 $headers[] = $row[0];
 

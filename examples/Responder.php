@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: eRIZ
- * Date: 16.09.14
- * Time: 10:19
- */
-
 use Dreamcommerce\Exceptions\ClientException;
 use Dreamcommerce\Exceptions\HandlerException;
 
@@ -237,7 +230,7 @@ class SomeApplicationController
     protected function getShopId($shop)
     {
 
-        $conn = $this->getDatabaseConnection();
+        $conn = Config::dbConnect();
         $stmt = $conn->prepare('SELECT id FROM shops WHERE shop=?');
 
         $stmt->execute(array(
