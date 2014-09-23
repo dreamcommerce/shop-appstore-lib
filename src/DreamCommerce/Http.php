@@ -154,9 +154,8 @@ class Http
         // perform request
         $doRequest = function($url, $ctx) use(&$lastRequestHeaders) {
             $result = @file_get_contents($url, null, $ctx);
+            $lastRequestHeaders = $this->parseHeaders($http_response_header);
             if (!$result) {
-                $lastRequestHeaders = $this->parseHeaders($http_response_header, true);
-
                 throw new HttpException(
                     var_export($lastRequestHeaders),
                     HttpException::REQUEST_FAILED
@@ -195,12 +194,9 @@ class Http
             throw new HttpException('', HttpException::MALFORMED_RESULT);
         }
 
-        // process response headers
-        $headers = $this->parseHeaders($http_response_header);
-
         return array(
             'data' => $parsedPayload,
-            'headers' => $headers
+            'headers' => $lastRequestHeaders
         );
     }
 
@@ -221,8 +217,8 @@ class Http
 
                 $matches = array();
                 if(preg_match('#HTTP/1.1 ([0-9]{3}) (.+)#si', $row[0], $matches)){
-                    $headers['Code'] = $matches[0];
-                    $headers['Status'] = $matches[1];
+                    $headers['Code'] = $matches[1];
+                    $headers['Status'] = $matches[2];
                 }
 
                 continue;
