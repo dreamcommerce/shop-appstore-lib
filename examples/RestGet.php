@@ -21,8 +21,10 @@ try {
     // or
     //$resource = new \Dreamcommerce\Resource($client, 'producers');
 
-    // todo: filters example
     $result = $resource->get();
+
+    // or with filtering/limiting:
+    //$result = $resource->filter(array('name'=>'not null'))->page(3)->limit(10)->get();
 
     printf("Found: %d\n", $result->count);
     printf("Page: %d of %d\n", $result->page, $result->pages);

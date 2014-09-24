@@ -41,11 +41,6 @@ class Client {
     protected $accessToken = null;
 
     /**
-     * @var array
-     */
-    protected $resourcesRegistry = array();
-
-    /**
      * @param string $entrypoint shop url
      * @param string $clientId
      * @param string $clientSecret
@@ -184,13 +179,7 @@ class Client {
      * @param $resource
      */
     public function __get($resource){
-        $resourceName = ucfirst($resource);
-
-        if(isset($this->resourcesRegistry[$resourceName])){
-            return $this->resourcesRegistry[$resourceName];
-        }
-
-        return new Resource($this, $resourceName);
+        return new Resource($this, $resource);
     }
 
 }
