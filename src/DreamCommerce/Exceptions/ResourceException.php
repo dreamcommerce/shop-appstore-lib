@@ -36,4 +36,9 @@ class ResourceException extends \Exception{
      */
     const FILTERS_IN_UNSUPPORTED_METHOD = 6;
 
+    /**
+     * invalid page number
+     */
+    const INVALID_PAGE = 7;
+
 } 

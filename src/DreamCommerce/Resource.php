@@ -1,16 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: eRIZ
- * Date: 2014-09-22
- * Time: 09:21
- */
-
 namespace Dreamcommerce;
 
 use Dreamcommerce\Exceptions\ClientException;
 use Dreamcommerce\Exceptions\ResourceException;
 
+/**
+ * Class Resource
+ * @package Dreamcommerce
+ */
 class Resource{
 
     /**
@@ -55,7 +52,7 @@ class Resource{
 
     /**
      * @param $response
-     * @return int|ArrayObject
+     * @return int|\ArrayObject
      * @throws ResourceException
      */
     protected function transformResponse($response){
@@ -240,7 +237,7 @@ class Resource{
     /**
      * Read Resource
      * @param int|null $id
-     * @return ArrayObject
+     * @return \ArrayObject
      * @throws ResourceException
      */
     public function get($id = null){
@@ -259,7 +256,7 @@ class Resource{
     /**
      * Create Resource
      * @param array $data
-     * @return ArrayObject
+     * @return \ArrayObject
      * @throws ResourceException
      */
     public function post($data){
