@@ -1,10 +1,10 @@
 <?php
-use Dreamcommerce\Exceptions\ClientException;
+use DreamCommerce\Exceptions\ClientException;
 
 require '../vendor/autoload.php';
 
 try {
-    $c = new Dreamcommerce\Client(Config::ENTRYPOINT, Config::APPID, Config::APP_SECRET);
+    $c = new DreamCommerce\Client(Config::ENTRYPOINT, Config::APPID, Config::APP_SECRET);
     $token = $c->refreshToken('<INSERT TOKEN HERE>');
 
     printf("Token has been successfully refreshed");

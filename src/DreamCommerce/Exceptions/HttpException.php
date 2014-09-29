@@ -1,9 +1,9 @@
 <?php
-namespace Dreamcommerce\Exceptions;
+namespace DreamCommerce\Exceptions;
 
 /**
  * Class HttpException
- * @package Dreamcommerce\Exceptions
+ * @package DreamCommerce\Exceptions
  */
 class HttpException extends \Exception{
 

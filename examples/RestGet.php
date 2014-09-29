@@ -1,6 +1,6 @@
 <?php
-use Dreamcommerce\Exceptions\ClientException;
-use Dreamcommerce\Exceptions\ResourceException;
+use DreamCommerce\Exceptions\ClientException;
+use DreamCommerce\Exceptions\ResourceException;
 
 require '../vendor/autoload.php';
 require 'config.php';
@@ -9,9 +9,9 @@ try {
 
     // set custom retries count
     // it will throw HttpException if the limit is too low
-    //Dreamcommerce\Http::setRetryLimit(2);
+    //DreamCommerce\Http::setRetryLimit(2);
 
-    $client = new Dreamcommerce\Client(
+    $client = new DreamCommerce\Client(
         Config::ENTRYPOINT, Config::APPID, Config::APP_SECRET
     );
 
@@ -19,7 +19,7 @@ try {
 
     $resource = $client->producers;
     // or
-    //$resource = new \Dreamcommerce\Resource($client, 'producers');
+    //$resource = new \DreamCommerce\Resource($client, 'producers');
 
     $result = $resource->get();
 

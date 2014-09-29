@@ -1,12 +1,12 @@
 <?php
-namespace Dreamcommerce;
+namespace DreamCommerce;
 
-use Dreamcommerce\Exceptions\ClientException;
-use Dreamcommerce\Exceptions\HandlerException;
+use DreamCommerce\Exceptions\ClientException;
+use DreamCommerce\Exceptions\HandlerException;
 
 /**
  * server response handler
- * @package Dreamcommerce
+ * @package DreamCommerce
  */
 class Handler {
 
