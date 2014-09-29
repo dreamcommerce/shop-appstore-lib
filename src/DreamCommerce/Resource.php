@@ -1,12 +1,12 @@
 <?php
-namespace Dreamcommerce;
+namespace DreamCommerce;
 
-use Dreamcommerce\Exceptions\ClientException;
-use Dreamcommerce\Exceptions\ResourceException;
+use DreamCommerce\Exceptions\ClientException;
+use DreamCommerce\Exceptions\ResourceException;
 
 /**
  * Class Resource
- * @package Dreamcommerce
+ * @package DreamCommerce
  */
 class Resource{
 

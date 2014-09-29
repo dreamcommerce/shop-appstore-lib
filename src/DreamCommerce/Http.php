@@ -1,11 +1,11 @@
 <?php
-namespace Dreamcommerce;
+namespace DreamCommerce;
 
-use Dreamcommerce\Exceptions\HttpException;
+use DreamCommerce\Exceptions\HttpException;
 
 /**
  * HTTP I/O abstraction
- * @package Dreamcommerce
+ * @package DreamCommerce
  */
 class Http
 {

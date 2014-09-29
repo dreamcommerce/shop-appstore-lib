@@ -1,13 +1,13 @@
 <?php
-namespace Dreamcommerce;
+namespace DreamCommerce;
 
 
-use Dreamcommerce\Exceptions\ClientException;
-use Dreamcommerce\Exceptions\HttpException;
+use DreamCommerce\Exceptions\ClientException;
+use DreamCommerce\Exceptions\HttpException;
 
 /**
- * Dreamcommerce requesting library
- * @package Dreamcommerce
+ * DreamCommerce requesting library
+ * @package DreamCommerce
  */
 class Client {
 
@@ -173,7 +173,7 @@ class Client {
 
     /**
      * automagic instantiator, alternative:
-     * $resource = new \Dreamcommerce\Resource(Client $client, 'name')
+     * $resource = new \DreamCommerce\Resource(Client $client, 'name')
      *
      * @return Resource
      * @param $resource

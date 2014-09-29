@@ -1,6 +1,6 @@
 <?php
-use Dreamcommerce\Exceptions\ClientException;
-use Dreamcommerce\Exceptions\HandlerException;
+use DreamCommerce\Exceptions\ClientException;
+use DreamCommerce\Exceptions\HandlerException;
 
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/config.php';
@@ -9,7 +9,7 @@ class SomeApplicationController
 {
 
     /**
-     * @var null|Dreamcommerce\Handler
+     * @var null|DreamCommerce\Handler
      */
     protected $handler = null;
 
@@ -30,7 +30,7 @@ class SomeApplicationController
 
         try {
             // instantiate a handler
-            $handler = $this->handler = new Dreamcommerce\Handler(
+            $handler = $this->handler = new DreamCommerce\Handler(
                 Config::ENTRYPOINT, Config::APPID, Config::APP_SECRET, Config::APPSTORE_SECRET
             );
 
