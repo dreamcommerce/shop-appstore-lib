@@ -65,11 +65,6 @@ class Resource{
                 return $response['data'];
             }
 
-            // check response validity
-            if(!is_object($response['data'])){
-                throw new ResourceException('', ResourceException::MALFORMED_RESPONSE);
-            }
-
             // the response is a list, process
             if(isset($response['data']->list)){
 
@@ -91,6 +86,12 @@ class Resource{
                     $result->{$k} = $v;
                 }
                 return $result;
+            }else if(is_array($response['data'])){
+                $result = $response['data'];
+                array_walk_recursive($result, function(&$v){
+                    $v = new \ArrayObject($v, \ArrayObject::ARRAY_AS_PROPS);
+                });
+                return new \ArrayObject($result, \ArrayObject::ARRAY_AS_PROPS);
             }else{
                 // no list, pass pure response
                 return $response['data'];
@@ -316,4 +317,4 @@ class Resource{
         return true;
     }
 
-} 
+}
