@@ -233,7 +233,7 @@ class Http
         if($lastRequestHeaders['Content-Type']=='application/json') {
             $parsedPayload = @json_decode($result);
 
-            if (!$parsedPayload) {
+            if (!$parsedPayload && !is_array($parsedPayload)) {
                 throw new HttpException('Result is not a valid JSON', HttpException::MALFORMED_RESULT, null, $lastRequestHeaders, $result);
             }
         }else{
