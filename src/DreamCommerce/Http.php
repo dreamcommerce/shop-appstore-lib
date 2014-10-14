@@ -17,6 +17,12 @@ class Http
     protected static $retryLimit = 5;
 
     /**
+     * debug mode
+     * @var null|bool|string
+     */
+    protected static $debug = false;
+
+    /**
      * Singleton
      * @return Http
      */
@@ -41,6 +47,31 @@ class Http
         }
 
         self::$retryLimit = $num;
+    }
+
+    /**
+     * changes debug mode on http library
+     * $value:
+     *  (bool) true/false (default) - enables debugging to stdout (page) or disables at all
+     *  (string) - specifies the file for debug content
+     *
+     * @param bool|string $value
+     */
+    public static function setDebug($value = true){
+        self::$debug = $value;
+    }
+
+    /**
+     * outputs debug information to file
+     * @param $str
+     */
+    protected function debug($str){
+        $str = date('[Y-m-d H:i:s]').' - '.$str.PHP_EOL;
+        if(is_bool(self::$debug) && self::$debug){
+            echo $str;
+        }else if(is_string(self::$debug)){
+            file_put_contents(self::$debug, $str, FILE_APPEND);
+        }
     }
 
     /**
@@ -106,8 +137,12 @@ class Http
     protected function perform($method, $url, $body = array(), $query = array(), $headers = array())
     {
 
+        static $lastRequestHeaders = array();
+
         // determine allowed methods
         $methodName = strtoupper($method);
+
+        $this->debug('NEW REQUEST: '.$methodName.' '.$url);
 
         if (!in_array($methodName, array(
             'GET', 'POST', 'PUT', 'DELETE'
@@ -123,6 +158,17 @@ class Http
                 'ignore_errors'=>true   // we want to catch output although the error
             ));
 
+        // stringifying headers
+        if ($headers) {
+            $headersString = '';
+            foreach ($headers as $k => $v) {
+                $headersString .= $k . ': ' . $v . "\r\n";
+            }
+            $contextParams['http']['header'] = $headersString;
+
+            $this->debug('Headers: '.var_export($headers, true));
+        }
+
         // request body
         if ($methodName == 'POST' || $methodName == 'PUT') {
 
@@ -135,15 +181,9 @@ class Http
             }
 
             $contextParams['http']['content'] = $content;
-        }
 
-        // stringifying headers
-        if ($headers) {
-            $headersString = '';
-            foreach ($headers as $k => $v) {
-                $headersString .= $k . ': ' . $v . "\r\n";
-            }
-            $contextParams['http']['header'] = $headersString;
+            $this->debug('Document body: '.var_export($body, true));
+            $this->debug('Document body (JSON-ified): '.$content);
         }
 
         // make request stream context
@@ -166,8 +206,6 @@ class Http
             }
         }
 
-        $lastRequestHeaders = array();
-
         // perform request
         $doRequest = function($url, $ctx) use(&$lastRequestHeaders) {
             // make a real request
@@ -175,6 +213,10 @@ class Http
 
             // catch headers
             $lastRequestHeaders = $this->parseHeaders($http_response_header);
+
+            $this->debug('Response headers: '.var_export($lastRequestHeaders, true));
+            $this->debug('Response body: '.$result);
+
             try {
                 // completely failed
                 if (!$result) {
@@ -187,17 +229,17 @@ class Http
                         $result = @json_decode($result);
                     }
 
-                    if ($result){
+                    if (is_object($result)){
                         throw new HttpException($result->error_description, HttpException::REQUEST_FAILED, null, $lastRequestHeaders, $result);
                     }else{
-                        throw new \Exception();
+                        throw new \Exception($result);
                     }
                 }
             }catch(\Exception $ex){
                 throw new HttpException(
                     'HTTP request failed',
                     HttpException::REQUEST_FAILED,
-                    null,
+                    $ex,
                     $lastRequestHeaders
                 );
             }
@@ -208,10 +250,26 @@ class Http
         // initialize requests counter
         $counter = self::$retryLimit;
 
+        $result = null;
+
         // perform request regarding counter limit and quotas
         while(true){
             try {
+                // pause upon limits exceeding
+                if(isset($lastRequestHeaders['X-Shop-Api-Calls'])){
+
+                    $calls = $lastRequestHeaders['X-Shop-Api-Calls'];
+                    $bandwidth = $lastRequestHeaders['X-Shop-Api-Bandwidth'];
+                    $limit = $lastRequestHeaders['X-Shop-Api-Limit'];
+
+                    if($limit-$calls<=1){
+                        sleep(ceil(2/$bandwidth));
+                    }
+
+                }
+
                 $result = $doRequest($processedUrl, $ctx);
+
                 break;
             }catch(HttpException $ex){
                 // server pauses request for X seconds
@@ -236,9 +294,12 @@ class Http
             if (!$parsedPayload && !is_array($parsedPayload)) {
                 throw new HttpException('Result is not a valid JSON', HttpException::MALFORMED_RESULT, null, $lastRequestHeaders, $result);
             }
+
         }else{
             $parsedPayload = $result;
         }
+
+        $this->debug('Response body (decoded): '.var_export($parsedPayload, true));
 
         return array(
             'data' => $parsedPayload,
