@@ -302,7 +302,7 @@ class Resource{
      * @return bool
      * @throws ResourceException
      */
-    public function delete($id){
+    public function delete($id = null){
 
         if($this->getCriteria()){
             throw new ResourceException('Filtering not supported in DELETE', ResourceException::FILTERS_IN_UNSUPPORTED_METHOD);
