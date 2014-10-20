@@ -7,7 +7,7 @@ require 'config.php';
 
 try {
     $client = new DreamCommerce\Client(
-        Config::ENTRYPOINT, Config::APPID, Config::APP_SECRET
+        'http://example.com', Config::APPID, Config::APP_SECRET
     );
 
     $client->setAccessToken('<INSERT TOKEN HERE>');

@@ -6,11 +6,6 @@
 class Config
 {
     /**
-     * shop entrypoint URL (or shop URL)
-     */
-    const ENTRYPOINT = 'https://example.com/webapi/rest/'; // or https://example.com/
-
-    /**
      * appstore application ID
      */
     const APPID = '<INSERT APPID HERE>';

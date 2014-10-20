@@ -20,18 +20,14 @@ class App
 
 
     /**
-     * @param null $entrypoint
+     * @param string $entrypoint
      * @throws \Exception
      * @internal param PDO $db
      */
-    public function __construct($entrypoint = null)
+    public function __construct($entrypoint)
     {
 
         $this->db = \Config::dbConnect();
-
-        if($entrypoint == null){
-            $entrypoint = \Config::ENTRYPOINT;
-        }
 
         try {
             // instantiate a handler
