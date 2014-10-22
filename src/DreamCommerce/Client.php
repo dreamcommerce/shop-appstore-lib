@@ -131,7 +131,7 @@ class Client {
      * performs REST request
      * @param $res
      * @param string $method
-     * @param null|int $object
+     * @param null|array|int $object
      * @param array $data
      * @param array $query
      * @throws ClientException
@@ -144,6 +144,9 @@ class Client {
 
         $url = $this->entrypoint.'/'.$res->getName();
         if($object){
+            if(is_array($object)){
+                $object = join('/', $object);
+            }
             $url .= '/'.$object;
         }
 

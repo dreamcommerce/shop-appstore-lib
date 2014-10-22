@@ -23,6 +23,12 @@ try {
 
     $result = $resource->get();
 
+    // particular object, with ID=1
+    //$result = $resource->get(1);
+
+    // particular subobject with param=1, ID=1
+    //$result = $resource->get('some', 1);
+
     // or with filtering/limiting:
     //$result = $resource->filter(array('name'=>'not null'))->page(3)->limit(10)->get();
 

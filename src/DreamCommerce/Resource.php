@@ -237,16 +237,21 @@ class Resource{
 
     /**
      * Read Resource
-     * @param int|null $id
+     * @param mixed $args,... params
      * @return \ArrayObject
      * @throws ResourceException
      */
-    public function get($id = null){
+    public function get(){
 
         $query = $this->getCriteria();
 
+        $args = func_get_args();
+        if(empty($args)){
+            $args = null;
+        }
+
         try {
-            $response = $this->client->request($this, 'get', $id, array(), $query);
+            $response = $this->client->request($this, 'get', $args, array(), $query);
         }catch(ClientException $ex){
             throw new ResourceException($ex->getMessage(), ResourceException::CLIENT_ERROR, $ex);
         }
@@ -276,12 +281,12 @@ class Resource{
 
     /**
      * Update Resource
-     * @param int $id
+     * @param null|int $id
      * @param array $data
      * @return bool
      * @throws ResourceException
      */
-    public function put($id, $data){
+    public function put($id = null, $data = array()){
 
         if($this->getCriteria()){
             throw new ResourceException('Filtering not supported in PUT', ResourceException::FILTERS_IN_UNSUPPORTED_METHOD);
