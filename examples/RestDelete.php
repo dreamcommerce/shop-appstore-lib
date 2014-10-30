@@ -2,7 +2,6 @@
 use DreamCommerce\Exceptions\ClientException;
 use DreamCommerce\Exceptions\ResourceException;
 
-require '../vendor/autoload.php';
 require 'config.php';
 
 try {
