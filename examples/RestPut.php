@@ -2,7 +2,7 @@
 use DreamCommerce\Exceptions\ClientException;
 use DreamCommerce\Exceptions\ResourceException;
 
-require 'config.php';
+require 'Config.php';
 
 try {
     $client = new DreamCommerce\Client(

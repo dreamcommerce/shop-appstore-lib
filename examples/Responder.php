@@ -1,12 +1,11 @@
 <?php
 
-require __DIR__ . '/../vendor/autoload.php';
-require __DIR__ . '/config.php';
+require __DIR__ . '/Config.php';
 
 require './BillingSystem/App.php';
 
 try {
-    $controller = new \BillingSystem\App();
+    $controller = new \BillingSystem\App('http://example.org');
     $controller->dispatch();
 
 } catch (Exception $ex) {
