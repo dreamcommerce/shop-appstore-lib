@@ -327,7 +327,7 @@ class Http
                 $headers[] = $row[0];
 
                 $matches = array();
-                if(preg_match('#HTTP/1.1 ([0-9]{3}) (.+)#si', $row[0], $matches)){
+                if(preg_match('#HTTP/1.[0-1] ([0-9]{3}) (.+)#si', $row[0], $matches)){
                     $headers['Code'] = $matches[1];
                     $headers['Status'] = $matches[2];
                 }
