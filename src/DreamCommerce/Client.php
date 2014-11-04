@@ -185,4 +185,31 @@ class Client {
         return new Resource($this, $resource);
     }
 
+    /**
+     * allows exception error message extraction
+     * @param \Exception $ex
+     * @return mixed
+     */
+    static public function getError(\Exception $ex){
+
+        $exception = $ex;
+        while($r = $exception->getPrevious()){
+            if($r){
+                $exception = $r;
+            }
+        };
+
+        if($exception instanceof HttpException){
+            $response = $exception->getResponse();
+            if($response instanceof \stdClass){
+                return $response->error.' - '.$response->error_description;
+            }else{
+                $headers = $exception->getHeaders();
+                return $headers[0];
+            }
+        }
+
+        return $exception->getMessage();
+    }
+
 }

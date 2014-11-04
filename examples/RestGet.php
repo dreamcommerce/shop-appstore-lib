@@ -1,4 +1,5 @@
 <?php
+use DreamCommerce\Client;
 use DreamCommerce\Exceptions\ClientException;
 use DreamCommerce\Exceptions\ResourceException;
 
@@ -44,7 +45,7 @@ try {
 
 
 } catch (ClientException $ex) {
-    printf("An error occurred during the Client initialization: %s", $ex->getMessage());
+    printf("An error occurred during the Client initialization: %s", Client::getError($ex));
 } catch (ResourceException $ex) {
-    printf("An error occurred during Resource access: %s", $ex->getMessage());
+    printf("An error occurred during Resource access: %s", Client::getError($ex));
 }

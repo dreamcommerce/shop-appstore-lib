@@ -1,11 +1,12 @@
 <?php
+use DreamCommerce\Client;
 use DreamCommerce\Exceptions\ClientException;
 use DreamCommerce\Exceptions\ResourceException;
 
 require 'Config.php';
 
 try {
-    $client = new DreamCommerce\Client(
+    $client = new Client(
         'http://example.com', Config::APPID, Config::APP_SECRET
     );
 
@@ -31,7 +32,7 @@ try {
 
 
 } catch (ClientException $ex) {
-    printf("An error occurred during the Client initialization: %s", $ex->getMessage());
+    printf("An error occurred during the Client initialization: %s", Client::getError($ex));
 } catch (ResourceException $ex) {
-    printf("An error occurred during Resource access: %s", $ex->getMessage());
+    printf("An error occurred during Resource access: %s", Client::getError($ex));
 }
