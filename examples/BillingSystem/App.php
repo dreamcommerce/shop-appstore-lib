@@ -1,8 +1,8 @@
 <?php
 namespace BillingSystem;
 
-use DreamCommerce\Exceptions\ClientException;
-use DreamCommerce\Exceptions\HandlerException;
+use DreamCommerce\Exception\ClientException;
+use DreamCommerce\Exception\HandlerException;
 use DreamCommerce\Handler;
 
 class App

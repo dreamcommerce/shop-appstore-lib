@@ -1,7 +1,7 @@
 <?php
 use DreamCommerce\Client;
-use DreamCommerce\Exceptions\ClientException;
-use DreamCommerce\Exceptions\ResourceException;
+use DreamCommerce\Exception\ClientException;
+use DreamCommerce\Exception\ResourceException;
 
 require 'Config.php';
 

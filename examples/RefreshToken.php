@@ -1,5 +1,5 @@
 <?php
-use DreamCommerce\Exceptions\ClientException;
+use DreamCommerce\Exception\ClientException;
 
 require '../vendor/autoload.php';
 

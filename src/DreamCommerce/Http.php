@@ -1,7 +1,7 @@
 <?php
 namespace DreamCommerce;
 
-use DreamCommerce\Exceptions\HttpException;
+use DreamCommerce\Exception\HttpException;
 
 /**
  * HTTP I/O abstraction
@@ -132,7 +132,7 @@ class Http
      * @param array $query
      * @param array $headers
      * @return array an array with two fields - "headers" and "data"
-     * @throws Exceptions\HttpException
+     * @throws Exception\HttpException
      */
     protected function perform($method, $url, $body = array(), $query = array(), $headers = array())
     {

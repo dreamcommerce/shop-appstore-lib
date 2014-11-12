@@ -2,8 +2,8 @@
 namespace DreamCommerce;
 
 
-use DreamCommerce\Exceptions\ClientException;
-use DreamCommerce\Exceptions\HttpException;
+use DreamCommerce\Exception\ClientException;
+use DreamCommerce\Exception\HttpException;
 
 /**
  * DreamCommerce requesting library
@@ -44,7 +44,7 @@ class Client {
      * @param string $entrypoint shop url
      * @param string $clientId
      * @param string $clientSecret
-     * @throws Exceptions\ClientException
+     * @throws Exception\ClientException
      */
     public function __construct($entrypoint, $clientId, $clientSecret){
         if(!filter_var($entrypoint, FILTER_VALIDATE_URL)){
@@ -72,7 +72,7 @@ class Client {
      * get OAuth tokens
      * @param string $authCode
      * @return array
-     * @throws Exceptions\ClientException
+     * @throws Exception\ClientException
      */
     public function getToken($authCode){
 
@@ -98,7 +98,7 @@ class Client {
      * refresh OAuth tokens
      * @param string $refreshToken
      * @return array
-     * @throws Exceptions\ClientException
+     * @throws Exception\ClientException
      */
     public function refreshToken($refreshToken){
 

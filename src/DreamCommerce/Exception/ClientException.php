@@ -1,9 +1,9 @@
 <?php
-namespace DreamCommerce\Exceptions;
+namespace DreamCommerce\Exception;
 
 /**
  * Class ClientException
- * @package DreamCommerce\Exceptions
+ * @package DreamCommerce\Exception
  */
 class ClientException extends \Exception{
 

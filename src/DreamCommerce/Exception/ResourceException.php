@@ -1,9 +1,9 @@
 <?php
-namespace DreamCommerce\Exceptions;
+namespace DreamCommerce\Exception;
 
 /**
  * Class ResourceException
- * @package DreamCommerce\Exceptions
+ * @package DreamCommerce\Exception
  */
 class ResourceException extends \Exception{
 

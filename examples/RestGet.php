@@ -1,7 +1,7 @@
 <?php
 use DreamCommerce\Client;
-use DreamCommerce\Exceptions\ClientException;
-use DreamCommerce\Exceptions\ResourceException;
+use DreamCommerce\Exception\ClientException;
+use DreamCommerce\Exception\ResourceException;
 
 require 'Config.php';
 
@@ -11,7 +11,7 @@ try {
     // it will throw HttpException if the limit is too low
     //DreamCommerce\Http::setRetryLimit(2);
 
-    $client = new DreamCommerce\Client(
+    $client = new Client(
         'http://example.com', Config::APPID, Config::APP_SECRET
     );
 

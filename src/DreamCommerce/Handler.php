@@ -1,8 +1,8 @@
 <?php
 namespace DreamCommerce;
 
-use DreamCommerce\Exceptions\ClientException;
-use DreamCommerce\Exceptions\HandlerException;
+use DreamCommerce\Exception\ClientException;
+use DreamCommerce\Exception\HandlerException;
 
 /**
  * server response handler
@@ -72,7 +72,7 @@ class Handler {
     /**
      * request dispatcher
      * @param array|null $requestBody if null - uses $_POST
-     * @throws Exceptions\HandlerException
+     * @throws Exception\HandlerException
      */
     public function dispatch($requestBody = null){
 
@@ -104,7 +104,7 @@ class Handler {
      * verifies a payload against provided data hash value
      * @param $payload
      * @return bool
-     * @throws Exceptions\HandlerException
+     * @throws Exception\HandlerException
      */
     protected function verifyPayload($payload){
 
@@ -135,7 +135,7 @@ class Handler {
      * checks whether handled action really exists in API
      * @param $action
      * @return bool
-     * @throws Exceptions\HandlerException
+     * @throws Exception\HandlerException
      */
     protected function actionExists($action){
         if(!in_array($action, $this->eventsMap)){
@@ -149,7 +149,7 @@ class Handler {
      * fires handlers for a specific action
      * @param $action
      * @param $params
-     * @throws Exceptions\HandlerException
+     * @throws Exception\HandlerException
      */
     protected function fire($action, $params){
 
@@ -203,7 +203,7 @@ class Handler {
      * @param string $event
      * @param Callable $handler
      * @return int current number of handlers
-     * @throws Exceptions\HandlerException
+     * @throws Exception\HandlerException
      */
     public function subscribe($event, $handler){
 

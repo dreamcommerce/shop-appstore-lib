@@ -1,8 +1,8 @@
 <?php
 namespace DreamCommerce;
 
-use DreamCommerce\Exceptions\ClientException;
-use DreamCommerce\Exceptions\ResourceException;
+use DreamCommerce\Exception\ClientException;
+use DreamCommerce\Exception\ResourceException;
 
 /**
  * Class Resource
