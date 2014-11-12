@@ -17,9 +17,9 @@ try {
 
     $client->setAccessToken('<INSERT TOKEN HERE>');
 
-    $resource = $client->producers;
+    $resource = new \DreamCommerce\Resource\Producer($client);
     // or
-    //$resource = new \DreamCommerce\Resource\Producer($client);
+    //$resource = $client->producers;
 
     $result = $resource->get();
 
