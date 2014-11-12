@@ -19,7 +19,7 @@ try {
 
     $resource = $client->producers;
     // or
-    //$resource = new \DreamCommerce\Resource($client, 'producers');
+    //$resource = new \DreamCommerce\Resource\Producer($client);
 
     $result = $resource->get();
 

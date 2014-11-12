@@ -14,7 +14,7 @@ try {
 
     $resource = $client->producers;
     // or
-    //$resource = new \DreamCommerce\Resource($client, 'producers');
+    //$resource = new \DreamCommerce\Resource\Producer($client);
 
     $insertedId = $resource->put(2, array(
         'name' => 'Awesome Manufacturer!'
