@@ -1,11 +1,11 @@
 <?php
 
-require __DIR__ . '/Config.php';
-
 require './BillingSystem/App.php';
 
+$config = require 'Config.php';
+
 try {
-    $controller = new \BillingSystem\App('http://example.org');
+    $controller = new \BillingSystem\App('http://example.org', $config);
     $controller->dispatch();
 
 } catch (Exception $ex) {

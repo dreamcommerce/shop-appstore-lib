@@ -14,9 +14,9 @@ class App
     protected $handler = null;
 
     /**
-     * @var \PDO|null
+     * @var array configuration placeholder
      */
-    protected $db = null;
+    protected $config = array();
 
 
     /**
@@ -24,15 +24,15 @@ class App
      * @throws \Exception
      * @internal param PDO $db
      */
-    public function __construct($entrypoint)
+    public function __construct($entrypoint, $config)
     {
 
-        $this->db = \Config::dbConnect();
+        $this->config = $config;
 
         try {
             // instantiate a handler
             $handler = $this->handler = new Handler(
-                $entrypoint, \Config::APPID, \Config::APP_SECRET, \Config::APPSTORE_SECRET
+                $entrypoint, $config['appId'], $config['appSecret'], $config['appstoreSecret']
             );
 
             // subscribe to particular events
@@ -84,12 +84,12 @@ class App
         try {
 
             // shop installation
-            $shopStmt = $this->db->prepare('INSERT INTO shops (shop, shop_url, auth_code) values (?,?,?)');
+            $shopStmt = $this->db()->prepare('INSERT INTO shops (shop, shop_url, auth_code) values (?,?,?)');
             $shopStmt->execute(array(
                 $arguments['shop'], $arguments['shop_url'], $arguments['auth_code']
             ));
 
-            $shopId = $this->db->lastInsertId();
+            $shopId = $this->db()->lastInsertId();
 
             // get OAuth tokens
             try {
@@ -99,7 +99,7 @@ class App
             }
 
             // store tokens in db
-            $tokensStmt = $this->db->prepare('INSERT INTO access_tokens (shop_id, expires_at, access_token, refresh_token) VALUES (?,?,?,?)');
+            $tokensStmt = $this->db()->prepare('INSERT INTO access_tokens (shop_id, expires_at, access_token, refresh_token) VALUES (?,?,?,?)');
             $expirationDate = date('Y-m-d H:i:s', time() + $tokens->expires_in);
             $tokensStmt->execute(array(
                 $shopId, $expirationDate, $tokens->access_token, $tokens->refresh_token
@@ -133,7 +133,7 @@ class App
             $shopId = $this->getShopId($arguments['shop']);
 
             // store payment event
-            $stmt = $this->db->prepare('INSERT INTO billings (shop_id) VALUES (?)');
+            $stmt = $this->db()->prepare('INSERT INTO billings (shop_id) VALUES (?)');
             $stmt->execute(array(
                 $shopId
             ));
@@ -164,7 +164,7 @@ class App
 
             $shopId = $this->getShopId($arguments['shop']);
 
-            $conn = $this->db;
+            $conn = $this->db();
 
             // remove shop's references
             $conn->query('DELETE FROM shops WHERE id=' . (int)$shopId);
@@ -209,7 +209,7 @@ class App
             }
 
             // save subscription event
-            $stmt = $this->db->prepare('INSERT INTO subscriptions (shop_id, expires_at) VALUES (?,?)');
+            $stmt = $this->db()->prepare('INSERT INTO subscriptions (shop_id, expires_at) VALUES (?,?)');
             $stmt->execute(array(
                 $shopId, $expiresAt
             ));
@@ -231,7 +231,7 @@ class App
     public function getShopId($shop)
     {
 
-        $conn = \Config::dbConnect();
+        $conn = $this->db();
         $stmt = $conn->prepare('SELECT id FROM shops WHERE shop=?');
 
         $stmt->execute(array(
@@ -243,6 +243,24 @@ class App
         }
 
         return $id;
+    }
+
+    /**
+     * instantiate db connection
+     * @return PDO
+     */
+    public function db()
+    {
+        static $handle = null;
+        if (!$handle) {
+            $handle = new PDO(
+                $this->config['db']['connection'],
+                $this->config['db']['user'],
+                $this->config['db']['pass']
+            );
+        }
+
+        return $handle;
     }
 
 }

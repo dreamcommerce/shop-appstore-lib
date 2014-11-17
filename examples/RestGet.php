@@ -3,7 +3,7 @@ use DreamCommerce\Client;
 use DreamCommerce\Exception\ClientException;
 use DreamCommerce\Exception\ResourceException;
 
-require 'Config.php';
+$config = require 'Config.php';
 
 try {
 
@@ -12,10 +12,10 @@ try {
     //DreamCommerce\Http::setRetryLimit(2);
 
     $client = new Client(
-        'http://example.com', Config::APPID, Config::APP_SECRET
+        'http://55.dev', $config['appId'], $config['appSecret']
     );
 
-    $client->setAccessToken('<INSERT TOKEN HERE>');
+    $client->setAccessToken('INSERT TOKEN HERE');
 
     $resource = new \DreamCommerce\Resource\Producer($client);
     // or
