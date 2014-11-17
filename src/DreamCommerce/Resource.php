@@ -52,22 +52,17 @@ class Resource{
 
     /**
      * @param $response
-     * @return int|\ArrayObject
+     * @param bool $isCollection should transform response as a collection?
      * @throws ResourceException
+     * @return mixed
      */
-    protected function transformResponse($response){
+    protected function transformResponse($response, $isCollection){
         $code = $response['headers']['Code'];
 
         // everything is okay when 200-299 status code
         if($code>=200 && $code<300){
             // for example, last insert ID
-            if(is_numeric($response['data'])){
-                return $response['data'];
-            }
-
-            // the response is a list, process
-            if(isset($response['data']->list)){
-
+            if($isCollection){
                 $list = $response['data']->list;
 
                 // make data access more elastic, regardless getters - array or properties
@@ -86,14 +81,7 @@ class Resource{
                     $result->{$k} = $v;
                 }
                 return $result;
-            }else if(is_array($response['data'])){
-                $result = $response['data'];
-                array_walk_recursive($result, function(&$v){
-                    $v = new \ArrayObject($v, \ArrayObject::ARRAY_AS_PROPS);
-                });
-                return new \ArrayObject($result, \ArrayObject::ARRAY_AS_PROPS);
             }else{
-                // no list, pass pure response
                 return $response['data'];
             }
 
@@ -250,13 +238,15 @@ class Resource{
             $args = null;
         }
 
+        $isCollection = count($args)==0;
+
         try {
             $response = $this->client->request($this, 'get', $args, array(), $query);
         }catch(ClientException $ex){
             throw new ResourceException($ex->getMessage(), ResourceException::CLIENT_ERROR, $ex);
         }
 
-        return $this->transformResponse($response);
+        return $this->transformResponse($response, $isCollection);
     }
 
     /**
@@ -276,7 +266,7 @@ class Resource{
         }catch (ClientException $ex){
             throw new ResourceException($ex->getMessage(), ResourceException::CLIENT_ERROR, $ex);
         }
-        return $this->transformResponse($response);
+        return $this->transformResponse($response, false);
     }
 
     /**
