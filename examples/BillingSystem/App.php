@@ -22,7 +22,6 @@ class App
     /**
      * @param string $entrypoint
      * @throws \Exception
-     * @internal param PDO $db
      */
     public function __construct($entrypoint, $config)
     {
@@ -246,7 +245,7 @@ class App
     }
 
     /**
-     * instantiate db connection
+     * return (and instantiate if needed) a db connection
      * @return PDO
      */
     public function db()
