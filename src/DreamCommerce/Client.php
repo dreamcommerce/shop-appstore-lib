@@ -71,7 +71,7 @@ class Client {
     /**
      * get OAuth tokens
      * @param string $authCode
-     * @return array
+     * @return \stdClass
      * @throws Exception\ClientException
      */
     public function getToken($authCode){
