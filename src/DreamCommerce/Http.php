@@ -192,8 +192,6 @@ class Http
         // query string processing
         $processedUrl = $url;
 
-        $query['XDEBUG_SESSION_START'] = 'PHPSTORM';
-
         if ($query) {
             // URL has already query string, merge
             if (strpos($url, '?') !== false) {
