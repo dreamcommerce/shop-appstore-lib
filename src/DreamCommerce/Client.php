@@ -131,23 +131,23 @@ class Client {
      * performs REST request
      * @param $res
      * @param string $method
-     * @param null|array|int $object
+     * @param null|array|int $objectPath
      * @param array $data
      * @param array $query
      * @throws ClientException
      * @return array
      */
-    public function request(Resource $res, $method, $object = null, $data = array(), $query = array()){
+    public function request(Resource $res, $method, $objectPath = null, $data = array(), $query = array()){
         if(!method_exists($this->client, $method)){
             throw new ClientException('', ClientException::METHOD_NOT_SUPPORTED);
         }
 
         $url = $this->entrypoint.'/'.$res->getName();
-        if($object){
-            if(is_array($object)){
-                $object = join('/', $object);
+        if($objectPath){
+            if(is_array($objectPath)){
+                $objectPath = join('/', $objectPath);
             }
-            $url .= '/'.$object;
+            $url .= '/'.$objectPath;
         }
 
         // setup OAuth token and we request JSON
