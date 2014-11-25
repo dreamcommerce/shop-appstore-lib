@@ -1,5 +1,6 @@
 <?php
 namespace DreamCommerce\Exception;
+use DreamCommerce\Exception;
 
 /**
  * Class HandlerException

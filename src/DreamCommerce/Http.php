@@ -17,12 +17,6 @@ class Http
     protected static $retryLimit = 5;
 
     /**
-     * debug mode
-     * @var null|bool|string
-     */
-    protected static $debug = false;
-
-    /**
      * Singleton
      * @return Http
      */
@@ -47,31 +41,6 @@ class Http
         }
 
         self::$retryLimit = $num;
-    }
-
-    /**
-     * changes debug mode on http library
-     * $value:
-     *  (bool) true/false (default) - enables debugging to stdout (page) or disables at all
-     *  (string) - specifies the file for debug content
-     *
-     * @param bool|string $value
-     */
-    public static function setDebug($value = true){
-        self::$debug = $value;
-    }
-
-    /**
-     * outputs debug information to file
-     * @param $str
-     */
-    protected function debug($str){
-        $str = date('[Y-m-d H:i:s]').' - '.$str.PHP_EOL;
-        if(is_bool(self::$debug) && self::$debug){
-            echo $str;
-        }else if(is_string(self::$debug)){
-            file_put_contents(self::$debug, $str, FILE_APPEND);
-        }
     }
 
     /**
@@ -338,6 +307,14 @@ class Http
             $headers[$key] = $val;
         }
         return $headers;
+    }
+
+    /**
+     * internal debugging method
+     * @param string $str message
+     */
+    protected function debug($str){
+        Exception::debug($str);
     }
 
 } 

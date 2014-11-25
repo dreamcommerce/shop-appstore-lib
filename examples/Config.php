@@ -1,7 +1,5 @@
 <?php
-require_once __DIR__ . '/../src/bootstrap.php';
-
-return array(
+$config = array(
     'appId'
         => 'INSERT APP ID HERE',
     'appSecret'
@@ -15,5 +13,9 @@ return array(
             'root',
         'pass' =>
             ''
-    )
+    ),
+    'debug' => false // path_to_file.log|true
 );
+
+require_once __DIR__ . '/../src/bootstrap.php';
+return $config;

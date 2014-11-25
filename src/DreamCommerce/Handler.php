@@ -65,7 +65,7 @@ class Handler {
         try {
             $this->client = new Client($entrypoint, $clientId, $secret);
         }catch(ClientException $ex){
-            throw new HandlerException('', HandlerException::CLIENT_INITIALIZATION_FAILED, $ex);
+            throw new HandlerException('Client initialization failed', HandlerException::CLIENT_INITIALIZATION_FAILED, $ex);
         }
     }
 
@@ -81,12 +81,12 @@ class Handler {
         }
 
         if(empty($requestBody)){
-            throw new HandlerException('', HandlerException::PAYLOAD_EMPTY);
+            throw new HandlerException('Payload empty', HandlerException::PAYLOAD_EMPTY);
         }
 
         // no action specified?
         if(empty($requestBody['action'])){
-            throw new HandlerException('', HandlerException::ACTION_NOT_EXISTS);
+            throw new HandlerException('Action not exists', HandlerException::ACTION_NOT_EXISTS);
         }
 
         // validate if specified action exists
@@ -125,7 +125,7 @@ class Handler {
         $computedHash = hash_hmac('sha512', $processedPayload, $this->appStoreSecret);
 
         if($computedHash!=$providedHash){
-            throw new HandlerException('', HandlerException::HASH_FAILED);
+            throw new HandlerException('Hash verification failed', HandlerException::HASH_FAILED);
         }
 
         return true;
@@ -139,7 +139,7 @@ class Handler {
      */
     protected function actionExists($action){
         if(!in_array($action, $this->eventsMap)){
-            throw new HandlerException('', HandlerException::ACTION_NOT_EXISTS);
+            throw new HandlerException('Action not exists', HandlerException::ACTION_NOT_EXISTS);
         }
 
         return true;
@@ -154,7 +154,7 @@ class Handler {
     protected function fire($action, $params){
 
         if(!isset($this->events[$action])){
-            throw new HandlerException('', HandlerException::ACTION_HANDLER_NOT_EXISTS);
+            throw new HandlerException('Action handler not exists', HandlerException::ACTION_HANDLER_NOT_EXISTS);
         }
 
         // prepare params array for handler
@@ -210,7 +210,7 @@ class Handler {
         $this->actionExists($event);
 
         if(!is_callable($handler)){
-            throw new HandlerException('', HandlerException::INCORRECT_HANDLER_SPECIFIED);
+            throw new HandlerException('Incorrect handler specified', HandlerException::INCORRECT_HANDLER_SPECIFIED);
         }
 
         if(!isset($this->events[$event])){

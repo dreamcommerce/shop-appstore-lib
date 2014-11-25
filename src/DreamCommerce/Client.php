@@ -48,7 +48,7 @@ class Client {
      */
     public function __construct($entrypoint, $clientId, $clientSecret){
         if(!filter_var($entrypoint, FILTER_VALIDATE_URL)){
-            throw new ClientException('', ClientException::ENTRYPOINT_URL_INVALID);
+            throw new ClientException('Invalid entrypoint URL', ClientException::ENTRYPOINT_URL_INVALID);
         }
 
         $this->client = Http::instance();
@@ -139,7 +139,7 @@ class Client {
      */
     public function request(Resource $res, $method, $objectPath = null, $data = array(), $query = array()){
         if(!method_exists($this->client, $method)){
-            throw new ClientException('', ClientException::METHOD_NOT_SUPPORTED);
+            throw new ClientException('Method not supported', ClientException::METHOD_NOT_SUPPORTED);
         }
 
         $url = $this->entrypoint.'/'.$res->getName();
