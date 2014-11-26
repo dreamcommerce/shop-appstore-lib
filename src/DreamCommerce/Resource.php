@@ -36,6 +36,10 @@ class Resource{
      * @var null|int page number
      */
     protected $page = null;
+    /**
+     * @var bool specifies whether resource has no collection at all
+     */
+    protected $isSingleOnly = false;
 
     public function __construct(Client $client, $name){
         $this->client = $client;
@@ -64,6 +68,9 @@ class Resource{
             // for example, last insert ID
             if($isCollection){
                 $list = $response['data']->list;
+                if($list == null){
+                    return new \ArrayObject();
+                }
 
                 // make data access more elastic, regardless getters - array or properties
                 array_walk($list, function(&$v){
@@ -238,7 +245,7 @@ class Resource{
             $args = null;
         }
 
-        $isCollection = count($args)==0;
+        $isCollection = !$this->isSingleOnly && count($args)==0;
 
         try {
             $response = $this->client->request($this, 'get', $args, array(), $query);
