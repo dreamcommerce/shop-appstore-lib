@@ -33,8 +33,12 @@ class Exception extends \Exception
             $status = getenv('DREAMCOMMERCE_DEBUG');
         }
 
+        if(!$ctx){
+            $ctx = 'unspecified';
+        }
+
         if ($status) {
-            $str = date('[Y-m-d H:i:s]') . '['.$ctx.']' . $message . PHP_EOL;
+            $str = date('[Y-m-d H:i:s]') . '['.$ctx.'] ' . $message . PHP_EOL;
             if (is_bool($status) && $status) {
                 echo $str;
             } else if (is_string($status)) {
