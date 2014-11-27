@@ -83,9 +83,9 @@ class App
         try {
 
             // shop installation
-            $shopStmt = $this->db()->prepare('INSERT INTO shops (shop, shop_url, auth_code) values (?,?,?)');
+            $shopStmt = $this->db()->prepare('INSERT INTO shops (shop, shop_url, auth_code) values (?,?)');
             $shopStmt->execute(array(
-                $arguments['shop'], $arguments['shop_url'], $arguments['auth_code']
+                $arguments['shop'], $arguments['shop_url']
             ));
 
             $shopId = $this->db()->lastInsertId();
