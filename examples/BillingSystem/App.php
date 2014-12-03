@@ -252,7 +252,7 @@ class App
     {
         static $handle = null;
         if (!$handle) {
-            $handle = new PDO(
+            $handle = new \PDO(
                 $this->config['db']['connection'],
                 $this->config['db']['user'],
                 $this->config['db']['pass']
