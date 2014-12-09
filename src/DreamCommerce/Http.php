@@ -111,7 +111,7 @@ class Http
         // determine allowed methods
         $methodName = strtoupper($method);
 
-        $this->debug('NEW REQUEST: '.$methodName.' '.$url);
+        $this->debug('NEW REQUEST: '.$methodName.' '.$url.'?'.http_build_query($query));
 
         if (!in_array($methodName, array(
             'GET', 'POST', 'PUT', 'DELETE'
