@@ -39,7 +39,7 @@ class Exception extends \Exception
 
         if ($status) {
             $str = date('[Y-m-d H:i:s]') . '['.$ctx.'] ' . $message . PHP_EOL;
-            if (is_bool($status) && $status) {
+            if ((is_numeric($status) || is_bool($status)) && $status) {
                 echo $str;
             } else if (is_string($status)) {
                 file_put_contents($status, $str, FILE_APPEND);
