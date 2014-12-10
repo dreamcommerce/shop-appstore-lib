@@ -228,11 +228,12 @@ class Http
                 if(isset($lastRequestHeaders['X-Shop-Api-Calls'])){
 
                     $calls = $lastRequestHeaders['X-Shop-Api-Calls'];
-                    $bandwidth = $lastRequestHeaders['X-Shop-Api-Bandwidth'];
+                    //$bandwidth = $lastRequestHeaders['X-Shop-Api-Bandwidth'];
                     $limit = $lastRequestHeaders['X-Shop-Api-Limit'];
 
                     if($limit-$calls<=1){
-                        sleep(ceil(2/$bandwidth));
+                        //sleep(ceil(2/$bandwidth));
+                        sleep(1);
                     }
 
                 }
