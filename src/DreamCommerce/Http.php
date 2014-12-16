@@ -175,16 +175,18 @@ class Http
             }
         }
 
+        $that = $this;
+
         // perform request
-        $doRequest = function($url, $ctx) use(&$lastRequestHeaders) {
+        $doRequest = function($url, $ctx) use(&$lastRequestHeaders, $that) {
             // make a real request
             $result = @file_get_contents($url, null, $ctx);
 
             // catch headers
-            $lastRequestHeaders = $this->parseHeaders($http_response_header);
+            $lastRequestHeaders = $that->parseHeaders($http_response_header);
 
-            $this->debug('Response headers: '.var_export($lastRequestHeaders, true));
-            $this->debug('Response body: '.$result);
+            $that->debug('Response headers: '.var_export($lastRequestHeaders, true));
+            $that->debug('Response body: '.$result);
 
             try {
                 // completely failed
@@ -284,7 +286,7 @@ class Http
      * @internal param $http_response_header
      * @return array
      */
-    protected function parseHeaders($src)
+    public function parseHeaders($src)
     {
         $headers = array();
         foreach ($src as $i) {
@@ -314,7 +316,7 @@ class Http
      * internal debugging method
      * @param string $str message
      */
-    protected function debug($str){
+    public function debug($str){
         Exception::debug($str);
     }
 
