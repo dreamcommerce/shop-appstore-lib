@@ -233,7 +233,7 @@ class Http
                     //$bandwidth = $lastRequestHeaders['X-Shop-Api-Bandwidth'];
                     $limit = $lastRequestHeaders['X-Shop-Api-Limit'];
 
-                    if($limit-$calls<=1){
+                    if($limit-$calls == 0){
                         //sleep(ceil(2/$bandwidth));
                         sleep(1);
                     }
