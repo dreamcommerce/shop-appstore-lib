@@ -1,4 +1,5 @@
 <?php
+
 namespace DreamCommerce;
 
 /**
@@ -17,35 +18,7 @@ class Exception extends \Exception
     public function __construct($message = "", $code = 0, \Exception $previous = null)
     {
         parent::__construct($message, $code, $previous);
-        self::debug((string)$this, get_class($this));
+        Logger::error($this);
     }
-
-    /**
-     * debug facility
-     * @param string $message debug message
-     * @param string|null $ctx context
-     */
-    static public function debug($message, $ctx = null)
-    {
-        static $status = null;
-
-        if ($status === null) {
-            $status = getenv('DREAMCOMMERCE_DEBUG');
-        }
-
-        if(!$ctx){
-            $ctx = 'unspecified';
-        }
-
-        if ($status) {
-            $str = date('[Y-m-d H:i:s]') . '['.$ctx.'] ' . $message . PHP_EOL;
-            if ((is_numeric($status) || is_bool($status)) && $status) {
-                echo $str;
-            } else if (is_string($status)) {
-                file_put_contents($status, $str, FILE_APPEND);
-            }
-        }
-    }
-
 
 } 

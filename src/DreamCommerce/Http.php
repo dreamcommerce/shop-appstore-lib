@@ -317,7 +317,7 @@ class Http
      * @param string $str message
      */
     public function debug($str){
-        Exception::debug($str);
+        Logger::debug($str);
     }
 
 } 
