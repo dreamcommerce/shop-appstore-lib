@@ -67,18 +67,26 @@ class Resource{
         if($code>=200 && $code<300){
             // for example, last insert ID
             if($isCollection){
-                $list = $response['data']->list;
+                $list = $response['data']['list'];
                 if($list == null){
                     return new \ArrayObject();
                 }
 
                 // make data access more elastic, regardless getters - array or properties
-                array_walk($list, function(&$v){
-                    $v = new \ArrayObject($v, \ArrayObject::ARRAY_AS_PROPS);
-                });
+                $transform = function($v) use(&$transform){
+                    if(!$v instanceof \ArrayObject){
+                        if(is_array($v) or $v instanceof \stdClass){
+                            foreach($v as $k => $value){
+                                $v[$k] = $transform($value);
+                            }
+                            $v = new \ArrayObject($v, \ArrayObject::ARRAY_AS_PROPS);
+                        }
+                    }
+                    return $v;
+                };
 
+                $result = $transform($list);
                 // collection is an array
-                $result = new \ArrayObject($list);
                 $meta = (array)$response['data'];
 
                 unset($meta['list']);
@@ -97,8 +105,8 @@ class Resource{
             $msg = '';
 
             // look up for error
-            if(isset($response['data']->error)){
-                $msg = $response['data']->error;
+            if(isset($response['data']['error'])){
+                $msg = $response['data']['error'];
             }
 
             throw new ResourceException($msg, $code);

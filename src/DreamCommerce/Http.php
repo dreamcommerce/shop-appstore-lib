@@ -197,11 +197,11 @@ class Http
 
                     // decode if it's JSON
                     if($lastRequestHeaders['Content-Type']=='application/json'){
-                        $result = @json_decode($result);
+                        $result = @json_decode($result, true);
                     }
 
-                    if (is_object($result)){
-                        throw new HttpException($result->error_description, HttpException::REQUEST_FAILED, null, $lastRequestHeaders, $result);
+                    if (is_array($result)){
+                        throw new HttpException($result['error_description'], HttpException::REQUEST_FAILED, null, $lastRequestHeaders, $result);
                     }else{
                         throw new \Exception($result);
                     }
@@ -261,7 +261,7 @@ class Http
 
         // try to decode response
         if($lastRequestHeaders['Content-Type']=='application/json') {
-            $parsedPayload = @json_decode($result);
+            $parsedPayload = @json_decode($result, true);
 
             if (!$parsedPayload && !is_array($parsedPayload)) {
                 throw new HttpException('Result is not a valid JSON', HttpException::MALFORMED_RESULT, null, $lastRequestHeaders, $result);
@@ -320,4 +320,4 @@ class Http
         Logger::debug($str);
     }
 
-} 
+}
