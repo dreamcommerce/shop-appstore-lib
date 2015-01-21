@@ -84,12 +84,12 @@ class Client {
             'Authorization'=>'Basic '.base64_encode($this->clientId.':'.$this->clientSecret)
         ));
 
-        if(!$res || isset($res['data']->error)){
-            throw new ClientException($res['data']->error, ClientException::API_ERROR);
+        if(!$res || isset($res['data']['error'])){
+            throw new ClientException($res['data']['error'], ClientException::API_ERROR);
         }
 
         // automatically set token to the freshly requested
-        $this->setAccessToken($res['data']->access_token);
+        $this->setAccessToken($res['data']['access_token']);
 
         return $res['data'];
     }
