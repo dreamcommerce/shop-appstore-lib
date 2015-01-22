@@ -7,7 +7,7 @@ class ResourceList extends \ArrayObject{
 
     public $count = 0;
     public $page;
-    public $pages;
+    public $pages = 0;
 
     public function setCount($count){
         $this->count = $count;
