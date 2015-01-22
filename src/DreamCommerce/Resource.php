@@ -69,32 +69,15 @@ class Resource{
             if($isCollection){
                 $list = $response['data']['list'];
                 if($list == null){
-                    return new \ArrayObject();
+                    return new ResourceList();
                 }
 
-                // make data access more elastic, regardless getters - array or properties
-                $transform = function($v) use(&$transform){
-                    if(!$v instanceof \ArrayObject){
-                        if(is_array($v) or $v instanceof \stdClass){
-                            foreach($v as $k => $value){
-                                $v[$k] = $transform($value);
-                            }
-                            $v = new \ArrayObject($v, \ArrayObject::ARRAY_AS_PROPS);
-                        }
-                    }
-                    return $v;
-                };
-
-                $result = $transform($list);
-                // collection is an array
-                $meta = (array)$response['data'];
-
-                unset($meta['list']);
-
+                $result = new ResourceList($list);
                 // add meta properties (eg. count, page, etc) as a ArrayObject properties
-                foreach($meta as $k=>$v){
-                    $result->{$k} = $v;
-                }
+                $result->setPage($response['data']['page']);
+                $result->setCount($response['data']['count']);
+                $result->setPageCount($response['data']['pages']);
+
                 return $result;
             }else{
                 return $response['data'];
