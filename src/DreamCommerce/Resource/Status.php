@@ -4,7 +4,7 @@ namespace DreamCommerce\Resource;
 use DreamCommerce\Resource;
 use DreamCommerce\Client;
 
-class Statuses extends Resource{
+class Status extends Resource{
 
     const TYPE_NEW = 1;
     const TYPE_OPENED = 2;
