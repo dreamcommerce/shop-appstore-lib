@@ -8,7 +8,7 @@ use DreamCommerce\Exception\ResourceException;
  * Class Resource
  * @package DreamCommerce
  */
-class Resource{
+abstract class Resource{
 
     /**
      * @var Client|null
@@ -41,9 +41,17 @@ class Resource{
      */
     protected $isSingleOnly = false;
 
-    public function __construct(Client $client, $name){
+    public function __construct(Client $client){
         $this->client = $client;
-        $this->name = $name;
+    }
+
+    public static function factory(Client $client, $name){
+        $class = "\\DreamCommerce\\Resource\\".ucfirst($name);
+        if(class_exists($class)){
+            return new $class($client);
+        }else{
+            throw new ResourceException("Unknown Resource '".$name."'");
+        }
     }
 
     /**

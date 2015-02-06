@@ -7,9 +7,6 @@ use DreamCommerce\Client;
 class ApplicationLock extends Resource{
 
     protected $isSingleOnly = true;
+    protected $name = 'application-lock';
 
-    public function __construct(Client $client){
-        return parent::__construct($client, 'application-lock');
-    }
-    
 }

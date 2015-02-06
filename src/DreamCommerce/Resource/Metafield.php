@@ -11,8 +11,32 @@ class Metafield extends Resource{
     const TYPE_STRING = 3;
     const TYPE_BLOB = 4;
 
-    public function __construct(Client $client){
-        return parent::__construct($client, 'metafields');
+    protected $name = 'metafields';
+
+    /**
+     * Read Resource
+     * @param mixed $args,... params
+     * @return \ArrayObject
+     * @throws ResourceException
+     */
+    public function get(){
+
+        $query = $this->getCriteria();
+
+        $args = func_get_args();
+        if(empty($args)){
+            $args = array("system");
+        }
+
+        $isCollection = !$this->isSingleOnly && count($args)==0;
+
+        try {
+            $response = $this->client->request($this, 'get', $args, array(), $query);
+        }catch(ClientException $ex){
+            throw new ResourceException($ex->getMessage(), ResourceException::CLIENT_ERROR, $ex);
+        }
+
+        return $this->transformResponse($response, $isCollection);
     }
     
 }

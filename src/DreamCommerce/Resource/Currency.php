@@ -5,9 +5,7 @@ use DreamCommerce\Resource;
 use DreamCommerce\Client;
 
 class Currency extends Resource{
-    
-    public function __construct(Client $client){
-        return parent::__construct($client, 'currencies');
-    }
-    
+
+    protected $name = 'currencies';
+
 }
