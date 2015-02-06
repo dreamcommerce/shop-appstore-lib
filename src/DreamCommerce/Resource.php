@@ -259,8 +259,15 @@ class Resource{
             throw new ResourceException('Filtering not supported in POST', ResourceException::FILTERS_IN_UNSUPPORTED_METHOD);
         }
 
+        $args = func_get_args();
+        if(count($args) == 1){
+            $args = null;
+        }else{
+            $data = array_pop($args);
+        }
+
         try {
-            $response = $this->client->request($this, 'post', null, $data);
+            $response = $this->client->request($this, 'post', $args, $data);
         }catch (ClientException $ex){
             throw new ResourceException($ex->getMessage(), ResourceException::CLIENT_ERROR, $ex);
         }
@@ -280,8 +287,15 @@ class Resource{
             throw new ResourceException('Filtering not supported in PUT', ResourceException::FILTERS_IN_UNSUPPORTED_METHOD);
         }
 
+        $args = func_get_args();
+        if(count($args) == 2){
+            $args = $id;
+        }else{
+            $data = array_pop($args);
+        }
+
         try {
-            $this->client->request($this, 'put', $id, $data);
+            $this->client->request($this, 'put', $args, $data);
         }catch(ClientException $ex){
             throw new ResourceException($ex->getMessage(), ResourceException::CLIENT_ERROR, $ex);
         }
@@ -301,8 +315,13 @@ class Resource{
             throw new ResourceException('Filtering not supported in DELETE', ResourceException::FILTERS_IN_UNSUPPORTED_METHOD);
         }
 
+        $args = func_get_args();
+        if(count($args) == 1){
+            $args = $id;
+        }
+
         try {
-            $this->client->request($this, 'delete', $id);
+            $this->client->request($this, 'delete', $args);
         }catch(ClientException $ex){
             throw new ResourceException($ex->getMessage(), ResourceException::CLIENT_ERROR, $ex);
         }
