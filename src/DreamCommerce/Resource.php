@@ -200,9 +200,9 @@ class Resource{
         $matches = array();
 
         // basic syntax, with asc/desc suffix
-        if(preg_match('#([a-z_0-9]+) (asc|desc)$#si', $expr)){
+        if(preg_match('/([a-z_0-9.]+) (asc|desc)$/i', $expr)){
             $this->order = $expr;
-        }else if(preg_match('#([\+\-]?)([a-z_0-9]+)#', $expr, $matches)){
+        }else if(preg_match('/([\+\-]?)([a-z_0-9.]+)/', $expr, $matches)){
 
             // alternative syntax - with +/- prefix
             $result = $matches[2];
