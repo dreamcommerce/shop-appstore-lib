@@ -19,8 +19,6 @@ class User extends Resource{
     const FIELD_SHOW_CLIENT = 2;
     const FIELD_SHOW_REGISTRATION = 4;
 
-    public function __construct(Client $client){
-        return parent::__construct($client, 'users');
-    }
-    
+    protected $name = 'users';
+
 }

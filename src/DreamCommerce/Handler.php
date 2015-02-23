@@ -20,7 +20,7 @@ class Handler {
      * @var array
      */
     protected $eventsMap = array(
-        'install', 'uninstall', 'billing_install', 'billing_subscription'
+        'install', 'uninstall', 'billing_install', 'billing_subscription', 'upgrade'
     );
 
     /**

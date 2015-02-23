@@ -12,9 +12,7 @@ class OptionValue extends Resource{
 
     const PRICE_PERCENT = 0;
     const PRICE_AMOUNT = 1;
-    
-    public function __construct(Client $client){
-        return parent::__construct($client, 'option-values');
-    }
-    
+
+    protected $name = 'option-values';
+
 }

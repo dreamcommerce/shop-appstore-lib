@@ -21,8 +21,6 @@ class Order extends Resource{
     const FIELD_SHOW_GUEST = 32;
     const FIELD_SHOW_SIGNED_IN = 64;
 
-    public function __construct(Client $client){
-        return parent::__construct($client, 'orders');
-    }
-    
+    protected $name = 'orders';
+
 }

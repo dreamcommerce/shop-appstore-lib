@@ -182,7 +182,7 @@ class Client {
      * @param $resource
      */
     public function __get($resource){
-        return new Resource($this, $resource);
+        return Resource::factory($this, $resource);
     }
 
     /**

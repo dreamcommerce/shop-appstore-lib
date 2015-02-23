@@ -11,8 +11,6 @@ class Status extends Resource{
     const TYPE_CLOSED = 3;
     const TYPE_UNREALIZED = 4;
 
-    public function __construct(Client $client){
-        return parent::__construct($client, 'statuses');
-    }
-    
+    protected $name = 'statuses';
+
 }

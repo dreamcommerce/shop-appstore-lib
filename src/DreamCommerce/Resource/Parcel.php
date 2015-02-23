@@ -5,9 +5,7 @@ use DreamCommerce\Resource;
 use DreamCommerce\Client;
 
 class Parcel extends Resource{
-    
-    public function __construct(Client $client){
-        return parent::__construct($client, 'parcels');
-    }
-    
+
+    protected $name = 'parcels';
+
 }
