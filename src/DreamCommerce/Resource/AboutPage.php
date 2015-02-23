@@ -6,8 +6,6 @@ use DreamCommerce\Client;
 
 class Aboutpage extends Resource{
 
-    public function __construct(Client $client){
-        return parent::__construct($client, 'aboutpages');
-    }
+    protected $name = 'aboutpages';
 
 }
