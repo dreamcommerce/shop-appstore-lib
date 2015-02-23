@@ -2,7 +2,6 @@
 namespace DreamCommerce\Resource;
 
 use DreamCommerce\Resource;
-use DreamCommerce\Client;
 
 class Delivery extends Resource{
 
