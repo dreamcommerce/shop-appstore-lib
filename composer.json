@@ -1,7 +1,6 @@
 {
     "name": "dreamcommerce/shop-appstore-lib",
     "description": "SDK for Dreamcommerce based shops REST-API",
-    "minimum-stability": "dev",
     "license": "MIT",
     "require": {
         "php": ">=5.3.0"
