@@ -3,8 +3,8 @@ namespace DreamCommerce\Resource;
 
 use DreamCommerce\Resource;
 
-class Currency extends Resource{
+class Aboutpage extends Resource{
 
-    protected $name = 'currencies';
+    protected $name = 'aboutpages';
 
 }
