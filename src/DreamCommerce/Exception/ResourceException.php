@@ -42,4 +42,16 @@ class ResourceException extends \Exception{
      */
     const INVALID_PAGE = 7;
 
+    public function getHttpErrorCode(){
+        $p = $this->getPrevious();
+        while($p){
+            if($p instanceof HttpException){
+                $headers = $p->getHeaders();
+                return $headers['Code'];
+            }else{
+                $p = $p->getPrevious();
+            }
+        }
+        return null;
+    }
 } 
