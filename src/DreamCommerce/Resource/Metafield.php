@@ -27,7 +27,7 @@ class Metafield extends Resource{
             $args = array("system");
         }
 
-        $isCollection = !$this->isSingleOnly && count($args)==0;
+        $isCollection = !$this->isSingleOnly && count($args)==1;
 
         try {
             $response = $this->client->request($this, 'get', $args, array(), $query);
