@@ -5,6 +5,9 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
+## Version 0.1.4
+* \# fixed metafield collection
+
 ## Version 0.1.3
 * \# fixed stability requirement for Composer
 
