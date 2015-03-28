@@ -5,6 +5,9 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
+## Version 0.1.5
+* \# changed ``Handler::actionExists`` and ``Handler::verifyPayload`` visibility for better portability
+
 ## Version 0.1.4
 * \# fixed metafield collection
 

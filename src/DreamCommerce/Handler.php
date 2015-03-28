@@ -106,7 +106,7 @@ class Handler {
      * @return bool
      * @throws Exception\HandlerException
      */
-    protected function verifyPayload($payload){
+    public function verifyPayload($payload){
 
         $providedHash = $payload['hash'];
         unset($payload['hash']);
@@ -137,7 +137,7 @@ class Handler {
      * @return bool
      * @throws Exception\HandlerException
      */
-    protected function actionExists($action){
+    public function actionExists($action){
         if(!in_array($action, $this->eventsMap)){
             throw new HandlerException('Action not exists', HandlerException::ACTION_NOT_EXISTS);
         }
