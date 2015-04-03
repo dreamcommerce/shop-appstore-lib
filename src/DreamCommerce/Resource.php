@@ -210,7 +210,7 @@ abstract class Resource{
         // basic syntax, with asc/desc suffix
         if(preg_match('/([a-z_0-9.]+) (asc|desc)$/i', $expr)){
             $this->order = $expr;
-        }else if(preg_match('/([\+\-]?)([a-z_0-9.]+)/', $expr, $matches)){
+        }else if(preg_match('/([\+\-]?)([a-z_0-9.]+)/i', $expr, $matches)){
 
             // alternative syntax - with +/- prefix
             $result = $matches[2];

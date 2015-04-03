@@ -5,6 +5,9 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
+## Version 0.1.6
+* \# fixed records sorting by complex keys, such as ``translations.pl_PL.name``
+
 ## Version 0.1.5
 * \# changed ``Handler::actionExists`` and ``Handler::verifyPayload`` visibility for better portability
 
