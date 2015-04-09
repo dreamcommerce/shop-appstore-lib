@@ -5,6 +5,9 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
+## Version 0.1.7
+* \# fixed response hydration for GET#ID (previously array returned instead of ArrayObject)
+
 ## Version 0.1.6
 * \# fixed records sorting by complex keys, such as ``translations.pl_PL.name``
 

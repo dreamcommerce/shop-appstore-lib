@@ -35,25 +35,20 @@ class ResourceList extends \ArrayObject{
 
     public function __construct($array = array(), $flags = parent::ARRAY_AS_PROPS)
     {
-        $a = array();
+        $array = self::transform($array);
 
-        // make data access more elastic, regardless getters - array or properties
-        $transform = function($v) use(&$transform){
-            if(!$v instanceof \ArrayObject){
-                if(is_array($v) or $v instanceof \stdClass){
-                    foreach($v as $k => $value){
-                        $v[$k] = $transform($value);
-                    }
-                    $v = new \ArrayObject($v, \ArrayObject::ARRAY_AS_PROPS);
+        parent::__construct($array, $flags);
+    }
+
+    public static function transform($node){
+        if(!$node instanceof \ArrayObject){
+            if(is_array($node) or $node instanceof \stdClass){
+                foreach($node as $k => $value){
+                    $node[$k] = self::transform($value);
                 }
+                $node = new \ArrayObject($node, \ArrayObject::ARRAY_AS_PROPS);
             }
-            return $v;
-        };
-
-        foreach($array as $k => $v){
-            $a[$k] = $transform($v);
         }
-
-        parent::__construct($a, $flags);
+        return $node;
     }
 }

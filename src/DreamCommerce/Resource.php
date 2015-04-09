@@ -88,7 +88,9 @@ abstract class Resource{
 
                 return $result;
             }else{
-                return $response['data'];
+                return new \ArrayObject(
+                    ResourceList::transform($response['data'])
+                );
             }
 
         }else{
