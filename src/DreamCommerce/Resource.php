@@ -260,7 +260,7 @@ abstract class Resource{
     /**
      * Create Resource
      * @param array $data
-     * @return \ArrayObject
+     * @return integer
      * @throws ResourceException
      */
     public function post($data){
@@ -281,7 +281,8 @@ abstract class Resource{
         }catch (ClientException $ex){
             throw new ResourceException($ex->getMessage(), ResourceException::CLIENT_ERROR, $ex);
         }
-        return $this->transformResponse($response, false);
+
+        return $response['data'];
     }
 
     /**

@@ -5,6 +5,9 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
+## Version 0.1.8
+* \# fixed problem with POST ID returning
+
 ## Version 0.1.7
 * \# fixed response hydration for GET#ID (previously array returned instead of ArrayObject)
 
