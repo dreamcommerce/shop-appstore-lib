@@ -5,6 +5,9 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
+## Version 0.1.9
+* \# fixed API resource name typo
+
 ## Version 0.1.8
 * \# fixed problem with POST ID returning
 
