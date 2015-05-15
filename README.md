@@ -5,6 +5,9 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
+## Version 0.1.10
+* \# API has been fixed
+
 ## Version 0.1.9
 * \# fixed API resource name typo
 

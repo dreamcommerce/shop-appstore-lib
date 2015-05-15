@@ -5,6 +5,6 @@ use DreamCommerce\Resource;
 
 class AuctionHouse extends Resource{
 
-    protected $name = 'auction-hauses';
+    protected $name = 'auction-houses';
 
 }
