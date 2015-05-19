@@ -105,10 +105,7 @@ class Handler implements HandlerInterface
     }
 
     /**
-     * verifies a payload against provided data hash value
-     * @param $payload
-     * @return bool
-     * @throws Exception\HandlerException
+     * @inheritdoc
      */
     public function verifyPayload($payload)
     {
@@ -136,10 +133,7 @@ class Handler implements HandlerInterface
     }
 
     /**
-     * checks whether handled action really exists in API
-     * @param $action
-     * @return bool
-     * @throws Exception\HandlerException
+     * @inheritdoc
      */
     public function actionExists($action)
     {

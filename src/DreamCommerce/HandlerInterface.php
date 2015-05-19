@@ -13,6 +13,24 @@ interface HandlerInterface
     const EVENT_UPGRADE = 'upgrade';
 
     /**
+     * Checks whether handled action really exists in API
+     *
+     * @param $action
+     * @return bool
+     * @throws Exception\HandlerException
+     */
+    public function actionExists($action);
+
+    /**
+     * Verifies a payload against provided data hash value
+     *
+     * @param $payload
+     * @return bool
+     * @throws Exception\HandlerException
+     */
+    public function verifyPayload($payload);
+
+    /**
      * Request dispatcher
      *
      * @param array|null $requestBody if null - uses $_POST
