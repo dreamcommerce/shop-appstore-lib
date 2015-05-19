@@ -2,19 +2,24 @@
 namespace DreamCommerce;
 
 use DreamCommerce\Exception\HttpException;
+use Psr\Log\LoggerInterface;
 
 /**
  * HTTP I/O abstraction
  * @package DreamCommerce
  */
-class Http
+class Http implements HttpInterface
 {
-
     /**
      * retry count before giving up on leaking bucket quota exceeding
      * @var int
      */
     protected static $retryLimit = 5;
+
+    /**
+     * @var LoggerInterface
+     */
+    protected $logger;
 
     /**
      * Singleton
@@ -44,11 +49,7 @@ class Http
     }
 
     /**
-     * performs a GET request
-     * @param string $url
-     * @param array $query query string params
-     * @param array $headers
-     * @return string
+     * @inheritdoc
      */
     public function get($url, $query = array(), $headers = array())
     {
@@ -56,12 +57,7 @@ class Http
     }
 
     /**
-     * performs a POST request
-     * @param string $url
-     * @param array|\stdClass $body form fields
-     * @param array $query query string params
-     * @param array $headers
-     * @return string
+     * @inheritdoc
      */
     public function post($url, $body = array(), $query = array(), $headers = array())
     {
@@ -69,12 +65,7 @@ class Http
     }
 
     /**
-     * performs a PUT request
-     * @param string $url
-     * @param array|\stdClass $body form fields
-     * @param array $query query string params
-     * @param array $headers
-     * @return string
+     * @inheritdoc
      */
     public function put($url, $body = array(), $query = array(), $headers = array())
     {
@@ -82,11 +73,7 @@ class Http
     }
 
     /**
-     * performs a DELETE request
-     * @param $url
-     * @param array $query query string params
-     * @param array $headers
-     * @return string
+     * @inheritdoc
      */
     public function delete($url, $query = array(), $headers = array())
     {
@@ -111,7 +98,8 @@ class Http
         // determine allowed methods
         $methodName = strtoupper($method);
 
-        $this->debug('NEW REQUEST: '.$methodName.' '.$url.'?'.http_build_query($query));
+        $logger = $this->getLogger();
+        $logger->debug('NEW REQUEST: '.$methodName.' '.$url.'?'.http_build_query($query));
 
         if (!in_array($methodName, array(
             'GET', 'POST', 'PUT', 'DELETE'
@@ -135,7 +123,7 @@ class Http
             }
             $contextParams['http']['header'] = $headersString;
 
-            $this->debug('Headers: '.var_export($headers, true));
+            $logger->debug('Headers: '.var_export($headers, true));
         }
 
         // request body
@@ -151,8 +139,8 @@ class Http
 
             $contextParams['http']['content'] = $content;
 
-            $this->debug('Document body: '.var_export($body, true));
-            $this->debug('Document body (JSON-ified): '.$content);
+            $logger->debug('Document body: '.var_export($body, true));
+            $logger->debug('Document body (JSON-ified): '.$content);
         }
 
         // make request stream context
@@ -185,8 +173,9 @@ class Http
             // catch headers
             $lastRequestHeaders = $that->parseHeaders($http_response_header);
 
-            $that->debug('Response headers: '.var_export($lastRequestHeaders, true));
-            $that->debug('Response body: '.$result);
+            $logger = $that->getLogger();
+            $logger->debug('Response headers: '.var_export($lastRequestHeaders, true));
+            $logger->debug('Response body: '.$result);
 
             try {
                 // completely failed
@@ -271,7 +260,7 @@ class Http
             $parsedPayload = $result;
         }
 
-        $this->debug('Response body (decoded): '.var_export($parsedPayload, true));
+        $logger->debug('Response body (decoded): '.var_export($parsedPayload, true));
 
         return array(
             'data' => $parsedPayload,
@@ -286,7 +275,7 @@ class Http
      * @internal param $http_response_header
      * @return array
      */
-    public function parseHeaders($src)
+    protected function parseHeaders($src)
     {
         $headers = array();
         foreach ($src as $i) {
@@ -313,11 +302,23 @@ class Http
     }
 
     /**
-     * internal debugging method
-     * @param string $str message
+     * @inheritdoc
      */
-    public function debug($str){
-        Logger::debug($str);
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+        return $this;
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function getLogger()
+    {
+        if($this->logger === null) {
+            $this->logger = new Logger();
+        }
+
+        return $this->logger;
+    }
 }

@@ -8,10 +8,10 @@ use DreamCommerce\Exception\ResourceException;
  * Class Resource
  * @package DreamCommerce
  */
-abstract class Resource{
-
+abstract class Resource
+{
     /**
-     * @var Client|null
+     * @var ClientInterface|null
      */
     public $client = null;
 
@@ -41,15 +41,23 @@ abstract class Resource{
      */
     protected $isSingleOnly = false;
 
-    public function __construct(Client $client){
+    public function __construct(ClientInterface $client)
+    {
         $this->client = $client;
     }
 
-    public static function factory(Client $client, $name){
+    /**
+     * @param ClientInterface $client
+     * @param $name
+     * @return Resource
+     * @throws ResourceException
+     */
+    public static function factory(ClientInterface $client, $name)
+    {
         $class = "\\DreamCommerce\\Resource\\".ucfirst($name);
         if(class_exists($class)){
             return new $class($client);
-        }else{
+        } else {
             throw new ResourceException("Unknown Resource '".$name."'");
         }
     }
@@ -58,7 +66,8 @@ abstract class Resource{
      * returns resource name
      * @return string
      */
-    public function getName(){
+    public function getName()
+    {
         return $this->name;
     }
 
@@ -68,7 +77,8 @@ abstract class Resource{
      * @throws ResourceException
      * @return mixed
      */
-    protected function transformResponse($response, $isCollection){
+    protected function transformResponse($response, $isCollection)
+    {
         $code = $response['headers']['Code'];
 
         // everything is okay when 200-299 status code
@@ -107,7 +117,8 @@ abstract class Resource{
     /**
      * reset filters object state
      */
-    protected function reset(){
+    protected function reset()
+    {
         $this->filters = array();
         $this->limit = null;
         $this->order = null;
@@ -118,7 +129,8 @@ abstract class Resource{
      * get an array with specified criteria
      * @return array
      */
-    protected function getCriteria(){
+    protected function getCriteria()
+    {
         $result = array();
 
         if($this->filters){
@@ -149,7 +161,8 @@ abstract class Resource{
      * @return $this
      * @throws ResourceException
      */
-    public function limit($count){
+    public function limit($count)
+    {
         if($count<1 || $count>50){
             throw new ResourceException('Limit beyond 1-50 range', ResourceException::LIMIT_BEYOND_RANGE);
         }
@@ -181,8 +194,8 @@ abstract class Resource{
      * @return $this
      * @throws ResourceException
      */
-    public function page($page){
-
+    public function page($page)
+    {
         $page = (int)$page;
 
         if($page<0){
@@ -203,24 +216,24 @@ abstract class Resource{
      * @return $this
      * @throws ResourceException
      */
-    public function order($expr){
-
+    public function order($expr)
+    {
         $matches = array();
 
         // basic syntax, with asc/desc suffix
-        if(preg_match('/([a-z_0-9.]+) (asc|desc)$/i', $expr)){
+        if(preg_match('/([a-z_0-9.]+) (asc|desc)$/i', $expr)) {
             $this->order = $expr;
-        }else if(preg_match('/([\+\-]?)([a-z_0-9.]+)/', $expr, $matches)){
+        } else if(preg_match('/([\+\-]?)([a-z_0-9.]+)/', $expr, $matches)) {
 
             // alternative syntax - with +/- prefix
             $result = $matches[2];
             if($matches[1]=='' || $matches[1]=='+'){
                 $result .= ' asc';
-            }else{
+            } else {
                 $result .= ' desc';
             }
             $this->order = $result;
-        }else{
+        } else {
             // something which should never happen but take care [;
             throw new ResourceException('Cannot understand ordering expression', ResourceException::ORDER_NOT_SUPPORTED);
         }
@@ -235,8 +248,8 @@ abstract class Resource{
      * @return \ArrayObject
      * @throws ResourceException
      */
-    public function get(){
-
+    public function get()
+    {
         $query = $this->getCriteria();
 
         $args = func_get_args();
@@ -248,7 +261,7 @@ abstract class Resource{
 
         try {
             $response = $this->client->request($this, 'get', $args, array(), $query);
-        }catch(ClientException $ex){
+        } catch(ClientException $ex) {
             throw new ResourceException($ex->getMessage(), ResourceException::CLIENT_ERROR, $ex);
         }
 
@@ -261,22 +274,22 @@ abstract class Resource{
      * @return \ArrayObject
      * @throws ResourceException
      */
-    public function post($data){
-
+    public function post($data)
+    {
         if($this->getCriteria()){
             throw new ResourceException('Filtering not supported in POST', ResourceException::FILTERS_IN_UNSUPPORTED_METHOD);
         }
 
         $args = func_get_args();
-        if(count($args) == 1){
+        if(count($args) == 1) {
             $args = null;
-        }else{
+        } else {
             $data = array_pop($args);
         }
 
         try {
             $response = $this->client->request($this, 'post', $args, $data);
-        }catch (ClientException $ex){
+        } catch (ClientException $ex) {
             throw new ResourceException($ex->getMessage(), ResourceException::CLIENT_ERROR, $ex);
         }
         return $this->transformResponse($response, false);
@@ -304,7 +317,7 @@ abstract class Resource{
 
         try {
             $this->client->request($this, 'put', $args, $data);
-        }catch(ClientException $ex){
+        } catch(ClientException $ex) {
             throw new ResourceException($ex->getMessage(), ResourceException::CLIENT_ERROR, $ex);
         }
 
