@@ -98,7 +98,9 @@ abstract class Resource
 
                 return $result;
             }else{
-                return $response['data'];
+                return new \ArrayObject(
+                    ResourceList::transform($response['data'])
+                );
             }
 
         }else{
@@ -223,7 +225,7 @@ abstract class Resource
         // basic syntax, with asc/desc suffix
         if(preg_match('/([a-z_0-9.]+) (asc|desc)$/i', $expr)) {
             $this->order = $expr;
-        } else if(preg_match('/([\+\-]?)([a-z_0-9.]+)/', $expr, $matches)) {
+        } else if(preg_match('/([\+\-]?)([a-z_0-9.]+)/i', $expr, $matches)) {
 
             // alternative syntax - with +/- prefix
             $result = $matches[2];
@@ -271,7 +273,7 @@ abstract class Resource
     /**
      * Create Resource
      * @param array $data
-     * @return \ArrayObject
+     * @return integer
      * @throws ResourceException
      */
     public function post($data)
@@ -292,7 +294,8 @@ abstract class Resource
         } catch (ClientException $ex) {
             throw new ResourceException($ex->getMessage(), ResourceException::CLIENT_ERROR, $ex);
         }
-        return $this->transformResponse($response, false);
+
+        return $response['data'];
     }
 
     /**
