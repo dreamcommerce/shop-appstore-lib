@@ -5,6 +5,9 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
+## Version 0.2.11
+* \# internal API refactoring
+
 ## Version 0.1.10
 * \# API has been fixed
 
