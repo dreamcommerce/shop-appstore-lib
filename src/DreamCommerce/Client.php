@@ -1,16 +1,57 @@
 <?php
-namespace DreamCommerce;
 
+namespace DreamCommerce;
 
 use DreamCommerce\Exception\ClientException;
 use DreamCommerce\Exception\HttpException;
+use Psr\Log\LoggerInterface;
 
 /**
  * DreamCommerce requesting library
+ *
  * @package DreamCommerce
+ * @property-read Resource\Aboutpage $aboutPage
+ * @property-read Resource\ApplicationLock $applicationLock
+ * @property-read Resource\Attribute $attribute
+ * @property-read Resource\AttributeGroup $attributeGroup
+ * @property-read Resource\Auction $auction
+ * @property-read Resource\AuctionHouse $auctionHouse
+ * @property-read Resource\Availability $availability
+ * @property-read Resource\CategoriesTree $categoriesTree
+ * @property-read Resource\Category $category
+ * @property-read Resource\Currency $currency
+ * @property-read Resource\DashboardActivity $dashboardActivity
+ * @property-read Resource\DashboardStat $dashboardStat
+ * @property-read Resource\Delivery $delivery
+ * @property-read Resource\Language $language
+ * @property-read Resource\Metafield $metafield
+ * @property-read Resource\MetafieldValue $metafieldValue
+ * @property-read Resource\ObjectMtime $objectMtime
+ * @property-read Resource\Option $option
+ * @property-read Resource\OptionGroup $optionGroup
+ * @property-read Resource\OptionValue $optionValue
+ * @property-read Resource\Order $order
+ * @property-read Resource\OrderProduct $orderProduct
+ * @property-read Resource\Parcel $parcel
+ * @property-read Resource\Payment $payment
+ * @property-read Resource\Producer $producer
+ * @property-read Resource\Product $product
+ * @property-read Resource\ProductFile $productFile
+ * @property-read Resource\ProductImage $productImage
+ * @property-read Resource\ProductStock $productStock
+ * @property-read Resource\Shipping $shipping
+ * @property-read Resource\Status $status
+ * @property-read Resource\Subscriber $subscriber
+ * @property-read Resource\SubscriberGroup $subscriberGroup
+ * @property-read Resource\Tax $tax
+ * @property-read Resource\Unit $unit
+ * @property-read Resource\User $user
+ * @property-read Resource\UserAddress $userAddress
+ * @property-read Resource\UserGroup $userGroup
+ * @property-read Resource\Webhook $webhook
  */
-class Client {
-
+class Client implements ClientInterface
+{
     /**
      * API entrypoint
      * @var null|string
@@ -32,7 +73,7 @@ class Client {
      * HTTP Client handle
      * @var Http|null
      */
-    protected $client = null;
+    protected $httpClient = null;
 
     /**
      * access token
@@ -41,17 +82,21 @@ class Client {
     protected $accessToken = null;
 
     /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+
+    /**
      * @param string $entrypoint shop url
      * @param string $clientId
      * @param string $clientSecret
      * @throws Exception\ClientException
      */
-    public function __construct($entrypoint, $clientId, $clientSecret){
+    public function __construct($entrypoint, $clientId, $clientSecret)
+    {
         if(!filter_var($entrypoint, FILTER_VALIDATE_URL)){
             throw new ClientException('Invalid entrypoint URL', ClientException::ENTRYPOINT_URL_INVALID);
         }
-
-        $this->client = Http::instance();
 
         // adjust base URL
         if($entrypoint[strlen($entrypoint)-1]=='/'){
@@ -69,14 +114,11 @@ class Client {
     }
 
     /**
-     * get OAuth tokens
-     * @param string $authCode
-     * @return \stdClass
-     * @throws Exception\ClientException
+     * @inheritdoc
      */
-    public function getToken($authCode){
-
-        $res = $this->client->post($this->entrypoint.'/oauth/token', array(
+    public function getToken($authCode)
+    {
+        $res = $this->getHttpClient()->post($this->entrypoint.'/oauth/token', array(
             'code'=>$authCode
         ), array(
             'grant_type'=>'authorization_code'
@@ -95,14 +137,11 @@ class Client {
     }
 
     /**
-     * refresh OAuth tokens
-     * @param string $refreshToken
-     * @return array
-     * @throws Exception\ClientException
+     * @inheritdoc
      */
-    public function refreshToken($refreshToken){
-
-        $res = $this->client->post($this->entrypoint.'/oauth/token', array(
+    public function refreshToken($refreshToken)
+    {
+        $res = $this->getHttpClient()->post($this->entrypoint.'/oauth/token', array(
             'client_id'=>$this->clientId,
             'client_secret'=>$this->clientSecret,
             'refresh_token'=>$refreshToken
@@ -120,25 +159,21 @@ class Client {
     }
 
     /**
-     * sets an access token for further requests
+     * Sets an access token for further requests
      * @param $token
      */
-    public function setAccessToken($token){
+    public function setAccessToken($token)
+    {
         $this->accessToken = $token;
     }
 
     /**
-     * performs REST request
-     * @param $res
-     * @param string $method
-     * @param null|array|int $objectPath
-     * @param array $data
-     * @param array $query
-     * @throws ClientException
-     * @return array
+     * @inheritdoc
      */
-    public function request(Resource $res, $method, $objectPath = null, $data = array(), $query = array()){
-        if(!method_exists($this->client, $method)){
+    public function request(Resource $res, $method, $objectPath = null, $data = array(), $query = array())
+    {
+        $client = $this->getHttpClient();
+        if(!method_exists($client, $method)) {
             throw new ClientException('Method not supported', ClientException::METHOD_NOT_SUPPORTED);
         }
 
@@ -156,26 +191,25 @@ class Client {
             'Content-Type'=>'application/json'
         );
 
-        try{
-
+        try {
             // dispatch correct method
             if(in_array($method, array('get', 'delete'))){
                 return call_user_func(array(
-                    $this->client, $method
+                    $client, $method
                 ), $url, $query, $headers);
-            }else{
+            } else {
                 return call_user_func(array(
-                    $this->client, $method
+                    $client, $method
                 ), $url, $data, $query, $headers);
             }
 
-        }catch(HttpException $ex){
+        } catch(HttpException $ex) {
             throw new ClientException('HTTP error: '.$ex->getMessage(), ClientException::API_ERROR, $ex);
         }
     }
 
     /**
-     * automagic instantiator, alternative:
+     * Automagic instantiator, alternative:
      * $resource = new \DreamCommerce\Resource(Client $client, 'name')
      *
      * @return Resource
@@ -186,30 +220,46 @@ class Client {
     }
 
     /**
-     * allows exception error message extraction
-     * @param \Exception $ex
-     * @return mixed
+     * @inheritdoc
      */
-    static public function getError(\Exception $ex){
+    public function setHttpClient(HttpInterface $httpClient)
+    {
+        $this->httpClient = $httpClient;
 
-        $exception = $ex;
-        while($r = $exception->getPrevious()){
-            if($r){
-                $exception = $r;
-            }
-        };
-
-        if($exception instanceof HttpException){
-            $response = $exception->getResponse();
-            if($response instanceof \stdClass){
-                return $response->error.' - '.$response->error_description;
-            }else{
-                $headers = $exception->getHeaders();
-                return $headers[0];
-            }
-        }
-
-        return $exception->getMessage();
+        return $this;
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function getHttpClient()
+    {
+        if($this->httpClient === null) {
+            $this->httpClient = Http::instance();
+        }
+
+        return $this->httpClient;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getLogger()
+    {
+        if($this->logger === null) {
+            $this->logger = new Logger();
+        }
+
+        return $this->logger;
+    }
 }
