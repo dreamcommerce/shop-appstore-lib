@@ -5,6 +5,9 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
+## Version 0.2.12
+* \# added ``AuctionOrder`` resource
+
 ## Version 0.2.11
 * \# internal API refactoring
 
