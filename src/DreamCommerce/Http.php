@@ -49,7 +49,7 @@ class Http implements HttpInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function get($url, $query = array(), $headers = array())
     {
@@ -57,7 +57,7 @@ class Http implements HttpInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function post($url, $body = array(), $query = array(), $headers = array())
     {
@@ -65,7 +65,7 @@ class Http implements HttpInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function put($url, $body = array(), $query = array(), $headers = array())
     {
@@ -73,7 +73,7 @@ class Http implements HttpInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function delete($url, $query = array(), $headers = array())
     {
@@ -302,7 +302,7 @@ class Http implements HttpInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function setLogger(LoggerInterface $logger)
     {
@@ -311,7 +311,7 @@ class Http implements HttpInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function getLogger()
     {

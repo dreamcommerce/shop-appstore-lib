@@ -7,7 +7,7 @@ use Psr\Log\LogLevel;
 class Logger implements LoggerInterface
 {
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function emergency($message, array $context = array())
     {
@@ -15,7 +15,7 @@ class Logger implements LoggerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function alert($message, array $context = array())
     {
@@ -23,7 +23,7 @@ class Logger implements LoggerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function critical($message, array $context = array())
     {
@@ -31,7 +31,7 @@ class Logger implements LoggerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function error($message, array $context = array())
     {
@@ -39,7 +39,7 @@ class Logger implements LoggerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function warning($message, array $context = array())
     {
@@ -47,7 +47,7 @@ class Logger implements LoggerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function notice($message, array $context = array())
     {
@@ -55,7 +55,7 @@ class Logger implements LoggerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function info($message, array $context = array())
     {
@@ -63,7 +63,7 @@ class Logger implements LoggerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function debug($message, array $context = array())
     {
@@ -71,7 +71,7 @@ class Logger implements LoggerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function log($level, $message, array $context = array())
     {

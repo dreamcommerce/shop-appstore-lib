@@ -114,7 +114,7 @@ class Client implements ClientInterface
     }
 
     /**
-     * @inheritdoc
+     * {{@inheritDoc}}
      */
     public function getToken($authCode)
     {
@@ -137,7 +137,7 @@ class Client implements ClientInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function refreshToken($refreshToken)
     {
@@ -168,7 +168,7 @@ class Client implements ClientInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function request(Resource $res, $method, $objectPath = null, $data = array(), $query = array())
     {
@@ -220,7 +220,7 @@ class Client implements ClientInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function setHttpClient(HttpInterface $httpClient)
     {
@@ -230,7 +230,7 @@ class Client implements ClientInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function getHttpClient()
     {
@@ -242,7 +242,7 @@ class Client implements ClientInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function setLogger(LoggerInterface $logger)
     {
@@ -252,7 +252,7 @@ class Client implements ClientInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function getLogger()
     {
