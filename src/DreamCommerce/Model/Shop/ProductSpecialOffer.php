@@ -2,7 +2,7 @@
 
 namespace DreamCommerce\Model\Shop;
 
-abstract class ProductSpecialOffer implements ProductSpecialOfferInterface
+class ProductSpecialOffer implements ProductSpecialOfferInterface
 {
     /**
      * @var int

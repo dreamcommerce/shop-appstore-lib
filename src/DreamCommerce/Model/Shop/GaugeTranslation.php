@@ -2,7 +2,7 @@
 
 namespace DreamCommerce\Model\Shop;
 
-abstract class GaugeTranslation implements GaugeTranslationInterface
+class GaugeTranslation implements GaugeTranslationInterface
 {
     /**
      * @var int

@@ -2,7 +2,7 @@
 
 namespace DreamCommerce\Model\Shop;
 
-abstract class ShippingRange implements ShippingRangeInterface
+class ShippingRange implements ShippingRangeInterface
 {
     /**
      * @var int

@@ -2,7 +2,7 @@
 
 namespace DreamCommerce\Model\Shop;
 
-abstract class PaymentTranslation implements PaymentTranslationInterface
+class PaymentTranslation implements PaymentTranslationInterface
 {
     /**
      * @var int

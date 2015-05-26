@@ -2,7 +2,7 @@
 
 namespace DreamCommerce\Model\Shop;
 
-abstract class ProductVote implements ProductVoteInterface
+class ProductVote implements ProductVoteInterface
 {
     /**
      * @var int
