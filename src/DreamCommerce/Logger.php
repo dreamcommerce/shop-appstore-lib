@@ -1,23 +1,79 @@
 <?php
 namespace DreamCommerce;
 
-class Logger {
+use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
 
-    const EMERGENCY = 'emergency';
-    const ALERT     = 'alert';
-    const CRITICAL  = 'critical';
-    const ERROR     = 'error';
-    const WARNING   = 'warning';
-    const NOTICE    = 'notice';
-    const INFO      = 'info';
-    const DEBUG     = 'debug';
+class Logger implements LoggerInterface
+{
+    /**
+     * @inheritdoc
+     */
+    public function emergency($message, array $context = array())
+    {
+        $this->log(LogLevel::EMERGENCY, $message, $context);
+    }
 
     /**
-     * debug facility
-     * @param string $message debug message
-     * @param string|null $lvl level
+     * @inheritdoc
      */
-    static public function log($message, $lvl = self::DEBUG)
+    public function alert($message, array $context = array())
+    {
+        $this->log(LogLevel::ALERT, $message, $context);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function critical($message, array $context = array())
+    {
+        $this->log(LogLevel::CRITICAL, $message, $context);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function error($message, array $context = array())
+    {
+        $this->log(LogLevel::ERROR, $message, $context);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function warning($message, array $context = array())
+    {
+        $this->log(LogLevel::WARNING, $message, $context);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function notice($message, array $context = array())
+    {
+        $this->log(LogLevel::NOTICE, $message, $context);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function info($message, array $context = array())
+    {
+        $this->log(LogLevel::INFO, $message, $context);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function debug($message, array $context = array())
+    {
+        $this->debug(LogLevel::DEBUG, $message, $context);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function log($level, $message, array $context = array())
     {
         if(defined("DREAMCOMMERCE_DEBUG")) {
             $status = DREAMCOMMERCE_DEBUG;
@@ -25,24 +81,18 @@ class Logger {
             $status = false;
         }
 
-        if($lvl == self::DEBUG){
+        if($level == self::DEBUG){
             if(!$status){
                 // debug mode disabled
                 return;
             }
         }
 
-        $str = date('Y-m-d H:i:s') . ' ['.$lvl.']: ' . $message . PHP_EOL;
+        $str = date('Y-m-d H:i:s') . ' ['.$level.']: ' . $message . PHP_EOL;
         if(defined("DREAMCOMMERCE_LOG_FILE")) {
             if(DREAMCOMMERCE_LOG_FILE) {
                 file_put_contents(DREAMCOMMERCE_LOG_FILE, $str, FILE_APPEND);
             }
-        }
-    }
-
-    static public function __callStatic($name, $args){
-        if(isset($args[0])) {
-            self::log($args[0], $name);
         }
     }
 }
