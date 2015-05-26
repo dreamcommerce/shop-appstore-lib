@@ -24,23 +24,35 @@ abstract class Resource
      * @var null|string chosen filters placeholder
      */
     protected $filters = null;
+
     /**
      * @var null|int limiter value
      */
     protected $limit = null;
+
     /**
      * @var null|string ordering value
      */
     protected $order = null;
+
     /**
      * @var null|int page number
      */
     protected $page = null;
+
     /**
      * @var bool specifies whether resource has no collection at all
      */
     protected $isSingleOnly = false;
 
+    /**
+     * @var array
+     */
+    protected static $resources = array();
+
+    /**
+     * @param ClientInterface $client
+     */
     public function __construct(ClientInterface $client)
     {
         $this->client = $client;
@@ -48,18 +60,25 @@ abstract class Resource
 
     /**
      * @param ClientInterface $client
-     * @param $name
+     * @param string $name
+     * @param boolean $forceRecreateResource
      * @return Resource
      * @throws ResourceException
      */
-    public static function factory(ClientInterface $client, $name)
+    public static function factory(ClientInterface $client, $name, $forceRecreateResource = false)
     {
-        $class = "\\DreamCommerce\\Resource\\".ucfirst($name);
-        if(class_exists($class)){
-            return new $class($client);
-        } else {
-            throw new ResourceException("Unknown Resource '".$name."'");
+        $name = ucfirst($name);
+        if(!isset(self::$resources[$name]) || $forceRecreateResource) {
+
+            $class = "\\DreamCommerce\\Resource\\" . $name;
+            if (class_exists($class)) {
+                self::$resources[$name] = new $class($client);
+            } else {
+                throw new ResourceException("Unknown Resource '" . $name . "'");
+            }
         }
+
+        return self::$resources[$name];
     }
 
     /**
