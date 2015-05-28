@@ -2,7 +2,7 @@
 
 namespace DreamCommerce\Model\Shop;
 
-interface UserAddressInterface extends AddressInterface, ShopDependentInterface
+interface UserAddressInterface extends ShopDependentInterface
 {
     /**
      * @return UserInterface

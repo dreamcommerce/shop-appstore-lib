@@ -74,11 +74,15 @@ class ProductSpecialOffer implements ProductSpecialOfferInterface
     }
 
     /**
-     * @param \DateTime $dateFrom
+     * @param \DateTime|string $dateFrom
      * @return $this
      */
     public function setDateFrom($dateFrom)
     {
+        if(is_string($dateFrom)) {
+            $dateFrom = new \DateTime($dateFrom);
+        }
+
         $this->dateFrom = $dateFrom;
         return $this;
     }
@@ -92,11 +96,15 @@ class ProductSpecialOffer implements ProductSpecialOfferInterface
     }
 
     /**
-     * @param \DateTime $dateTo
+     * @param \DateTime|string $dateTo
      * @return $this
      */
     public function setDateTo($dateTo)
     {
+        if(is_string($dateTo)) {
+            $dateTo = new \DateTime($dateTo);
+        }
+
         $this->dateTo = $dateTo;
         return $this;
     }

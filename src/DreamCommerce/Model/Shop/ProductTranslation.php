@@ -75,6 +75,16 @@ class ProductTranslation implements ProductTranslationInterface
     protected $language;
 
     /**
+     * @var \ArrayAccess
+     */
+    protected $files;
+
+    public function __construct()
+    {
+        $this->files = new \ArrayObject();
+    }
+
+    /**
      * @return int
      */
     public function getTranslationId()
@@ -323,6 +333,34 @@ class ProductTranslation implements ProductTranslationInterface
     public function setLanguage(LanguageInterface $language)
     {
         $this->language = $language;
+        return $this;
+    }
+
+    /**
+     * @return \ArrayAccess
+     */
+    public function getFiles()
+    {
+        return $this->files;
+    }
+
+    /**
+     * @param ProductFileInterface $file
+     * @return $this
+     */
+    public function addFile(ProductFileInterface $file)
+    {
+        $this->files[] = $file;
+        return $this;
+    }
+
+    /**
+     * @param \ArrayAccess $files
+     * @return $this
+     */
+    public function setFiles($files)
+    {
+        $this->files = $files;
         return $this;
     }
 }

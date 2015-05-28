@@ -148,11 +148,15 @@ class User implements UserInterface
     }
 
     /**
-     * @param \DateTime $dateAdd
+     * @param \DateTime|string $dateAdd
      * @return $this
      */
     public function setDateAdd($dateAdd)
     {
+        if(is_string($dateAdd)) {
+            $dateAdd = new \DateTime($dateAdd);
+        }
+
         $this->dateAdd = $dateAdd;
         return $this;
     }
@@ -166,11 +170,15 @@ class User implements UserInterface
     }
 
     /**
-     * @param \DateTime $lastvisit
+     * @param \DateTime|string $lastvisit
      * @return $this
      */
     public function setLastvisit($lastvisit)
     {
+        if(is_string($lastvisit)) {
+            $lastvisit = new \DateTime($lastvisit);
+        }
+
         $this->lastvisit = $lastvisit;
         return $this;
     }

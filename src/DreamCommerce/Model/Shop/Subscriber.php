@@ -109,11 +109,15 @@ class Subscriber implements SubscriberInterface
     }
 
     /**
-     * @param \DateTime $dateadd
+     * @param \DateTime|string $dateadd
      * @return $this
      */
     public function setDateadd($dateadd)
     {
+        if(is_string($dateadd)) {
+            $dateadd = new \DateTime($dateadd);
+        }
+
         $this->dateadd = $dateadd;
         return $this;
     }

@@ -177,11 +177,15 @@ class OrderProduct implements OrderProductInterface
     }
 
     /**
-     * @param \DateTime $deliveryTime
+     * @param \DateTime|string $deliveryTime
      * @return $this
      */
     public function setDeliveryTime($deliveryTime)
     {
+        if(is_string($deliveryTime)) {
+            $deliveryTime = new \DateTime($deliveryTime);
+        }
+
         $this->deliveryTime = $deliveryTime;
         return $this;
     }

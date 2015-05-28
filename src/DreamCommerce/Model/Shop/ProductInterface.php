@@ -33,23 +33,6 @@ interface ProductInterface extends TranslationDependentInterface, ShopDependentI
     public function setImages(\ArrayAccess $images);
 
     /**
-     * @return \ArrayAccess
-     */
-    public function getFiles();
-
-    /**
-     * @param ProductFileInterface $file
-     * @return $this
-     */
-    public function addFile(ProductFileInterface $file);
-
-    /**
-     * @param \ArrayAccess $files
-     * @return $this
-     */
-    public function setFiles(\ArrayAccess $files);
-
-    /**
      * @return ProducerInterface
      */
     public function getProducer();
@@ -141,11 +124,39 @@ interface ProductInterface extends TranslationDependentInterface, ShopDependentI
     /**
      * @return ProductStockInterface
      */
-    public function getStock();
+    public function getProductStock();
 
     /**
      * @param ProductStockInterface $stock
      * @return $this
      */
-    public function setStock(ProductStockInterface $stock);
+    public function setProductStock(ProductStockInterface $stock);
+
+    /**
+     * @return CategoryInterface
+     */
+    public function getCategory();
+
+    /**
+     * @param CategoryInterface $category
+     * @return $this
+     */
+    public function setCategory(CategoryInterface $category);
+
+    /**
+     * @return \ArrayAccess
+     */
+    public function getOptions();
+
+    /**
+     * @param OptionInterface $option
+     * @return $this
+     */
+    public function addOption(OptionInterface $option);
+
+    /**
+     * @param \ArrayAccess $options
+     * @return $this
+     */
+    public function setOptions($options);
 }

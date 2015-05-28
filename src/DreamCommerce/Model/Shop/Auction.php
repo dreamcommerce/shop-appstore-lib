@@ -215,11 +215,15 @@ class Auction implements AuctionInterface
     }
 
     /**
-     * @param \DateTime $startTime
+     * @param \DateTime|string $startTime
      * @return $this
      */
     public function setStartTime($startTime)
     {
+        if(is_string($startTime)) {
+            $startTime = new \DateTime($startTime);
+        }
+
         $this->startTime = $startTime;
         return $this;
     }
@@ -233,11 +237,15 @@ class Auction implements AuctionInterface
     }
 
     /**
-     * @param \DateTime $endTime
+     * @param \DateTime|string $endTime
      * @return $this
      */
     public function setEndTime($endTime)
     {
+        if(is_string($endTime)) {
+            $endTime = new \DateTime($endTime);
+        }
+
         $this->endTime = $endTime;
         return $this;
     }
@@ -377,11 +385,15 @@ class Auction implements AuctionInterface
     }
 
     /**
-     * @param \DateTime $statusTime
+     * @param \DateTime|string $statusTime
      * @return $this
      */
     public function setStatusTime($statusTime)
     {
+        if(is_string($statusTime)) {
+            $statusTime = new \DateTime($statusTime);
+        }
+
         $this->statusTime = $statusTime;
         return $this;
     }

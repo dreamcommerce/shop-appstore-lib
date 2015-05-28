@@ -174,11 +174,15 @@ class Order implements OrderInterface
     }
 
     /**
-     * @param \DateTime $date
+     * @param \DateTime|string $date
      * @return $this
      */
     public function setDate($date)
     {
+        if(is_string($date)) {
+            $date = new \DateTime($date);
+        }
+
         $this->date = $date;
         return $this;
     }
@@ -192,11 +196,15 @@ class Order implements OrderInterface
     }
 
     /**
-     * @param \DateTime $statusDate
+     * @param \DateTime|string $statusDate
      * @return $this
      */
     public function setStatusDate($statusDate)
     {
+        if(is_string($statusDate)) {
+            $statusDate = new \DateTime($statusDate);
+        }
+
         $this->statusDate = $statusDate;
         return $this;
     }
@@ -210,11 +218,15 @@ class Order implements OrderInterface
     }
 
     /**
-     * @param \DateTime $confirmDate
+     * @param \DateTime|string $confirmDate
      * @return $this
      */
     public function setConfirmDate($confirmDate)
     {
+        if(is_string($confirmDate)) {
+            $confirmDate = new \DateTime($confirmDate);
+        }
+
         $this->confirmDate = $confirmDate;
         return $this;
     }
@@ -228,11 +240,15 @@ class Order implements OrderInterface
     }
 
     /**
-     * @param \DateTime $deliveryDate
+     * @param \DateTime|string $deliveryDate
      * @return $this
      */
     public function setDeliveryDate($deliveryDate)
     {
+        if(is_string($deliveryDate)) {
+            $deliveryDate = new \DateTime($deliveryDate);
+        }
+
         $this->deliveryDate = $deliveryDate;
         return $this;
     }

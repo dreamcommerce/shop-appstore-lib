@@ -37,6 +37,11 @@ class Product implements ProductInterface
     protected $isProductOfDay;
 
     /**
+     * @var CategoryInterface
+     */
+    protected $category;
+
+    /**
      * @var \ArrayAccess
      */
     protected $translations;
@@ -45,11 +50,6 @@ class Product implements ProductInterface
      * @var \ArrayAccess
      */
     protected $images;
-
-    /**
-     * @var \ArrayAccess
-     */
-    protected $files;
 
     /**
      * @var ProducerInterface
@@ -89,7 +89,7 @@ class Product implements ProductInterface
     /**
      * @var ProductStockInterface
      */
-    protected $stock;
+    protected $productStock;
 
     /**
      * @var \ArrayAccess
@@ -102,6 +102,11 @@ class Product implements ProductInterface
     protected $optionGroup;
 
     /**
+     * @var \ArrayAccess
+     */
+    protected $options;
+
+    /**
      * @var ShopInterface
      */
     protected $shop;
@@ -110,10 +115,10 @@ class Product implements ProductInterface
     {
         $this->translations = new \ArrayObject();
         $this->images = new \ArrayObject();
-        $this->files = new \ArrayObject();
         $this->attributes = new \ArrayObject();
         $this->categories = new \ArrayObject();
         $this->optionsStock = new \ArrayObject();
+        $this->options = new \ArrayObject();
     }
 
     /**
@@ -143,11 +148,15 @@ class Product implements ProductInterface
     }
 
     /**
-     * @param \DateTime $addDate
+     * @param \DateTime|string $addDate
      * @return $this
      */
     public function setAddDate($addDate)
     {
+        if(is_string($addDate)) {
+            $addDate = new \DateTime($addDate);
+        }
+
         $this->addDate = $addDate;
         return $this;
     }
@@ -161,11 +170,15 @@ class Product implements ProductInterface
     }
 
     /**
-     * @param \DateTime $editDate
+     * @param \DateTime|string $editDate
      * @return $this
      */
     public function setEditDate($editDate)
     {
+        if(is_string($editDate)) {
+            $editDate = new \DateTime($editDate);
+        }
+
         $this->editDate = $editDate;
         return $this;
     }
@@ -277,34 +290,6 @@ class Product implements ProductInterface
     public function setImages(\ArrayAccess $images)
     {
         $this->images = $images;
-        return $this;
-    }
-
-    /**
-     * @return \ArrayAccess
-     */
-    public function getFiles()
-    {
-        return $this->files;
-    }
-
-    /**
-     * @param ProductFileInterface $file
-     * @return $this
-     */
-    public function addFile(ProductFileInterface $file)
-    {
-        $this->files[] = $file;
-        return $this;
-    }
-
-    /**
-     * @param \ArrayAccess $files
-     * @return $this
-     */
-    public function setFiles(\ArrayAccess $files)
-    {
-        $this->files = $files;
         return $this;
     }
 
@@ -457,7 +442,7 @@ class Product implements ProductInterface
     /**
      * @return ProductStockInterface
      */
-    public function getStock()
+    public function getProductStock()
     {
         return $this->stock;
     }
@@ -466,7 +451,7 @@ class Product implements ProductInterface
      * @param ProductStockInterface $stock
      * @return $this
      */
-    public function setStock(ProductStockInterface $stock)
+    public function setProductStock(ProductStockInterface $stock)
     {
         $this->stock = $stock;
         return $this;
@@ -508,6 +493,52 @@ class Product implements ProductInterface
     public function setOptionGroup(OptionGroupInterface $optionGroup)
     {
         $this->optionGroup = $optionGroup;
+        return $this;
+    }
+
+    /**
+     * @return CategoryInterface
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param CategoryInterface $category
+     * @return $this
+     */
+    public function setCategory(CategoryInterface $category)
+    {
+        $this->category = $category;
+        return $this;
+    }
+
+    /**
+     * @return \ArrayAccess
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * @param OptionInterface $option
+     * @return $this
+     */
+    public function addOption(OptionInterface $option)
+    {
+        $this->options[] = $option;
+        return $this;
+    }
+
+    /**
+     * @param \ArrayAccess $options
+     * @return $this
+     */
+    public function setOptions($options)
+    {
+        $this->options = $options;
         return $this;
     }
 

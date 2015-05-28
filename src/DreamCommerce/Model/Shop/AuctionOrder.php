@@ -129,11 +129,15 @@ class AuctionOrder implements AuctionOrderInterface
     }
 
     /**
-     * @param \DateTime $statusTime
+     * @param \DateTime|string $statusTime
      * @return $this
      */
     public function setStatusTime($statusTime)
     {
+        if(is_string($statusTime)) {
+            $statusTime = new \DateTime($statusTime);
+        }
+
         $this->statusTime = $statusTime;
         return $this;
     }
@@ -147,11 +151,15 @@ class AuctionOrder implements AuctionOrderInterface
     }
 
     /**
-     * @param \DateTime $paymentTime
+     * @param \DateTime|string $paymentTime
      * @return $this
      */
     public function setPaymentTime($paymentTime)
     {
+        if(is_string($paymentTime)) {
+            $paymentTime = new \DateTime($paymentTime);
+        }
+
         $this->paymentTime = $paymentTime;
         return $this;
     }

@@ -101,7 +101,7 @@ interface OrderInterface extends ShopDependentInterface
      * @param OrderProductInterface $orderProduct
      * @return $this
      */
-    public function addProduct(OrderProductInterface $product);
+    public function addProduct(OrderProductInterface $orderProduct);
 
     /**
      * @param \ArrayAccess $products
@@ -125,4 +125,15 @@ interface OrderInterface extends ShopDependentInterface
      * @return $this
      */
     public function setAdditionalFields($additionalFields);
+
+    /**
+     * @return PromoCodeInterface
+     */
+    public function getPromoCode();
+
+    /**
+     * @param PromoCodeInterface $promoCode
+     * @return $this
+     */
+    public function setPromoCode(PromoCodeInterface $promoCode);
 }

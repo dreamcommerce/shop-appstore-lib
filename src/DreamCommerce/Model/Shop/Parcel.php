@@ -182,11 +182,15 @@ class Parcel implements ParcelInterface
     }
 
     /**
-     * @param \DateTime $sendDate
+     * @param \DateTime|string $sendDate
      * @return $this
      */
     public function setSendDate($sendDate)
     {
+        if(is_string($sendDate)) {
+            $sendDate = new \DateTime($sendDate);
+        }
+
         $this->sendDate = $sendDate;
         return $this;
     }
@@ -200,11 +204,15 @@ class Parcel implements ParcelInterface
     }
 
     /**
-     * @param \DateTime $deliveryDate
+     * @param \DateTime|string $deliveryDate
      * @return $this
      */
     public function setDeliveryDate($deliveryDate)
     {
+        if(is_string($deliveryDate)) {
+            $deliveryDate = new \DateTime($deliveryDate);
+        }
+
         $this->deliveryDate = $deliveryDate;
         return $this;
     }
@@ -218,11 +226,15 @@ class Parcel implements ParcelInterface
     }
 
     /**
-     * @param \DateTime $orderDate
+     * @param \DateTime|string $orderDate
      * @return $this
      */
     public function setOrderDate($orderDate)
     {
+        if(is_string($orderDate)) {
+            $orderDate = new \DateTime($orderDate);
+        }
+
         $this->orderDate = $orderDate;
         return $this;
     }
