@@ -67,7 +67,7 @@ class Logger implements LoggerInterface
      */
     public function debug($message, array $context = array())
     {
-        $this->debug(LogLevel::DEBUG, $message, $context);
+        $this->log(LogLevel::DEBUG, $message, $context);
     }
 
     /**
@@ -81,7 +81,7 @@ class Logger implements LoggerInterface
             $status = false;
         }
 
-        if($level == self::DEBUG){
+        if($level == LogLevel::DEBUG){
             if(!$status){
                 // debug mode disabled
                 return;

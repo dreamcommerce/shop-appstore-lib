@@ -5,6 +5,9 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
+## Version 0.2.2
+* \# logger has benn fixed
+
 ## Version 0.2.1
 * \# ``AuctionOrder`` resource
 
