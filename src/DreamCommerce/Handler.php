@@ -76,7 +76,7 @@ class Handler implements HandlerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function dispatch($requestBody = null)
     {
@@ -105,7 +105,7 @@ class Handler implements HandlerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function verifyPayload($payload)
     {
@@ -133,7 +133,7 @@ class Handler implements HandlerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function actionExists($action)
     {
@@ -173,7 +173,7 @@ class Handler implements HandlerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function unsubscribe($event, $handler = null)
     {
@@ -195,7 +195,7 @@ class Handler implements HandlerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function subscribe($event, $handler)
     {
@@ -215,7 +215,7 @@ class Handler implements HandlerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setClient(ClientInterface $client)
     {
@@ -223,7 +223,7 @@ class Handler implements HandlerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getClient()
     {
@@ -239,7 +239,7 @@ class Handler implements HandlerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setLogger(LoggerInterface $logger)
     {
@@ -247,7 +247,7 @@ class Handler implements HandlerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getLogger()
     {
