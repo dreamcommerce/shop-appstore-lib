@@ -119,12 +119,14 @@ abstract class Resource
     /**
      * reset filters object state
      */
-    protected function reset()
+    public function reset()
     {
         $this->filters = array();
         $this->limit = null;
         $this->order = null;
         $this->page = null;
+
+        return $this;
     }
 
     /**
@@ -150,9 +152,6 @@ abstract class Resource
         if($this->page!==null){
             $result['page'] = $this->page;
         }
-
-        // reset object state, we don't need it for further requests
-        $this->reset();
 
         return $result;
     }

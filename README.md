@@ -5,6 +5,9 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
+## Version 0.2.3
+* \# fixed criteria reset before pagination occurs
+
 ## Version 0.2.2
 * \# logger has been fixed
 
