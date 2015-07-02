@@ -87,6 +87,11 @@ class Client implements ClientInterface
     protected $logger;
 
     /**
+     * @var \Callable
+     */
+    protected $onTokenInvalidHandler;
+
+    /**
      * @param string $entrypoint shop url
      * @param string $clientId
      * @param string $clientSecret
@@ -204,6 +209,20 @@ class Client implements ClientInterface
             }
 
         } catch(HttpException $ex) {
+
+            // fire a handler for token reneval
+            $previous = $ex->getPrevious();
+            if($previous instanceof HttpException){
+                $response = $previous->getResponse();
+                $handler = $this->onTokenInvalidHandler;
+                if($response['error']=='unauthorized_client' && $handler){
+                    $exceptionHandled = $handler($this, $ex);
+                    if($exceptionHandled){
+                        return;
+                    }
+                }
+            }
+
             throw new ClientException('HTTP error: '.$ex->getMessage(), ClientException::API_ERROR, $ex);
         }
     }
@@ -261,5 +280,13 @@ class Client implements ClientInterface
         }
 
         return $this->logger;
+    }
+
+    /**
+     * fired if token is invalid
+     * @param Callable|null $callback
+     */
+    public function setOnTokenInvalidHandler($callback = null){
+        $this->onTokenInvalidHandler = $callback;
     }
 }

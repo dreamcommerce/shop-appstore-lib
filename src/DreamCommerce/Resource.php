@@ -258,7 +258,7 @@ abstract class Resource
             $args = null;
         }
 
-        $isCollection = !$this->isSingleOnly && count($args)==0;
+        $isCollection = $this->isCollection($args);
 
         try {
             $response = $this->client->request($this, 'get', $args, array(), $query);
@@ -270,6 +270,15 @@ abstract class Resource
     }
 
     /**
+     * determines if resource call is collection or not
+     * @param $args
+     * @return bool
+     */
+    protected function isCollection($args){
+        return !$this->isSingleOnly && count($args)==0;
+    }
+
+    /**
      * Create Resource
      * @param array $data
      * @return integer
@@ -278,7 +287,7 @@ abstract class Resource
     public function post($data)
     {
         if($this->getCriteria()){
-            throw new ResourceException('Filtering not supported in POST', ResourceException::FILTERS_IN_UNSUPPORTED_METHOD);
+            $this->reset();
         }
 
         $args = func_get_args();
@@ -307,7 +316,7 @@ abstract class Resource
     public function put($id = null, $data = array()){
 
         if($this->getCriteria()){
-            throw new ResourceException('Filtering not supported in PUT', ResourceException::FILTERS_IN_UNSUPPORTED_METHOD);
+            $this->reset();
         }
 
         $args = func_get_args();
