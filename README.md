@@ -5,6 +5,11 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
+## Version 0.2.4
+* \+ introduced new library developer
+* \+ token invalid event
+* \# fixed MetafieldValue data hydration
+
 ## Version 0.2.3
 * \# fixed criteria reset before pagination occurs
 
