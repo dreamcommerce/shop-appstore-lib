@@ -5,6 +5,10 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
+## Version 0.2.5
+* \+ added resources: ``ApplicationVersion``, ``GeolocationCountry``, ``GeolocationRegion``, ``Zone``
+* \# fixed data transformation from server
+
 ## Version 0.2.4
 * \+ introduced new library developer
 * \+ token invalid event
