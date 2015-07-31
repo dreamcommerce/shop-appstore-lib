@@ -117,9 +117,16 @@ abstract class Resource
 
                 return $result;
             }else{
-                return new \ArrayObject(
-                    ResourceList::transform($response['data'])
-                );
+
+                $result = $response['data'];
+
+                if(!is_scalar($response['data'])) {
+                    $result = new \ArrayObject(
+                        ResourceList::transform($result)
+                    );
+                }
+
+                return $result;
             }
 
         }else{
