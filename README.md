@@ -7,7 +7,6 @@ See: http://developers.shoper.pl/
 
 ## Version 0.2.6
 * \+ added resources: ``ApplicationVersion``, ``GeolocationCountry``, ``GeolocationRegion``, ``Zone``
-* \# fixed data transformation from server
 
 ## Version 0.2.5
 * \# maintenance release - removed unused code from library
