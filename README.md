@@ -5,9 +5,12 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
-## Version 0.2.5
+## Version 0.2.6
 * \+ added resources: ``ApplicationVersion``, ``GeolocationCountry``, ``GeolocationRegion``, ``Zone``
 * \# fixed data transformation from server
+
+## Version 0.2.5
+* \# maintenance release - removed unused code from library
 
 ## Version 0.2.4
 * \+ introduced new library developer
