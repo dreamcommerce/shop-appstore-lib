@@ -12,10 +12,12 @@ use Psr\Log\LoggerInterface;
  * @package DreamCommerce
  * @property-read Resource\Aboutpage $aboutPage
  * @property-read Resource\ApplicationLock $applicationLock
+ * @property-read Resource\ApplicationVersion $applicationVersion
  * @property-read Resource\Attribute $attribute
  * @property-read Resource\AttributeGroup $attributeGroup
  * @property-read Resource\Auction $auction
  * @property-read Resource\AuctionHouse $auctionHouse
+ * @property-read Resource\AuctionOrder $auctionOrder
  * @property-read Resource\Availability $availability
  * @property-read Resource\CategoriesTree $categoriesTree
  * @property-read Resource\Category $category
@@ -23,6 +25,9 @@ use Psr\Log\LoggerInterface;
  * @property-read Resource\DashboardActivity $dashboardActivity
  * @property-read Resource\DashboardStat $dashboardStat
  * @property-read Resource\Delivery $delivery
+ * @property-read Resource\Gauge $gauge
+ * @property-read Resource\GeolocationCountry $geolocationCountry
+ * @property-read Resource\GeolocationRegion $geolocationRegion
  * @property-read Resource\Language $language
  * @property-read Resource\Metafield $metafield
  * @property-read Resource\MetafieldValue $metafieldValue
@@ -49,6 +54,7 @@ use Psr\Log\LoggerInterface;
  * @property-read Resource\UserAddress $userAddress
  * @property-read Resource\UserGroup $userGroup
  * @property-read Resource\Webhook $webhook
+ * @property-read Resource\Zone $zone
  */
 class Client implements ClientInterface
 {

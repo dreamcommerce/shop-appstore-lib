@@ -1,10 +1,17 @@
-<?PHP
+<?php
+
 namespace DreamCommerce\Resource;
 
 use DreamCommerce\Resource;
 
-class User extends Resource{
-
+/**
+ * Resource User
+ *
+ * @package DreamCommerce\Resource
+ * @link https://developers.shoper.pl/developers/api/resources/users
+ */
+class User extends Resource
+{
     const ORIGIN_SHOP = 0;
     const ORIGIN_FACEBOOK = 1;
     const ORIGIN_MOBILE = 2;
@@ -19,5 +26,4 @@ class User extends Resource{
     const FIELD_SHOW_REGISTRATION = 4;
 
     protected $name = 'users';
-
 }

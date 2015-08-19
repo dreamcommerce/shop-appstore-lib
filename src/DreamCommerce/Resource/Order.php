@@ -1,10 +1,17 @@
-<?PHP
+<?php
+
 namespace DreamCommerce\Resource;
 
 use DreamCommerce\Resource;
 
-class Order extends Resource{
-
+/**
+ * Resource Order
+ *
+ * @package DreamCommerce\Resource
+ * @link https://developers.shoper.pl/developers/api/resources/orders
+ */
+class Order extends Resource
+{
     const ORIGIN_SHOP = 0;
     const ORIGIN_FACEBOOK = 1;
     const ORIGIN_MOBILE = 2;
@@ -21,5 +28,4 @@ class Order extends Resource{
     const FIELD_SHOW_SIGNED_IN = 64;
 
     protected $name = 'orders';
-
 }

@@ -205,7 +205,8 @@ abstract class Resource
      * @return $this
      * @throws ResourceException
      */
-    public function filters($filters){
+    public function filters($filters)
+    {
         if(!is_array($filters)){
             throw new ResourceException('Filters not specified', ResourceException::FILTERS_NOT_SPECIFIED);
         }
@@ -300,7 +301,8 @@ abstract class Resource
      * @param $args
      * @return bool
      */
-    protected function isCollection($args){
+    protected function isCollection($args)
+    {
         return !$this->isSingleOnly && count($args)==0;
     }
 
@@ -339,8 +341,8 @@ abstract class Resource
      * @return bool
      * @throws ResourceException
      */
-    public function put($id = null, $data = array()){
-
+    public function put($id = null, $data = array())
+    {
         if($this->getCriteria()){
             $this->reset();
         }
@@ -367,8 +369,8 @@ abstract class Resource
      * @return bool
      * @throws ResourceException
      */
-    public function delete($id = null){
-
+    public function delete($id = null)
+    {
         if($this->getCriteria()){
             throw new ResourceException('Filtering not supported in DELETE', ResourceException::FILTERS_IN_UNSUPPORTED_METHOD);
         }

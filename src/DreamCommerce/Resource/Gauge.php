@@ -6,15 +6,14 @@ use DreamCommerce\Resource;
 use DreamCommerce\Exception;
 
 /**
- * Resource DashboardStat
+ * Resource Delivery
  *
  * @package DreamCommerce\Resource
- * @link https://developers.shoper.pl/developers/api/resources/dashboard-stats
+ * @link https://developers.shoper.pl/developers/api/resources/gauges
  */
-class DashboardStat extends Resource
+class Gauge extends Resource
 {
-    protected $isSingleOnly = true;
-    protected $name = 'dashboard-stats';
+    protected $name = 'gauges';
 
     /**
      * {@inheritdoc}

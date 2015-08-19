@@ -1,10 +1,16 @@
-<?PHP
+<?php
+
 namespace DreamCommerce\Resource;
 
 use DreamCommerce\Resource;
 
-class Unit extends Resource{
-
+/**
+ * Resource Unit
+ *
+ * @package DreamCommerce\Resource
+ * @link https://developers.shoper.pl/developers/api/resources/units
+ */
+class Unit extends Resource
+{
     protected $name = 'units';
-
 }

@@ -1,10 +1,16 @@
-<?PHP
+<?php
+
 namespace DreamCommerce\Resource;
 
 use DreamCommerce\Resource;
 
-class UserGroup extends Resource{
-
+/**
+ * Resource UserGroup
+ *
+ * @package DreamCommerce\Resource
+ * @link https://developers.shoper.pl/developers/api/resources/user-groups
+ */
+class UserGroup extends Resource
+{
     protected $name = 'user-groups';
-
 }

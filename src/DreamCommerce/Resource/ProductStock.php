@@ -1,10 +1,16 @@
-<?PHP
+<?php
+
 namespace DreamCommerce\Resource;
 
 use DreamCommerce\Resource;
 
-class ProductStock extends Resource{
-
+/**
+ * Resource ProductStock
+ *
+ * @package DreamCommerce\Resource
+ * @link https://developers.shoper.pl/developers/api/resources/product-stocks
+ */
+class ProductStock extends Resource
+{
     protected $name = 'product-stocks';
-
 }
