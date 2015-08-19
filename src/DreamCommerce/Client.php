@@ -92,6 +92,11 @@ class Client implements ClientInterface
     protected $onTokenInvalidHandler;
 
     /**
+     * @var string
+     */
+    protected $locale = 'en_US';
+
+    /**
      * @param string $entrypoint shop url
      * @param string $clientId
      * @param string $clientSecret
@@ -193,7 +198,8 @@ class Client implements ClientInterface
         // setup OAuth token and we request JSON
         $headers = array(
             'Authorization'=>'Bearer '.$this->accessToken,
-            'Content-Type'=>'application/json'
+            'Content-Type'=>'application/json',
+            'Accept-Language' => $this->locale . ';q=0.8'
         );
 
         try {
@@ -288,5 +294,23 @@ class Client implements ClientInterface
      */
     public function setOnTokenInvalidHandler($callback = null){
         $this->onTokenInvalidHandler = $callback;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLocale()
+    {
+        return $this->locale;
+    }
+
+    /**
+     * @param string $locale
+     * @return $this
+     */
+    public function setLocale($locale)
+    {
+        $this->locale = $locale;
+        return $this;
     }
 }

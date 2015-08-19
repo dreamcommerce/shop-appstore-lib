@@ -49,6 +49,17 @@ interface ClientInterface
     public function getHttpClient();
 
     /**
+     * @return string
+     */
+    public function getLocale();
+
+    /**
+     * @param string $locale
+     * @return $this
+     */
+    public function setLocale($locale);
+
+    /**
      * @param LoggerInterface $logger
      * @return $this
      */
