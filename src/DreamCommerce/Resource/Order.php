@@ -27,5 +27,8 @@ class Order extends Resource
     const FIELD_SHOW_GUEST = 32;
     const FIELD_SHOW_SIGNED_IN = 64;
 
+    const ADDRESS_TYPE_BILLING = 1;
+    const ADDRESS_TYPE_DELIVERY = 2;
+
     protected $name = 'orders';
 }

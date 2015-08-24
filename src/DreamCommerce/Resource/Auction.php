@@ -12,6 +12,10 @@ use DreamCommerce\Resource;
  */
 class Auction extends Resource
 {
+    const SALES_FORMAT_BIDDING = 0;
+    const SALES_FORMAT_IMMEDIATE = 1;
+    const SALES_FORMAT_SHOP = 2;
+
     protected $name = 'auctions';
 
     /**
