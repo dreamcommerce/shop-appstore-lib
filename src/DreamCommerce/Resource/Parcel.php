@@ -12,5 +12,8 @@ use DreamCommerce\Resource;
  */
 class Parcel extends Resource
 {
+    const ADDRESS_TYPE_BILLING = 1;
+    const ADDRESS_TYPE_DELIVERY = 2;
+
     protected $name = 'parcels';
 }

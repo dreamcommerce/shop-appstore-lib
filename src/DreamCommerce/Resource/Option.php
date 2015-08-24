@@ -12,6 +12,13 @@ use DreamCommerce\Resource;
  */
 class Option extends Resource
 {
+    const TYPE_FILE = 'file';
+    const TYPE_TEXT = 'text';
+    const TYPE_RADIO = 'radio';
+    const TYPE_SELECT = 'select';
+    const TYPE_CHECKBOX = 'checkbox';
+    const TYPE_COLOR = 'color';
+
     const PRICE_TYPE_DECREASE = -1;
     const PRICE_TYPE_KEEP = 0;
     const PRICE_TYPE_INCREASE = 1;

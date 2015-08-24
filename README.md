@@ -5,6 +5,12 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
+## Version 0.2.7
+* \+ added resources: ``Gauge``
+* \+ added API error language switching
+* \+ added links in phpdoc for API documentations
+* \# polished code to meet PSR standards more
+
 ## Version 0.2.6
 * \+ added resources: ``ApplicationVersion``, ``GeolocationCountry``, ``GeolocationRegion``, ``Zone``
 
