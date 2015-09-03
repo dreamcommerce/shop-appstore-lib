@@ -62,7 +62,7 @@ class BasicAuth extends Bearer
             return false;
         }
 
-        $res = $this->getHttpClient()->post($this->entrypoint.'/oauth/token', array(), array(
+        $res = $this->getHttpClient()->post($this->entrypoint.'/auth', array(), array(
             'client_id' => $this->username,
             'client_secret' => $this->password
         ));
@@ -74,7 +74,7 @@ class BasicAuth extends Bearer
         // automatically set token to the freshly requested
         $this->setAccessToken($res['data']['access_token']);
 
-        return $res['data'][''];
+        return $res['data'];
     }
 
     /**

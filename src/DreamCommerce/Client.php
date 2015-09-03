@@ -85,7 +85,7 @@ class Client
         }
 
         $adapterName = $adapterNamespace . '\\';
-        $adapterName .= str_replace(' ', '\\', ucwords(str_replace('\\', ' ', strtolower($adapter))));
+        $adapterName .= str_replace(' ', '\\', ucwords(str_replace('\\', ' ', $adapter)));
 
         if (!class_exists($adapterName)) {
             throw new ClientException('Cannot load class "' . $adapterName . '"');
