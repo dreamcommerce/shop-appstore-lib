@@ -212,6 +212,24 @@ class Client
     }
 
     /**
+     * Sets an access token for further requests
+     * @param $token
+     */
+    public function setAccessToken($token)
+    {
+        $this->adapter->setAccessToken($token);
+    }
+
+    /**
+     * fired if token is invalid
+     * @param Callable|null $callback
+     */
+    public function setOnTokenInvalidHandler($callback = null)
+    {
+        $this->adapter->setOnTokenInvalidHandler($callback);
+    }
+
+    /**
      * Automagic instantiator, alternative:
      * $resource = new \DreamCommerce\Resource(Client $client, 'name')
      *

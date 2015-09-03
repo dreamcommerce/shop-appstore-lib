@@ -64,7 +64,7 @@ class OAuth extends Bearer
         }
 
         foreach(array('client_id', 'client_secret') as $reqParam) {
-            if(isset($options[$reqParam])) {
+            if(!isset($options[$reqParam])) {
                 throw new ClientException('Parameter "' . $reqParam . '" is required', ClientException::PARAMETER_NOT_SPECIFIED);
             }
         }
