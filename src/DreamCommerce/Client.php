@@ -56,7 +56,7 @@ use Psr\Log\LoggerInterface;
  * @property-read Resource\Webhook $webhook
  * @property-read Resource\Zone $zone
  */
-class Client
+class Client implements ClientInterface
 {
     const ADAPTER_OAUTH = 'OAuth';
     const ADAPTER_BASIC_AUTH = 'BasicAuth';
@@ -66,6 +66,17 @@ class Client
      */
     protected $adapter = null;
 
+    /**
+     * @var \DreamCommerce\ClientInterface
+     */
+    protected static $defaultAdapter = null;
+
+    /**
+     * @param string $adapter
+     * @param array $options
+     * @return \DreamCommerce\ClientInterface
+     * @throws ClientException
+     */
     public static function factory($adapter, $options = array())
     {
         if (!is_string($adapter) || empty($adapter)) {
@@ -97,7 +108,27 @@ class Client
             throw new ClientException('Adapter class "' . $adapterName . '" does not extend \\DreamCommerce\\ClientInterface');
         }
 
+        if(self::$defaultAdapter === null) {
+            self::$defaultAdapter = $clientAdapter;
+        }
+
         return $clientAdapter;
+    }
+
+    /**
+     * @return null|ClientInterface
+     */
+    public static function getDefaultAdapter()
+    {
+        return self::$defaultAdapter;
+    }
+
+    /**
+     * @param ClientInterface $adapter
+     */
+    public static function setDefaultAdapter(ClientInterface $adapter)
+    {
+        self::$defaultAdapter = $adapter;
     }
 
     /*
@@ -188,8 +219,11 @@ class Client
     }
 
     /**
-     * {@inheritdoc}
-     * @deprecated
+     * Get OAuth tokens
+     *
+     * @param string $authCode
+     * @return \stdClass
+     * @throws Exception\ClientException
      */
     public function getToken($authCode = null)
     {
@@ -200,8 +234,11 @@ class Client
     }
 
     /**
-     * {@inheritdoc}
-     * @deprecated
+     * Refresh OAuth tokens
+     *
+     * @param string $refreshToken
+     * @return array
+     * @throws Exception\ClientException
      */
     public function refreshToken($refreshToken = null)
     {
@@ -223,10 +260,41 @@ class Client
     /**
      * fired if token is invalid
      * @param Callable|null $callback
+     * @deprecated
      */
     public function setOnTokenInvalidHandler($callback = null)
     {
         $this->adapter->setOnTokenInvalidHandler($callback);
+    }
+
+    /**
+     * {@inheritdoc}
+     * @deprecated
+     */
+    public function authenticate($force = false)
+    {
+        return $this->adapter->authenticate($force);
+    }
+
+
+    /**
+     * @return Client\OAuth
+     * @deprecated
+     */
+    public function getAdapter()
+    {
+        return $this->adapter;
+    }
+
+    /**
+     * @param ClientInterface $adapter
+     * @return $this
+     * @deprecated
+     */
+    public function setAdapter(ClientInterface $adapter)
+    {
+        $this->adapter = $adapter;
+        return $this;
     }
 
     /**
@@ -237,7 +305,8 @@ class Client
      * @param $resource
      * @deprecated
      */
-    public function __get($resource){
+    public function __get($resource)
+    {
         return Resource::factory($this->adapter, $resource);
     }
 }
