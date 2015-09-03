@@ -4,25 +4,26 @@ namespace DreamCommerce;
 
 use Psr\Log\LoggerInterface;
 
+/**
+ * Interface ClientInterface
+ *
+ * @package DreamCommerce
+ */
 interface ClientInterface
 {
     /**
-     * Get OAuth tokens
+     * Authentication
      *
-     * @param string $authCode
+     * @param boolean $force
      * @return \stdClass
-     * @throws Exception\ClientException
+     * Example output:
+     * {
+     *      access_token:   'xxxxx',
+     *      expires_in:     '3600',
+     *      token_type:     'bearer'
+     * }
      */
-    public function getToken($authCode);
-
-    /**
-     * Refresh OAuth tokens
-     *
-     * @param string $refreshToken
-     * @return array
-     * @throws Exception\ClientException
-     */
-    public function refreshToken($refreshToken);
+    public function authenticate($force = false);
 
     /**
      * Performs REST request
@@ -33,7 +34,7 @@ interface ClientInterface
      * @param array $data
      * @param array $query
      * @return array
-     * @throws ClientException
+     * @throws \DreamCommerce\Exception\ClientException
      */
     public function request(Resource $res, $method, $objectPath = null, $data = array(), $query = array());
 
