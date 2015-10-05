@@ -115,16 +115,19 @@ class Http implements HttpInterface
                 'ignore_errors'=>true   // we want to catch output although the error
             ));
 
-        // stringifying headers
-        if ($headers) {
-            $headersString = '';
-            foreach ($headers as $k => $v) {
-                $headersString .= $k . ': ' . $v . "\r\n";
-            }
-            $contextParams['http']['header'] = $headersString;
-
-            $logger->debug('Headers: '.var_export($headers, true));
+        if(!$headers){
+            $headers = array();
         }
+
+        $headers['Content-Type'] = 'application/x-www-form-urlencoded';
+
+        $headersString = '';
+        foreach ($headers as $k => $v) {
+            $headersString .= $k . ': ' . $v . "\r\n";
+        }
+        $contextParams['http']['header'] = $headersString;
+
+        $logger->debug('Headers: '.var_export($headers, true));
 
         // request body
         if ($methodName == 'POST' || $methodName == 'PUT') {
@@ -275,7 +278,7 @@ class Http implements HttpInterface
      * @internal param $http_response_header
      * @return array
      */
-    protected function parseHeaders($src)
+    public function parseHeaders($src)
     {
         $headers = array();
         foreach ($src as $i) {

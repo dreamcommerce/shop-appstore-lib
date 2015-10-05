@@ -5,6 +5,9 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
+## Version 0.2.8
+* \# fixed PHP 5.3 compatibility issues
+
 ## Version 0.2.7
 * \+ added resources: ``Gauge``
 * \+ added API error language switching
