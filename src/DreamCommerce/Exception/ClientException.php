@@ -24,4 +24,6 @@ class ClientException extends Exception{
      * you specified something else than get, post, put, delete
      */
     const METHOD_NOT_SUPPORTED = 4;
+
+    const PARAMETER_NOT_SPECIFIED = 5;
 }
