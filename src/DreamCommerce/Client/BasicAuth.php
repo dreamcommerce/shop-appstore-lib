@@ -62,10 +62,17 @@ class BasicAuth extends Bearer
             return false;
         }
 
-        $res = $this->getHttpClient()->post($this->entrypoint.'/auth', array(), array(
-            'client_id' => $this->username,
-            'client_secret' => $this->password
-        ));
+        $res = $this->getHttpClient()->post(
+            $this->entrypoint . '/auth',
+            array(),
+            array(
+                'client_id' => $this->username,
+                'client_secret' => $this->password
+            ),
+            array(
+                'Accept-Language' => $this->getLocale() . ';q=0.8'
+            )
+        );
 
         if(!$res || isset($res['data']['error'])){
             throw new ClientException($res['data']['error'], ClientException::API_ERROR);

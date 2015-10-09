@@ -190,7 +190,11 @@ class Http implements HttpInterface
                     }
 
                     if (is_array($result)){
-                        throw new HttpException($result['error_description'], HttpException::REQUEST_FAILED, null, $lastRequestHeaders, $result);
+                        $description = $result['error'];
+                        if(isset($result['error_description'])) {
+                            $description = $result['error_description'];
+                        }
+                        throw new HttpException($description, HttpException::REQUEST_FAILED, null, $lastRequestHeaders, $result);
                     }else{
                         throw new \Exception($result);
                     }

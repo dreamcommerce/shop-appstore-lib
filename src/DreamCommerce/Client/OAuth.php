@@ -103,13 +103,17 @@ class OAuth extends Bearer
             return false;
         }
 
-        $res = $this->getHttpClient()->post($this->entrypoint . '/oauth/token', array(
-            'code' => $this->getAuthCode()
-        ), array(
-            'grant_type' => 'authorization_code'
-        ), array(
-            'Authorization' => 'Basic ' . base64_encode($this->getClientId() . ':' . $this->getClientSecret())
-        ));
+        $res = $this->getHttpClient()->post(
+            $this->entrypoint . '/oauth/token',
+            array(
+                'code' => $this->getAuthCode()
+            ), array(
+                'grant_type' => 'authorization_code'
+            ), array(
+                'Authorization' => 'Basic ' . base64_encode($this->getClientId() . ':' . $this->getClientSecret()),
+                'Accept-Language' => $this->getLocale() . ';q=0.8'
+            )
+        );
 
         if(!$res || isset($res['data']['error'])){
             throw new ClientException($res['data']['error'], ClientException::API_ERROR);
