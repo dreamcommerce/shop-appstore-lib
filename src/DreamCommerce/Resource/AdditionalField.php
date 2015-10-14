@@ -18,16 +18,16 @@ class AdditionalField extends Resource
     const FIELD_TYPE_FILE = 4;
     const FIELD_TYPE_HIDDEN = 5;
 
-    const FIELD_SHOW_USER = 1;
-    const FIELD_SHOW_CLIENT = 2;
-    const FIELD_SHOW_REGISTRATION = 4;
+    const LOCATE_USER = 1;
+    const LOCATE_USER_ACCOUNT = 2;
+    const LOCATE_USER_REGISTRATION = 4;
 
-    const FIELD_SHOW_ORDER = 8;
-    const FIELD_SHOW_REGISTERED = 16;
-    const FIELD_SHOW_GUEST = 32;
-    const FIELD_SHOW_SIGNED_IN = 64;
+    const LOCATE_ORDER = 8;
+    const LOCATE_ORDER_WITH_REGISTRATION = 16;
+    const LOCATE_ORDER_WITHOUT_REGISTRATION = 32;
+    const LOCATE_ORDER_LOGGED_ON_USER = 64;
 
-    const FIELD_SHOW_CONTACT_FORM = 128;
+    const LOCATE_CONTACT_FORM = 128;
 
     protected $name = 'additional-field';
 }
