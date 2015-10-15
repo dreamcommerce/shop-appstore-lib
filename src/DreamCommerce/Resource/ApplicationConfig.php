@@ -484,6 +484,14 @@ class ApplicationConfig extends Resource
     /**
      * {@inheritdoc}
      */
+    public function head($data)
+    {
+        throw new Exception('Specified method is not supported');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function post($data)
     {
         throw new Exception('Specified method is not supported');
