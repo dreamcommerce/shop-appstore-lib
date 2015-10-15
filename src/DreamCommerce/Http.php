@@ -1,4 +1,5 @@
 <?php
+
 namespace DreamCommerce;
 
 use DreamCommerce\Exception\HttpException;
@@ -59,6 +60,14 @@ class Http implements HttpInterface
     /**
      * {@inheritdoc}
      */
+    public function head($url, $query = array(), $headers = array())
+    {
+        return $this->perform('head', $url, array(), $query, $headers);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function post($url, $body = array(), $query = array(), $headers = array())
     {
         return $this->perform('post', $url, $body, $query, $headers);
@@ -102,7 +111,7 @@ class Http implements HttpInterface
         $logger->debug('NEW REQUEST: '.$methodName.' '.$url.'?'.http_build_query($query));
 
         if (!in_array($methodName, array(
-            'GET', 'POST', 'PUT', 'DELETE'
+            'GET', 'POST', 'PUT', 'DELETE', 'HEAD'
         ))
         ) {
             throw new HttpException('Method not supported', HttpException::METHOD_NOT_SUPPORTED);

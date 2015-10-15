@@ -3,8 +3,8 @@
 namespace DreamCommerce;
 
 
-class ResourceList extends \ArrayObject{
-
+class ResourceList extends \ArrayObject
+{
     public $count = 0;
     public $page;
     public $pages = 0;

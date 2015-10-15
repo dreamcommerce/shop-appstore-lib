@@ -1,4 +1,5 @@
 <?php
+
 namespace DreamCommerce;
 
 use DreamCommerce\Exception\ClientException;
@@ -272,6 +273,7 @@ abstract class Resource
 
     /**
      * Read Resource
+     *
      * @param mixed $args,... params
      * @return \ArrayObject
      * @throws ResourceException
@@ -289,6 +291,33 @@ abstract class Resource
 
         try {
             $response = $this->client->request($this, 'get', $args, array(), $query);
+        } catch(ClientException $ex) {
+            throw new ResourceException($ex->getMessage(), ResourceException::CLIENT_ERROR, $ex);
+        }
+
+        return $this->transformResponse($response, $isCollection);
+    }
+
+    /**
+     * Read Resource without data
+     *
+     * @param mixed $args,... params
+     * @return \ArrayObject
+     * @throws ResourceException
+     */
+    public function head()
+    {
+        $query = $this->getCriteria();
+
+        $args = func_get_args();
+        if(empty($args)){
+            $args = null;
+        }
+
+        $isCollection = $this->isCollection($args);
+
+        try {
+            $response = $this->client->request($this, 'head', $args, array(), $query);
         } catch(ClientException $ex) {
             throw new ResourceException($ex->getMessage(), ResourceException::CLIENT_ERROR, $ex);
         }
