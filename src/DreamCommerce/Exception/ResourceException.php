@@ -1,13 +1,15 @@
 <?php
+
 namespace DreamCommerce\Exception;
+
 use DreamCommerce\Exception;
 
 /**
  * Class ResourceException
  * @package DreamCommerce\Exception
  */
-class ResourceException extends \Exception{
-
+class ResourceException extends Exception
+{
     /**
      * cannot parse server response
      */

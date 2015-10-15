@@ -12,5 +12,15 @@ use DreamCommerce\Resource;
  */
 class Parcel extends Resource
 {
+    /**
+     * It's not possibly to modify shipped parcel except shipping code
+     */
+    const HTTP_ERROR_PARCEL_CAN_NOT_MODIFY = 'parcel_cannot_modify';
+
+    /**
+     * Parcel has been already sent
+     */
+    const HTTP_ERROR_PARCEL_IS_ALREADY_SENT = 'parcel_already_sent';
+
     protected $name = 'parcels';
 }

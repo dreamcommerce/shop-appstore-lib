@@ -5,6 +5,7 @@ namespace DreamCommerce\Client;
 use DreamCommerce\Client;
 use DreamCommerce\Resource;
 use DreamCommerce\Exception\ClientException;
+use DreamCommerce\Exception\ClientOAuthException;
 
 /**
  * DreamCommerce requesting library
@@ -46,6 +47,7 @@ class OAuth extends Bearer
     /**
      * @param array $options
      * @throws \DreamCommerce\Exception\ClientException
+     * @throws \DreamCommerce\Exception\ClientOAuthException
      *
      * Example:
      * {
@@ -60,12 +62,12 @@ class OAuth extends Bearer
     public function __construct($options = array())
     {
         if(!is_array($options)) {
-            throw new ClientException('Adapter parameters must be in an array', ClientException::PARAMETER_NOT_SPECIFIED);
+            throw new ClientOAuthException('Adapter parameters must be in an array', ClientException::PARAMETER_NOT_SPECIFIED);
         }
 
         foreach(array('client_id', 'client_secret') as $reqParam) {
             if(!isset($options[$reqParam])) {
-                throw new ClientException('Parameter "' . $reqParam . '" is required', ClientException::PARAMETER_NOT_SPECIFIED);
+                throw new ClientOAuthException('Parameter "' . $reqParam . '" is required', ClientException::PARAMETER_NOT_SPECIFIED);
             }
         }
 
@@ -116,7 +118,7 @@ class OAuth extends Bearer
         );
 
         if(!$res || isset($res['data']['error'])){
-            throw new ClientException($res['data']['error'], ClientException::API_ERROR);
+            throw new ClientOAuthException($res['data']['error'], ClientException::API_ERROR);
         }
 
         $this->accessToken = $res['data']['access_token'];

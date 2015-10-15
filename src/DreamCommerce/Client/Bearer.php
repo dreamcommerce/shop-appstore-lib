@@ -63,6 +63,28 @@ use Psr\Log\LoggerInterface;
  */
 abstract class Bearer implements ClientInterface
 {
+    const HTTP_ERROR_INVALID_REQUEST = "invalid_request";
+
+    const HTTP_ERROR_UNAUTHORIZED_CLIENT = "unauthorized_client";
+
+    const HTTP_ERROR_ACCESS_DENIED = "access_denied";
+
+    const HTTP_ERROR_UNSUPPORTED_RESPONSE_TYPE = "unsupported_response_type";
+
+    const HTTP_ERROR_UNSUPPORTED_GRANT_TYPE = "unsupported_grant_type";
+
+    const HTTP_ERROR_INVALID_SCOPE = "invalid_scope";
+
+    const HTTP_ERROR_INVALID_GRANT = "invalid_grant";
+
+    const HTTP_ERROR_INSUFFICIENT_SCOPE = "insufficient_scope";
+
+    const HTTP_ERROR_REDIRECT_URI_MISMATCH = "redirect_uri_mismatch";
+
+    const HTTP_ERROR_SERVER_ERROR = "server_error";
+
+    const HTTP_ERROR_TEMPORARILY_UNAVAILABLE = "temporarily_unavailable";
+
     /**
      * API entrypoint
      * @var null|string

@@ -2,9 +2,10 @@
 
 namespace DreamCommerce\Client;
 
+use DreamCommerce\Exception\BasicAuthException;
+use DreamCommerce\Exception\ClientBasicAuthException;
 use DreamCommerce\Resource;
 use DreamCommerce\Exception\ClientException;
-use DreamCommerce\Exception\HttpException;
 
 /**
  * DreamCommerce requesting library
@@ -13,6 +14,21 @@ use DreamCommerce\Exception\HttpException;
  */
 class BasicAuth extends Bearer
 {
+    /**
+     * Authentication failure
+     */
+    const HTTP_ERROR_AUTH_FAILURE = "auth_failure";
+
+    /**
+     * Failure due to invalid IP being used
+     */
+    const HTTP_ERROR_AUTH_IP_NOT_ALLOWED = 'auth_ip_not_allowed';
+
+    /**
+     * Failure due to missing WebAPI credentials
+     */
+    const HTTP_ERROR_AUTH_WEBAPI_ACCESS_DENIED = 'auth_webapi_access_denied';
+
     /**
      * User login
      * @var null|string
@@ -26,7 +42,7 @@ class BasicAuth extends Bearer
 
     /**
      * @param array $options
-     * @throws \DreamCommerce\Exception\ClientException
+     * @throws \DreamCommerce\Exception\ClientBasicAuthException
      *
      * Example:
      * {
@@ -38,12 +54,12 @@ class BasicAuth extends Bearer
     public function __construct($options = array())
     {
         if(!is_array($options)) {
-            throw new ClientException('Adapter parameters must be in an array', ClientException::PARAMETER_NOT_SPECIFIED);
+            throw new ClientBasicAuthException('Adapter parameters must be in an array', ClientException::PARAMETER_NOT_SPECIFIED);
         }
 
         foreach(array('username', 'password') as $reqParam) {
             if(!isset($options[$reqParam])) {
-                throw new ClientException('Parameter "' . $reqParam . '" is required', ClientException::PARAMETER_NOT_SPECIFIED);
+                throw new ClientBasicAuthException('Parameter "' . $reqParam . '" is required', ClientException::PARAMETER_NOT_SPECIFIED);
             }
         }
 
@@ -55,6 +71,7 @@ class BasicAuth extends Bearer
 
     /**
      * {@inheritdoc}
+     * @throws \DreamCommerce\Exception\ClientBasicAuthException
      */
     public function authenticate($force = false)
     {
@@ -74,8 +91,17 @@ class BasicAuth extends Bearer
             )
         );
 
-        if(!$res || isset($res['data']['error'])){
-            throw new ClientException($res['data']['error'], ClientException::API_ERROR);
+        if(!$res) {
+            throw new ClientBasicAuthException('General failure', ClientBasicAuthException::GENERAL_FAILURE);
+        } elseif(isset($res['data']['error'])) {
+            $description = 'General failure';
+            if(isset($res['data']['error_description'])) {
+                $description = $res['data']['error_description'];
+            }
+            throw new ClientBasicAuthException(array(
+                'message' => $description,
+                'http_error' => $res['data']['error']
+            ), ClientBasicAuthException::API_ERROR);
         }
 
         // automatically set token to the freshly requested

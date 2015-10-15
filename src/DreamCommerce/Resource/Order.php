@@ -12,6 +12,11 @@ use DreamCommerce\Resource;
  */
 class Order extends Resource
 {
+    /**
+     * Combined order has been detected
+     */
+    const HTTP_ERROR_ORDER_COMBINED = "order_combined";
+
     const ORIGIN_SHOP = 0;
     const ORIGIN_FACEBOOK = 1;
     const ORIGIN_MOBILE = 2;
