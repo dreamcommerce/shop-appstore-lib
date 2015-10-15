@@ -22,5 +22,9 @@ class Parcel extends Resource
      */
     const HTTP_ERROR_PARCEL_IS_ALREADY_SENT = 'parcel_already_sent';
 
+    const ADDRESS_TYPE_BILLING = 1;
+
+    const ADDRESS_TYPE_DELIVERY = 2;
+
     protected $name = 'parcels';
 }
