@@ -178,7 +178,7 @@ class Http implements HttpInterface
         $that = $this;
 
         // perform request
-        $doRequest = function($url, $ctx) use(&$lastRequestHeaders, $that) {
+        $doRequest = function($url, $ctx) use(&$lastRequestHeaders, $methodName, $that) {
             // make a real request
             $result = @file_get_contents($url, null, $ctx);
 
@@ -191,7 +191,7 @@ class Http implements HttpInterface
 
             try {
                 // completely failed
-                if (!$result) {
+                if (!$result && $methodName != 'HEAD') {
                     throw new \Exception();
                 } else if ($lastRequestHeaders['Code'] < 200 || $lastRequestHeaders['Code'] >= 400) {
                     // server returned error code
@@ -264,19 +264,22 @@ class Http implements HttpInterface
             $counter--;
         }
 
-        // try to decode response
-        if($lastRequestHeaders['Content-Type']=='application/json') {
-            $parsedPayload = @json_decode($result, true);
+        $parsedPayload = null;
+        if($methodName != 'HEAD') {
+            // try to decode response
+            if ($lastRequestHeaders['Content-Type'] == 'application/json') {
+                $parsedPayload = @json_decode($result, true);
 
-            if (!$parsedPayload && !is_array($parsedPayload)) {
-                throw new HttpException('Result is not a valid JSON', HttpException::MALFORMED_RESULT, null, $lastRequestHeaders, $result);
+                if (!$parsedPayload && !is_array($parsedPayload)) {
+                    throw new HttpException('Result is not a valid JSON', HttpException::MALFORMED_RESULT, null, $lastRequestHeaders, $result);
+                }
+
+            } else {
+                $parsedPayload = $result;
             }
 
-        }else{
-            $parsedPayload = $result;
+            $logger->debug('Response body (decoded): ' . var_export($parsedPayload, true));
         }
-
-        $logger->debug('Response body (decoded): '.var_export($parsedPayload, true));
 
         return array(
             'data' => $parsedPayload,
