@@ -163,7 +163,7 @@ abstract class Bearer implements ClientInterface
 
         try {
             // dispatch correct method
-            if(in_array($method, array('get', 'delete'))){
+            if(in_array($method, array('get', 'delete', 'head'))){
                 return call_user_func(array(
                     $client, $method
                 ), $url, $query, $headers);
