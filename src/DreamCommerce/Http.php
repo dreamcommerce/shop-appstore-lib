@@ -128,7 +128,9 @@ class Http implements HttpInterface
             $headers = array();
         }
 
-        $headers['Content-Type'] = 'application/json';
+        if(!isset($headers['Content-Type'])){
+            $headers['Content-Type'] = 'application/json';
+        }
 
         $headersString = '';
         foreach ($headers as $k => $v) {
