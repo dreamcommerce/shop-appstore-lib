@@ -12,6 +12,11 @@ use DreamCommerce\Resource;
  */
 class OptionValue extends Resource
 {
+    /**
+     * This option type doesn't support values management
+     */
+    const HTTP_ERROR_OPTION_CHILDREN_NOT_SUPPORTED = 'option_children_not_supported';
+
     const PRICE_TYPE_DECREASE = -1;
     const PRICE_TYPE_KEEP = 0;
     const PRICE_TYPE_INCREASE = 1;

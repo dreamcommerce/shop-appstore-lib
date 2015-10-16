@@ -1,4 +1,5 @@
 <?php
+
 namespace DreamCommerce;
 
 use DreamCommerce\Exception\ClientException;
@@ -98,24 +99,41 @@ abstract class Resource
      */
     protected function transformResponse($response, $isCollection)
     {
-        $code = $response['headers']['Code'];
+        $code = null;
+        if(isset($response['headers']['Code'])) {
+            $code = $response['headers']['Code'];
+        }
 
         // everything is okay when 200-299 status code
-        if($code>=200 && $code<300){
+        if($code >= 200 && $code < 300){
             // for example, last insert ID
             if($isCollection){
-                $list = $response['data']['list'];
-                if($list == null){
-                    return new ResourceList();
+                if(isset($response['data']['list'])) {
+                    $objectList = new ResourceList($response['data']['list']);
+                } else {
+                    $objectList = new ResourceList();
                 }
 
-                $result = new ResourceList($list);
                 // add meta properties (eg. count, page, etc) as a ArrayObject properties
-                $result->setPage($response['data']['page']);
-                $result->setCount($response['data']['count']);
-                $result->setPageCount($response['data']['pages']);
+                if(isset($response['data']['page'])) {
+                    $objectList->setPage($response['data']['page']);
+                } elseif(isset($response['headers']['X-Shop-Result-Page'])) {
+                    $objectList->setPage($response['headers']['X-Shop-Result-Page']);
+                }
 
-                return $result;
+                if(isset($response['data']['count'])) {
+                    $objectList->setCount($response['data']['count']);
+                } elseif(isset($response['headers']['X-Shop-Result-Count'])) {
+                    $objectList->setCount($response['headers']['X-Shop-Result-Count']);
+                }
+
+                if(isset($response['data']['pages'])) {
+                    $objectList->setPageCount($response['data']['pages']);
+                } elseif(isset($response['headers']['X-Shop-Result-Pages'])) {
+                    $objectList->setPageCount($response['headers']['X-Shop-Result-Pages']);
+                }
+
+                return $objectList;
             }else{
 
                 $result = $response['data'];
@@ -272,6 +290,7 @@ abstract class Resource
 
     /**
      * Read Resource
+     *
      * @param mixed $args,... params
      * @return \ArrayObject
      * @throws ResourceException
@@ -294,6 +313,30 @@ abstract class Resource
         }
 
         return $this->transformResponse($response, $isCollection);
+    }
+
+    /**
+     * Read Resource without data
+     *
+     * @return \ArrayObject
+     * @throws ResourceException
+     */
+    public function head()
+    {
+        $query = $this->getCriteria();
+
+        $args = func_get_args();
+        if(empty($args)){
+            $args = null;
+        }
+
+        try {
+            $response = $this->client->request($this, 'head', $args, array(), $query);
+        } catch(ClientException $ex) {
+            throw new ResourceException($ex->getMessage(), ResourceException::CLIENT_ERROR, $ex);
+        }
+
+        return $this->transformResponse($response, true);
     }
 
     /**

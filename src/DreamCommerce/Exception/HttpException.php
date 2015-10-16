@@ -1,29 +1,35 @@
 <?php
+
 namespace DreamCommerce\Exception;
+
 use DreamCommerce\Exception;
 
 /**
  * Class HttpException
  * @package DreamCommerce\Exception
  */
-class HttpException extends \Exception{
-
+class HttpException extends Exception
+{
     /**
      * specified HTTP request method is not supported
      */
     const METHOD_NOT_SUPPORTED = 1;
+
     /**
      * request failed due to the unknown error
      */
     const REQUEST_FAILED = 2;
+
     /**
      * data format is malformed, check JSON validity
      */
     const MALFORMED_RESULT = 3;
+
     /**
      * too many requests
      */
     const QUOTA_EXCEEDED = 4;
+
     /**
      * you specified too low limit for retries count
      */

@@ -18,6 +18,17 @@ interface HttpInterface
     public function get($url, $query = array(), $headers = array());
 
     /**
+     * Performs a HEAD request
+     *
+     * @param string $url
+     * @param array $query query string params
+     * @param array $headers
+     * @throws Exception\HttpException
+     * @return string
+     */
+    public function head($url, $query = array(), $headers = array());
+
+    /**
      * Performs a POST request
      *
      * @param string $url
