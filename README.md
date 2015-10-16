@@ -6,6 +6,8 @@ See: http://developers.shoper.pl/
 # Changelog
 
 ## Version 0.2.9
+* \+ added ``AdditionalField``, ``ApplicationConfig`` resources
++ \+ added two authentication methods
 * \# fixed PHP 5.3 compatibility issues - broken data encoding
 
 ## Version 0.2.8
