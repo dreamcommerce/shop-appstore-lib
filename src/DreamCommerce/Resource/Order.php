@@ -12,6 +12,11 @@ use DreamCommerce\Resource;
  */
 class Order extends Resource
 {
+    /**
+     * Combined order has been detected
+     */
+    const HTTP_ERROR_ORDER_COMBINED = "order_combined";
+
     const ORIGIN_SHOP = 0;
     const ORIGIN_FACEBOOK = 1;
     const ORIGIN_MOBILE = 2;
@@ -26,6 +31,9 @@ class Order extends Resource
     const FIELD_SHOW_REGISTERED = 16;
     const FIELD_SHOW_GUEST = 32;
     const FIELD_SHOW_SIGNED_IN = 64;
+
+    const ADDRESS_TYPE_BILLING = 1;
+    const ADDRESS_TYPE_DELIVERY = 2;
 
     protected $name = 'orders';
 }

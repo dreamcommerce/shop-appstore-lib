@@ -1,13 +1,15 @@
 <?php
+
 namespace DreamCommerce\Exception;
+
 use DreamCommerce\Exception;
 
 /**
  * Class HandlerException
  * @package DreamCommerce\Exception
  */
-class HandlerException extends \Exception{
-
+class HandlerException extends Exception
+{
     /**
      * tried to bind to action which doesn't exist
      */

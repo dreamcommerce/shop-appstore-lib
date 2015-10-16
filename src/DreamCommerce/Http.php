@@ -1,4 +1,5 @@
 <?php
+
 namespace DreamCommerce;
 
 use DreamCommerce\Exception\HttpException;
@@ -59,6 +60,14 @@ class Http implements HttpInterface
     /**
      * {@inheritdoc}
      */
+    public function head($url, $query = array(), $headers = array())
+    {
+        return $this->perform('head', $url, array(), $query, $headers);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function post($url, $body = array(), $query = array(), $headers = array())
     {
         return $this->perform('post', $url, $body, $query, $headers);
@@ -102,7 +111,7 @@ class Http implements HttpInterface
         $logger->debug('NEW REQUEST: '.$methodName.' '.$url.'?'.http_build_query($query));
 
         if (!in_array($methodName, array(
-            'GET', 'POST', 'PUT', 'DELETE'
+            'GET', 'POST', 'PUT', 'DELETE', 'HEAD'
         ))
         ) {
             throw new HttpException('Method not supported', HttpException::METHOD_NOT_SUPPORTED);
@@ -169,7 +178,7 @@ class Http implements HttpInterface
         $that = $this;
 
         // perform request
-        $doRequest = function($url, $ctx) use(&$lastRequestHeaders, $that) {
+        $doRequest = function($url, $ctx) use(&$lastRequestHeaders, $methodName, $that) {
             // make a real request
             $result = @file_get_contents($url, null, $ctx);
 
@@ -182,7 +191,7 @@ class Http implements HttpInterface
 
             try {
                 // completely failed
-                if (!$result) {
+                if (!$result && $methodName != 'HEAD') {
                     throw new \Exception();
                 } else if ($lastRequestHeaders['Code'] < 200 || $lastRequestHeaders['Code'] >= 400) {
                     // server returned error code
@@ -193,7 +202,11 @@ class Http implements HttpInterface
                     }
 
                     if (is_array($result)){
-                        throw new HttpException($result['error_description'], HttpException::REQUEST_FAILED, null, $lastRequestHeaders, $result);
+                        $description = $result['error'];
+                        if(isset($result['error_description'])) {
+                            $description = $result['error_description'];
+                        }
+                        throw new HttpException($description, HttpException::REQUEST_FAILED, null, $lastRequestHeaders, $result);
                     }else{
                         throw new \Exception($result);
                     }
@@ -251,19 +264,22 @@ class Http implements HttpInterface
             $counter--;
         }
 
-        // try to decode response
-        if($lastRequestHeaders['Content-Type']=='application/json') {
-            $parsedPayload = @json_decode($result, true);
+        $parsedPayload = null;
+        if($methodName != 'HEAD') {
+            // try to decode response
+            if ($lastRequestHeaders['Content-Type'] == 'application/json') {
+                $parsedPayload = @json_decode($result, true);
 
-            if (!$parsedPayload && !is_array($parsedPayload)) {
-                throw new HttpException('Result is not a valid JSON', HttpException::MALFORMED_RESULT, null, $lastRequestHeaders, $result);
+                if (!$parsedPayload && !is_array($parsedPayload)) {
+                    throw new HttpException('Result is not a valid JSON', HttpException::MALFORMED_RESULT, null, $lastRequestHeaders, $result);
+                }
+
+            } else {
+                $parsedPayload = $result;
             }
 
-        }else{
-            $parsedPayload = $result;
+            $logger->debug('Response body (decoded): ' . var_export($parsedPayload, true));
         }
-
-        $logger->debug('Response body (decoded): '.var_export($parsedPayload, true));
 
         return array(
             'data' => $parsedPayload,
