@@ -119,7 +119,7 @@ class Http implements HttpInterface
             $headers = array();
         }
 
-        $headers['Content-Type'] = 'application/x-www-form-urlencoded';
+        $headers['Content-Type'] = 'application/json';
 
         $headersString = '';
         foreach ($headers as $k => $v) {

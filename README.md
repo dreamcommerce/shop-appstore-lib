@@ -5,6 +5,9 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
+## Version 0.2.9
+* \# fixed PHP 5.3 compatibility issues - broken data encoding
+
 ## Version 0.2.8
 * \# fixed PHP 5.3 compatibility issues
 
