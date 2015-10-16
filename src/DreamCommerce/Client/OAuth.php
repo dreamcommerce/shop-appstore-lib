@@ -113,7 +113,8 @@ class OAuth extends Bearer
                 'grant_type' => 'authorization_code'
             ), array(
                 'Authorization' => 'Basic ' . base64_encode($this->getClientId() . ':' . $this->getClientSecret()),
-                'Accept-Language' => $this->getLocale() . ';q=0.8'
+                'Accept-Language' => $this->getLocale() . ';q=0.8',
+                'Content-Type' => 'application/x-www-form-urlencoded'
             )
         );
 
@@ -143,6 +144,8 @@ class OAuth extends Bearer
             'refresh_token' => $this->getRefreshToken()
         ), array(
             'grant_type'=>'refresh_token'
+        ), array(
+            'Content-Type' => 'application/x-www-form-urlencoded'
         ));
 
         if(!$res || !empty($res['data']['error'])){

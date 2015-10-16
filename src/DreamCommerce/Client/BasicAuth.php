@@ -87,7 +87,8 @@ class BasicAuth extends Bearer
                 'client_secret' => $this->password
             ),
             array(
-                'Accept-Language' => $this->getLocale() . ';q=0.8'
+                'Accept-Language' => $this->getLocale() . ';q=0.8',
+                'Content-Type' => 'application/x-www-form-urlencoded'
             )
         );
 
