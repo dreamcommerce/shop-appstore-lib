@@ -8,6 +8,7 @@ See: http://developers.shoper.pl/
 ## Version 0.2.9
 * \+ added ``AdditionalField``, ``ApplicationConfig`` resources
 + \+ added two authentication methods
++ \+ added HEAD method for records calculation
 * \# fixed PHP 5.3 compatibility issues - broken data encoding
 
 ## Version 0.2.8
