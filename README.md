@@ -5,7 +5,10 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
-## 0.2.10
+## Version 0.2.11
+* \# ``CategoriesTree`` strict warning fixed
+
+## Version 0.2.10
 * \# fixed README
 * \# fixed method signatures according to strict standards
 * \+ added GZIP request headers for lower traffic
