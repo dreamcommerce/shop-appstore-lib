@@ -133,7 +133,7 @@ class Http implements HttpInterface
         }
 
         if(!isset($headers['Accept-Encoding'])) {
-            $headers['Accept-Encoding'] = 'gzip, deflate';
+            $headers['Accept-Encoding'] = 'gzip';
         }
 
         $headersString = '';
@@ -187,6 +187,17 @@ class Http implements HttpInterface
         $doRequest = function($url, $ctx) use(&$lastRequestHeaders, $methodName, $that) {
             // make a real request
             $result = @file_get_contents($url, null, $ctx);
+
+            foreach($http_response_header as $c => $h)
+            {
+                if(stristr($h, 'content-encoding')) {
+                    if(stristr($h, 'gzip')) {
+                        $result = gzinflate( substr($result,10,-8) );
+                    } else {
+                        break;
+                    }
+                }
+            }
 
             // catch headers
             $lastRequestHeaders = $that->parseHeaders($http_response_header);
