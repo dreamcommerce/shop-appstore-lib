@@ -128,8 +128,12 @@ class Http implements HttpInterface
             $headers = array();
         }
 
-        if(!isset($headers['Content-Type'])){
+        if(!isset($headers['Content-Type'])) {
             $headers['Content-Type'] = 'application/json';
+        }
+
+        if(!isset($headers['Accept-Encoding'])) {
+            $headers['Accept-Encoding'] = 'gzip, deflate';
         }
 
         $headersString = '';
