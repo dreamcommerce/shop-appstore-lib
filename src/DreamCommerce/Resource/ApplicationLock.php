@@ -19,7 +19,7 @@ class ApplicationLock extends Resource
     /**
      * {@inheritdoc}
      */
-    public function head($data)
+    public function head()
     {
         throw new Exception('Specified method is not supported');
     }
