@@ -5,10 +5,15 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
+## 0.2.10
+* \# fixed README
+* \# fixed method signatures according to strict standards
+* \+ added GZIP request headers for lower traffic
+
 ## Version 0.2.9
 * \+ added ``AdditionalField``, ``ApplicationConfig`` resources
-+ \+ added two authentication methods
-+ \+ added HEAD method for records calculation
+* \+ added two authentication methods
+* \+ added HEAD method for records calculation
 * \# fixed PHP 5.3 compatibility issues - broken data encoding
 
 ## Version 0.2.8
