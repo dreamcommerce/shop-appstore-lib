@@ -187,6 +187,9 @@ class Http implements HttpInterface
         $doRequest = function($url, $ctx) use(&$lastRequestHeaders, $methodName, $that) {
             // make a real request
             $result = @file_get_contents($url, null, $ctx);
+            if(!$result) {
+                throw new HttpException('HTTP request failed', HttpException::REQUEST_FAILED);
+            }
 
             // catch headers
             $lastRequestHeaders = $that->parseHeaders($http_response_header);
