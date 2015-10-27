@@ -133,7 +133,7 @@ class Http implements HttpInterface
         }
 
         if(!isset($headers['Accept-Encoding'])) {
-            $headers['Accept-Encoding'] = 'gzip, deflate';
+            $headers['Accept-Encoding'] = 'gzip';
         }
 
         $headersString = '';
@@ -187,9 +187,21 @@ class Http implements HttpInterface
         $doRequest = function($url, $ctx) use(&$lastRequestHeaders, $methodName, $that) {
             // make a real request
             $result = @file_get_contents($url, null, $ctx);
+            if(!$result) {
+                throw new HttpException('HTTP request failed', HttpException::REQUEST_FAILED);
+            }
 
             // catch headers
             $lastRequestHeaders = $that->parseHeaders($http_response_header);
+
+            foreach(array('Content-Encoding', 'content-encoding') as $header) {
+                if (isset($lastRequestHeaders[$header])) {
+                    if (strtolower($lastRequestHeaders[$header]) == 'gzip') {
+                        $result = gzinflate(substr($result, 10, -8));
+                        break;
+                    }
+                }
+            }
 
             $logger = $that->getLogger();
             $logger->debug('Response headers: '.var_export($lastRequestHeaders, true));
@@ -311,9 +323,9 @@ class Http implements HttpInterface
                 $headers[] = $row[0];
 
                 $matches = array();
-                if(preg_match('#HTTP/1.[0-1] ([0-9]{3}) (.+)#si', $row[0], $matches)){
+                if(preg_match('#HTTP/1.[0-1] ([0-9]{3})(.*)#si', $row[0], $matches)){
                     $headers['Code'] = $matches[1];
-                    $headers['Status'] = $matches[2];
+                    $headers['Status'] = trim($matches[2]);
                 }
 
                 continue;
