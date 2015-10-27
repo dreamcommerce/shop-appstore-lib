@@ -5,6 +5,9 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
+## Version 0.2.12
+* \# fixed GZIP issues on some servers
+
 ## Version 0.2.11
 * \# ``CategoriesTree`` strict warning fixed
 
