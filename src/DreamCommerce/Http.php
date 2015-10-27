@@ -188,19 +188,17 @@ class Http implements HttpInterface
             // make a real request
             $result = @file_get_contents($url, null, $ctx);
 
-            foreach($http_response_header as $c => $h)
-            {
-                if(stristr($h, 'content-encoding')) {
-                    if(stristr($h, 'gzip')) {
-                        $result = gzinflate( substr($result,10,-8) );
-                    } else {
+            // catch headers
+            $lastRequestHeaders = $that->parseHeaders($http_response_header);
+
+            foreach(array('Content-Encoding', 'content-encoding') as $header) {
+                if (isset($lastRequestHeaders[$header])) {
+                    if (strtolower($lastRequestHeaders[$header]) == 'gzip') {
+                        $result = gzinflate(substr($result, 10, -8));
                         break;
                     }
                 }
             }
-
-            // catch headers
-            $lastRequestHeaders = $that->parseHeaders($http_response_header);
 
             $logger = $that->getLogger();
             $logger->debug('Response headers: '.var_export($lastRequestHeaders, true));
