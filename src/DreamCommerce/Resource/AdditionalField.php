@@ -29,5 +29,5 @@ class AdditionalField extends Resource
 
     const LOCATE_CONTACT_FORM = 128;
 
-    protected $name = 'additional-field';
+    protected $name = 'additional-fields';
 }
