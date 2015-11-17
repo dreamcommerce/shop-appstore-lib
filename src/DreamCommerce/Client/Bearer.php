@@ -283,6 +283,9 @@ abstract class Bearer implements ClientInterface
     {
         if($this->httpClient === null) {
             $this->httpClient = Http::instance();
+            if($this->logger){
+                $this->httpClient->setLogger($this->logger);
+            }
         }
 
         return $this->httpClient;
