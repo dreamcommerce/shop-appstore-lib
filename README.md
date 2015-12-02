@@ -5,6 +5,9 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
+## Version 0.2.14
+* \# fixed ``MetafieldValue`` collection hydration
+
 ## Version 0.2.13
 * \# fixed ``AdditionalField`` resource typo
 * \# fixed custom logger issue
