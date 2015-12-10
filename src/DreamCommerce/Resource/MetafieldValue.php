@@ -16,6 +16,6 @@ class MetafieldValue extends Resource
 
     protected function isCollection($args)
     {
-        return !empty($args[1]);
+        return empty($args[0]) || !is_numeric($args[0]);
     }
 }
