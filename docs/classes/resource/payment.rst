@@ -1,0 +1,5 @@
+Payment
+=======
+
+Check: :doc:`../resource`.
+

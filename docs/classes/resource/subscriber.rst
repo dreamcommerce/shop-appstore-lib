@@ -1,0 +1,5 @@
+Subscriber
+==========
+
+Check: :doc:`../resource`.
+

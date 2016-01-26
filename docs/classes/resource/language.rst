@@ -1,0 +1,5 @@
+Language
+========
+
+Check: :doc:`../resource`.
+

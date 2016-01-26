@@ -1,0 +1,5 @@
+DashboardActivity
+=================
+
+Check: :doc:`../resource`.
+

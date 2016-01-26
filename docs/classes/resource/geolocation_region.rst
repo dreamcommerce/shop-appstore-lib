@@ -1,0 +1,5 @@
+GeolocationRegion
+=================
+
+Check: :doc:`../resource`.
+

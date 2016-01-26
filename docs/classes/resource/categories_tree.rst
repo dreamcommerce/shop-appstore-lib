@@ -1,0 +1,5 @@
+CategoriesTree
+==============
+
+Check: :doc:`../resource`.
+

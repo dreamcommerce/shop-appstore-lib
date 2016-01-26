@@ -1,0 +1,5 @@
+UserGroup
+=========
+
+Check: :doc:`../resource`.
+

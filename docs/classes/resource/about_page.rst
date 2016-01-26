@@ -1,0 +1,5 @@
+AboutPage
+=========
+
+Check: :doc:`../resource`.
+

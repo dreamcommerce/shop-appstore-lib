@@ -1,0 +1,5 @@
+OptionGroup
+===========
+
+Check: :doc:`../resource`.
+

@@ -1,0 +1,5 @@
+ProductFile
+===========
+
+Check: :doc:`../resource`.
+

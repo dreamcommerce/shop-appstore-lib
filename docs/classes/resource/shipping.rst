@@ -1,0 +1,5 @@
+Shipping
+========
+
+Check: :doc:`../resource`.
+

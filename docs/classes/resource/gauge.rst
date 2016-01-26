@@ -1,0 +1,5 @@
+Gauge
+=====
+
+Check: :doc:`../resource`.
+

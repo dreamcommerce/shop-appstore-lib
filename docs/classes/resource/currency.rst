@@ -1,0 +1,5 @@
+Currency
+========
+
+Check: :doc:`../resource`.
+

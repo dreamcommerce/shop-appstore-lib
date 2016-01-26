@@ -1,0 +1,5 @@
+Tax
+===
+
+Check: :doc:`../resource`.
+

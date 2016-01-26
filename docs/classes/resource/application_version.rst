@@ -1,0 +1,5 @@
+ApplicationVersion
+==================
+
+Check: :doc:`../resource`.
+

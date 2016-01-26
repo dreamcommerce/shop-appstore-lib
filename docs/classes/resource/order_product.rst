@@ -1,0 +1,5 @@
+OrderProduct
+============
+
+Check: :doc:`../resource`.
+

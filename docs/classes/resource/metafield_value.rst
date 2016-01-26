@@ -1,0 +1,5 @@
+MetafieldValue
+==============
+
+Check: :doc:`../resource`.
+

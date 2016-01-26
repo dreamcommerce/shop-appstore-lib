@@ -1,0 +1,5 @@
+AttributeGroup
+==============
+
+Check: :doc:`../resource`.
+

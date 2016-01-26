@@ -1,0 +1,5 @@
+AuctionOrder
+============
+
+Check: :doc:`../resource`.
+

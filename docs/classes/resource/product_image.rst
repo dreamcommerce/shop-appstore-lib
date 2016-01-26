@@ -1,0 +1,5 @@
+ProductImage
+============
+
+Check: :doc:`../resource`.
+

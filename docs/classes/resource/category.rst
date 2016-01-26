@@ -1,0 +1,5 @@
+Category
+========
+
+Check: :doc:`../resource`.
+

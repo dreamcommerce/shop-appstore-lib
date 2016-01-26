@@ -1,0 +1,5 @@
+Delivery
+========
+
+Check: :doc:`../resource`.
+

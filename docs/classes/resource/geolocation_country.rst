@@ -1,0 +1,5 @@
+GeolocationCountry
+==================
+
+Check: :doc:`../resource`.
+

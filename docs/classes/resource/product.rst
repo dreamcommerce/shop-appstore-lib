@@ -1,0 +1,5 @@
+Product
+=======
+
+Check: :doc:`../resource`.
+

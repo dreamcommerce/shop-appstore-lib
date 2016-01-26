@@ -1,0 +1,5 @@
+Availability
+============
+
+Check: :doc:`../resource`.
+

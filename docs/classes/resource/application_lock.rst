@@ -1,0 +1,5 @@
+ApplicationLock
+===============
+
+Check: :doc:`../resource`.
+

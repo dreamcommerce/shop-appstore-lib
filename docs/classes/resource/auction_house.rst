@@ -1,0 +1,5 @@
+AuctionHouse
+============
+
+Check: :doc:`../resource`.
+

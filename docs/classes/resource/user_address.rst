@@ -1,0 +1,5 @@
+UserAddress
+===========
+
+Check: :doc:`../resource`.
+
