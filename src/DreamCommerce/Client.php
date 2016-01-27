@@ -88,11 +88,11 @@ class Client implements ClientInterface
         }
 
         $adapterNamespace = '\\DreamCommerce\\Client';
-        if (isset($config['adapterNamespace'])) {
-            if ($config['adapterNamespace'] != '') {
-                $adapterNamespace = $config['adapterNamespace'];
+        if (isset($options['adapterNamespace'])) {
+            if ($options['adapterNamespace'] != '') {
+                $adapterNamespace = $options['adapterNamespace'];
             }
-            unset($config['adapterNamespace']);
+            unset($options['adapterNamespace']);
         }
 
         $adapterName = $adapterNamespace . '\\';
@@ -258,8 +258,7 @@ class Client implements ClientInterface
     }
 
     /**
-     * fired if token is invalid
-     * @param Callable|null $callback
+     * @inheritdoc
      * @deprecated
      */
     public function setOnTokenInvalidHandler($callback = null)

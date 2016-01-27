@@ -14,7 +14,7 @@ interface ClientInterface
     /**
      * Authentication
      *
-     * @param boolean $force
+     * @param boolean $force if set - ignore set accessToken on adapter and force getting a new one
      * @return \stdClass
      * Example output:
      * {
@@ -28,23 +28,27 @@ interface ClientInterface
     /**
      * Performs REST request
      *
-     * @param $res
-     * @param string $method
-     * @param null|array|int $objectPath
-     * @param array $data
-     * @param array $query
+     * @param Resource $res a resource to perform request against
+     * @param string $method HTTP method name
+     * @param null|array|int $objectPath URL path of resource
+     * @param array $data payload
+     * @param array $query query string values
      * @return array
      * @throws \DreamCommerce\Exception\ClientException
      */
     public function request(Resource $res, $method, $objectPath = null, $data = array(), $query = array());
 
     /**
+     * setter for http client
+     *
      * @param HttpInterface $httpClient
      * @return $this
      */
     public function setHttpClient(HttpInterface $httpClient);
 
     /**
+     * getter for http client
+     *
      * @return HttpInterface
      */
     public function getHttpClient();
@@ -70,4 +74,11 @@ interface ClientInterface
      * @return LoggerInterface
      */
     public function getLogger();
+
+    /**
+     * fired if token is invalid
+     * @param Callable|null $callback
+     * @return $this
+     */
+    public function setOnTokenInvalidHandler($callback = null);
 }
