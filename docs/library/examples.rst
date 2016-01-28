@@ -120,9 +120,16 @@ REST GET
         // set custom retries count
         // it will throw HttpException if the limit is too low
         \DreamCommerce\Http::setRetryLimit(2);
-        $client = new Client(
-            'https://myshop.example.com', $config['appId'], $config['appSecret']
+
+        $client = Client::factory(
+            Client::ADAPTER_OAUTH,
+            [
+                'entrypoint'=>'https://myshop.example.com',
+                'client_id'=>$config['appId'],
+                'client_secret'=>$config['appSecret']
+            ]
         );
+
         $client->setAccessToken('INSERT TOKEN HERE');
 
         $resource = new \DreamCommerce\Resource\Product($client);
@@ -147,9 +154,9 @@ REST GET
             //printf("ID #%d\n", $i['product_id']);
         }
     } catch (ClientException $ex) {
-        \DreamCommerce\Logger::error("An error occurred during the Client initialization: ".Client::getError($ex));
+        $client->getLogger()->error("An error occurred during the Client initialization: ".Client::getError($ex));
     } catch (ResourceException $ex) {
-        \DreamCommerce\Logger::error("An error occurred during Resource access: ".Client::getError($ex));
+        $client->getLogger()->error("An error occurred during Resource access: ".Client::getError($ex));
     }
 
 REST POST
@@ -167,9 +174,16 @@ REST POST
         // set custom retries count
         // it will throw HttpException if the limit is too low
         \DreamCommerce\Http::setRetryLimit(2);
-        $client = new Client(
-            'https://myshop.example.com', $config['appId'], $config['appSecret']
+
+        $client = Client::factory(
+            Client::ADAPTER_OAUTH,
+            [
+                'entrypoint'=>'https://myshop.example.com',
+                'client_id'=>$config['appId'],
+                'client_secret'=>$config['appSecret']
+            ]
         );
+
         $client->setAccessToken('INSERT TOKEN HERE');
 
         $resource = new \DreamCommerce\Resource\Producer($client);
@@ -189,9 +203,9 @@ REST POST
 
 
     } catch (ClientException $ex) {
-        \DreamCommerce\Logger::error("An error occurred during the Client initialization: ".Client::getError($ex));
+        $client->getLogger()->error("An error occurred during the Client initialization: ".Client::getError($ex));
     } catch (ResourceException $ex) {
-        \DreamCommerce\Logger::error("An error occurred during Resource access: ".Client::getError($ex));
+        $client->getLogger()->error("An error occurred during Resource access: ".Client::getError($ex));
     }
 
 REST PUT
@@ -209,9 +223,16 @@ REST PUT
         // set custom retries count
         // it will throw HttpException if the limit is too low
         \DreamCommerce\Http::setRetryLimit(2);
-        $client = new Client(
-            'https://myshop.example.com', $config['appId'], $config['appSecret']
+
+        $client = Client::factory(
+            Client::ADAPTER_OAUTH,
+            [
+                'entrypoint'=>'https://myshop.example.com',
+                'client_id'=>$config['appId'],
+                'client_secret'=>$config['appSecret']
+            ]
         );
+
         $client->setAccessToken('INSERT TOKEN HERE');
 
         $resource = new \DreamCommerce\Resource\Producer($client);
@@ -222,12 +243,12 @@ REST PUT
             'name' => 'Awesome Manufacturer!'
         ));
 
-        \DreamCommerce\Logger::info("Object modified");
+        $client->getLogger()->info("Object modified");
 
     } catch (ClientException $ex) {
-        \DreamCommerce\Logger::error("An error occurred during the Client initialization: ".Client::getError($ex));
+        $client->getLogger()->error("An error occurred during the Client initialization: ".Client::getError($ex));
     } catch (ResourceException $ex) {
-        \DreamCommerce\Logger::error("An error occurred during Resource access: ".Client::getError($ex));
+        $client->getLogger()->error("An error occurred during Resource access: ".Client::getError($ex));
     }
 
 REST DELETE
@@ -245,9 +266,16 @@ REST DELETE
         // set custom retries count
         // it will throw HttpException if the limit is too low
         \DreamCommerce\Http::setRetryLimit(2);
-        $client = new Client(
-            'https://myshop.example.com', $config['appId'], $config['appSecret']
+
+        $client = Client::factory(
+            Client::ADAPTER_OAUTH,
+            [
+                'entrypoint'=>'https://myshop.example.com',
+                'client_id'=>$config['appId'],
+                'client_secret'=>$config['appSecret']
+            ]
         );
+
         $client->setAccessToken('INSERT TOKEN HERE');
 
         $resource = new \DreamCommerce\Resource\Producer($client);
@@ -255,12 +283,12 @@ REST DELETE
         $resource = $client->producers;
 
         $result = $resource->delete(41);
-        \DreamCommerce\Logger::info("An object was successfully deleted");
+        $client->getLogger()->info("An object was successfully deleted");
 
     } catch (ClientException $ex) {
-        \DreamCommerce\Logger::error("An error occurred during the Client initialization: ".Client::getError($ex));
+        $client->getLogger()->error("An error occurred during the Client initialization: ".Client::getError($ex));
     } catch (ResourceException $ex) {
-        \DreamCommerce\Logger::error("An error occurred during Resource access: ".Client::getError($ex));
+        $client->getLogger()->error("An error occurred during Resource access: ".Client::getError($ex));
     }
 
 Token refreshing
@@ -272,11 +300,20 @@ Token refreshing
 
     $config = require 'bootstrap.php';
     try {
-        $c = new \DreamCommerce\Client('https://myshop.example.com', $config['appId'], $config['appSecret']);
-        $token = $c->refreshToken('INSERT TOKEN HERE');
 
-        \DreamCommerce\Logger::info("Token has been successfully refreshed");
+        $client = Client::factory(
+            Client::ADAPTER_OAUTH,
+            [
+                'entrypoint'=>'https://myshop.example.com',
+                'client_id'=>$config['appId'],
+                'client_secret'=>$config['appSecret']
+            ]
+        );
+
+        $client->setAccessToken('INSERT TOKEN HERE');
+
+        $client->getLogger()->info("Token has been successfully refreshed");
     } catch (ClientException $ex) {
-        \DreamCommerce\Logger::error("An error occurred during the Client request: ".$ex->getMessage());
+        $client->getLogger()->error("An error occurred during the Client request: ".$ex->getMessage());
     }
 

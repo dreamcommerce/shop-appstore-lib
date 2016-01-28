@@ -1,6 +1,9 @@
 Parcel
 ======
 
+.. php:namespace:: DreamCommerce\Resource
+.. php:class:: Parcel
+
 Check: :doc:`../resource`.
 
 constants

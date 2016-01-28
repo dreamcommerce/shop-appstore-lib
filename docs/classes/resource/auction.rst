@@ -1,6 +1,9 @@
 Auction
 =======
 
+.. php:namespace:: DreamCommerce\Resource
+.. php:class:: Auction
+
 Check: :doc:`../resource`.
 
 constants

@@ -1,6 +1,9 @@
 ProductStock
 ============
 
+.. php:namespace:: DreamCommerce\Resource
+.. php:class:: ProductStock
+
 Check: :doc:`../resource`.
 
 constants

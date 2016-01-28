@@ -5,16 +5,62 @@ Client
 
 A client library allowing to perform REST-ful requests.
 
+This class implements :php:interface:`ClientInterface`. Remember using implemented methods is deprecated due we moved
+their implementation to the adapters.
+
+adapters
+********
+
+.. toctree::
+    :maxdepth: 2
+
+    client/basic_auth
+    client/bearer
+    client/oauth
+
+constants
+*********
+
+.. php:const:: ADAPTER_OAUTH
+
+    a pointer to the :php:class:`Client\\OAuth`
+
+.. php:const:: ADAPTER_BASIC_AUTH
+
+    a pointer to the :php:class:`Client\\BasicAuth`
+
 static methods
 **************
 
-.. php:staticmethod:: getError(Exception $exception)
+.. php:staticmethod:: factory($adapter, $options = [])
 
-    Returns an error message of specified exception, layer-independent.
+    Creates client instance.
 
-    :param Exception $exception: an exception which is a source for error message
-    :rtype: string
-    :returns: error message
+    :param string $adapter: adapter name
+    :param array $options: creation options
+    :rtype: ClientInterface
+    :returns: client
+
+    Globally, ``$options`` accepts following keys:
+
+    ``entrypoint``
+        shop URL
+    ``namespace``
+        a namespace used to find ``$adapter`` class
+
+.. php:staticmethod:: getDefaultAdapter()
+
+    Gets default defined adapter
+
+    :rtype: ClientInterface|null
+    :returns: client
+
+.. php:staticmethod:: setDefaultAdapter(ClientInterface $adapter)
+
+    Sets default defined adapter
+
+    :param ClientInterface $adapter: adapter handle
+    :rtype: void
 
 
 methods
@@ -27,6 +73,16 @@ methods
     :param string $exception: in case of webapi/rest is not a part of URL, it will be automatically appended
     :param string $clientId: string application ID
     :param string $clientSecret: application secret code (generated upon App Store application registration)
+
+    Calling a constructor is adequate to perform this call:
+
+    .. code-block:: php
+
+        self::factory(self::ADAPTER_OAUTH, array(
+            'entrypoint' => $entrypoint,
+            'client_id' => $clientId,
+            'client_secret' => $clientSecret
+        )
 
 
 .. php:method:: __get($resource)
@@ -52,21 +108,24 @@ methods
     :rtype: array
     :returns: an array with new tokens
 
-.. php:method:: request($res, $method, $objectPath = null, $data = [], $query = [])
-
-    Performs a request to the server
-
-    :param Resource $res: resource to perform request on
-    :param string $method: ``GET/POST/PUT/DELETE``
-    :param null|string|array $objectPath: resource path, eg. ``object/1/something``. It can be also an array - then class will automatically glue it with ``/``.
-    :param array $data: data to pass with request
-    :param array $query: query string
-    :returns: request response
-    :rtype: mixed
-
 .. php:method:: setAccessToken($token)
 
     Sets an access token for current script execution. Called automatically upon exchange/refreshing of token.
 
     :param string $token: token
+
+.. php:method:: setAdapter(ClientInterface $adapter)
+
+    Sets adapter on this client.
+
+    :param ClientInterface $adapter: adapter
+    :rtype: Client
+    :returns: chain
+
+.. php:method::getAdapter()
+
+    Gets bound adapter
+
+    :rtype: ClientInterface
+    :returns: adapter
 

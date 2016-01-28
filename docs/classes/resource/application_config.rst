@@ -1,6 +1,9 @@
 ApplicationConfig
 =================
 
+.. php:namespace:: DreamCommerce\Resource
+.. php:class:: ApplicationConfig
+
 Check: :doc:`../resource`.
 
 constants

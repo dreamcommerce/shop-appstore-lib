@@ -20,3 +20,4 @@ constants
     tried to sort data by non-existing/not supported field
 ``INVALID_PAGE``
     specified results page is beyond the pages count
+

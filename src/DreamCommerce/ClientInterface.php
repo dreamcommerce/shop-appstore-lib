@@ -54,11 +54,15 @@ interface ClientInterface
     public function getHttpClient();
 
     /**
+     * get current locale
+     *
      * @return string
      */
     public function getLocale();
 
     /**
+     * set messages locale
+     *
      * @param string $locale
      * @return $this
      */

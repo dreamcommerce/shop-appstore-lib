@@ -1,6 +1,9 @@
 Order
 =====
 
+.. php:namespace:: DreamCommerce\Resource
+.. php:class:: Order
+
 Check: :doc:`../resource`.
 
 constants

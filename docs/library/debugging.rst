@@ -61,6 +61,32 @@ Messages can be passed to simple logger class using multiple priorities:
 
 Debug messages are filtered if debug mode is disabled.
 
+Own logger
+**********
+
+If you prefer to take over all logging, simply create your own class implementing
+`PSR-3 Logger Interface <https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md>`_
+and pass it to the library.
+
+.. code-block:: php
+
+    $client = Client::factory(
+        Client::ADAPTER_OAUTH,
+        [
+            'entrypoint'=>$shop->getShopUrl(),
+            'client_id'=>$this->getAppId(),
+            'client_secret'=>$this->getAppSecret()
+        ]
+    );
+
+    $client->setAccessToken($tokens->getAccessToken());
+
+    $logger = new MyLogger();
+    $client->setLogger($logger);
+
+.. note:: If you use your own logger, all constants described above are ignored.
+
+
 Catching exceptions
 *******************
 
@@ -116,21 +142,5 @@ Simply use standard exception's method ``getPrevious`` on every exception.
 
     } catch (\DreamCommerce\Exception\ResourceException $ex) {
         \DreamCommerce\Logger::error(sprintf("Resource error: %s", $ex->getMessage()));
-    }
-
-
-In order to directly access error message, it's possible to use static method
-:php:meth:`DreamCommerce\\Client::getError`.
-
-.. code-block:: php
-
-    try{
-
-        // ...
-
-    } catch (\DreamCommerce\Exception\ClientException $ex) {
-        \DreamCommerce\Logger::error(sprintf("Client error: %s", Client::getError($ex)));
-    } catch (\DreamCommerce\Exception\ResourceException $ex) {
-        \DreamCommerce\Logger::error(sprintf("Resource error: %s", Client::getError($ex)));
     }
 

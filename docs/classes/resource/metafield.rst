@@ -1,6 +1,9 @@
 Metafield
 =========
 
+.. php:namespace:: DreamCommerce\Resource
+.. php:class:: Metafield
+
 Check: :doc:`../resource`.
 
 constants

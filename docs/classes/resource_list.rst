@@ -57,3 +57,4 @@ methods
 
     :rtype: integer
     :returns: pages count
+

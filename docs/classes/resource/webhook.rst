@@ -1,6 +1,9 @@
 Webhook
 =======
 
+.. php:namespace:: DreamCommerce\Resource
+.. php:class:: Webhook
+
 Check: :doc:`../resource`.
 
 constants

@@ -30,11 +30,18 @@ The most convenient way is to exchange this code during the install. In billing 
 
 .. code-block:: php
 
-    $client = new \DreamCommerce\Client(
-        'https://myshop.example.com', 'application ID', 'Secret'
+    $client = Client::factory(
+        Client::ADAPTER_OAUTH,
+        [
+            'entrypoint'=>'https://shop.url',
+            'client_id'=>'application_id',
+            'client_secret'=>'application_secret',
+            'auth_code'=>'auth_code'
+        ]
     );
 
-    $token = $client->getToken('AUTH CODE');
+    // and get tokens
+    $token = $client->authenticate(true);
 
     // $token is an object with access_token, refresh_token, expires_in
 
@@ -48,11 +55,18 @@ In case the token gets expired (look at: ``expires_in``) or in case it's invalid
 
 .. code-block:: php
 
-    $client = new \DreamCommerce\Client(
-        'https://myshop.example.com', 'Application ID', 'Secret'
+    $client = Client::factory(
+        Client::ADAPTER_OAUTH,
+        [
+            'entrypoint'=>'https://shop.url',
+            'client_id'=>'application_id',
+            'client_secret'=>'application_secret',
+            'refresh_token'=>'refresh_token'
+        ]
     );
 
-    $token = $client->refreshToken('REFRESH TOKEN');
+    // and get tokens
+    $token = $client->refreshTokens();
 
     // $token is an object with access_token, refresh_token, expires_in
 
@@ -65,8 +79,13 @@ With a valid token, it's possible to perform request to the shop according to th
 
 .. code-block:: php
 
-    $client = new \DreamCommerce\Client(
-        'https://myshop.example.com', 'Application ID', 'Secret'
+    $client = Client::factory(
+        Client::ADAPTER_OAUTH,
+        [
+            'entrypoint'=>'http://myshop.example.com',
+            'client_id'=>'application_id',
+            'client_secret'=>'application_secret'
+        ]
     );
 
     $client->setAccessToken('SHOP TOKEN');

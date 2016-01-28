@@ -312,7 +312,7 @@ abstract class Bearer implements ClientInterface
     }
 
     /**
-     * @return string
+     * @inheritdoc
      */
     public function getLocale()
     {
@@ -320,8 +320,7 @@ abstract class Bearer implements ClientInterface
     }
 
     /**
-     * @param string $locale
-     * @return $this
+     * @inheritdoc
      */
     public function setLocale($locale)
     {

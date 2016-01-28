@@ -1,6 +1,9 @@
 AdditionalField
 ===============
 
+.. php:namespace:: DreamCommerce\Resource
+.. php:class:: AdditionalField
+
 Check: :doc:`../resource`.
 
 constants

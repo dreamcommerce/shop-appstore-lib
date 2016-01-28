@@ -158,6 +158,17 @@ methods
         - more arguments - resource dependent
     :rtype: ResourceList|\ArrayObject|string
 
+.. php:method:: head([...])
+
+    Performs HEAD request. Similar to :php:meth:`Resource::get` but without data.
+
+    :param mixed ..: arguments
+        - no argument: returns collection
+        - single argument - an object with specified ID
+        - more arguments - resource dependent
+    :rtype: ResourceList|\ArrayObject|string
+
+
 .. php:method:: getName()
 
     Returns a plural name of resource.
@@ -213,3 +224,8 @@ methods
     :param null|integer $id: ID of modified object
     :param array $data: request body
     :rtype: \ArrayObject|string
+
+.. php:method:: reset()
+
+    Resets all pagination, limits and filters on current instance.
+

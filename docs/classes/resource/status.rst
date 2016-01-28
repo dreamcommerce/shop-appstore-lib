@@ -1,6 +1,9 @@
 Status
 ======
 
+.. php:namespace:: DreamCommerce\Resource
+.. php:class:: Status
+
 Check: :doc:`../resource`.
 
 constants

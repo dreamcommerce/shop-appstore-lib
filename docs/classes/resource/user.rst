@@ -1,6 +1,9 @@
 User
 ====
 
+.. php:namespace:: DreamCommerce\Resource
+.. php:class:: User
+
 Check: :doc:`../resource`.
 
 constants

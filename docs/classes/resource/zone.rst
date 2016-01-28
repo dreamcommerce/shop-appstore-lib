@@ -1,6 +1,9 @@
 Zone
 ====
 
+.. php:namespace:: DreamCommerce\Resource
+.. php:class:: Zone
+
 Check: :doc:`../resource`.
 
 constants

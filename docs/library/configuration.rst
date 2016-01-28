@@ -7,11 +7,16 @@ Library needs these parameters to be configured:
 - Application ID
 - Secret
 
-The configuration is done by specifying values in client object constructor:
+The configuration is done by specifying values in client object factory, eg:
 
 .. code-block:: php
 
-    $client = new \DreamCommerce\Client(
-        'https://myshop.example.com', 'application ID', 'secret'
+    $client = Client::factory(
+        Client::ADAPTER_OAUTH,
+        [
+            'entrypoint'=>$params['shop_url'],
+            'client_id'=>$app['app_id'],
+            'client_secret'=>$app['app_secret']
+        ]
     );
 

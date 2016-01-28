@@ -5,17 +5,7 @@ Http
 
 A class performing HTTP requests.
 
-Each of implemented methods returns following data set:
-
-.. _structure:
-.. code-block:: php
-
-    [
-        'headers' => [
-            'Content-Type' => 'application/json'
-        ],
-        'data' => <\ArrayObject|string>
-    ]
+This class implements :php:interface:`HttpInterface`.
 
 static methods
 **************
@@ -35,44 +25,21 @@ static methods
 methods
 *******
 
-.. php:method:: delete($url, [$query = array(), [$headers = array()]])
+.. php:method:: parseHeaders($src)
 
-    Performs HTTP DELETE.
+    Parse ``$http_response_header`` to more readable form.
 
-    :param string $url: URL
-    :param array $query: query parameters (URL query string, after question mark)
-    :param array $headers: additional headers to sent within request
+    :param array $src: source headers data
     :rtype: array
-    :returns: see: structure_
+    :returns: parsed headers
 
-.. php:method:: get($url, [$query = array(), [$headers = array()]])
+    Returned array looks like:
 
-    Performs HTTP GET.
+    .. code-block:: php
 
-    :param string $url: URL
-    :param array $query: query parameters (URL query string, after question mark)
-    :param array $headers: additional headers to sent within request
-    :rtype: array
-    :returns: see: structure_
-
-.. php:method:: post($url, [$body = array(), [$query = array(), [$headers = array()]]])
-
-    Performs HTTP POST.
-
-    :param string $url: URL
-    :param string $body: request body
-    :param array $query: query parameters (URL query string, after question mark)
-    :param array $headers: additional headers to sent within request
-    :rtype: mixed
-    :returns: see: structure_
-
-.. php:method:: put($url, [$body = array(), [$query = array(), [$headers = array()]]])
-
-    Performs HTTP PUT.
-
-    :param string $url: URL
-    :param string $body: request body
-    :param array $query: query parameters (URL query string, after question mark)
-    :param array $headers: additional headers to sent within request
-    :rtype: mixed
-    :returns: see: structure_
+        [
+            'Code'=>404,
+            'Status'=>'Not Found'
+            'X-Header1'=>'value',
+            'X-Header2'=>'value'
+        ]

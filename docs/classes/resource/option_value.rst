@@ -1,6 +1,9 @@
 OptionValue
 ===========
 
+.. php:namespace:: DreamCommerce\Resource
+.. php:class:: OptionValue
+
 Check: :doc:`../resource`.
 
 constants
