@@ -88,6 +88,10 @@ class Logger implements LoggerInterface
             }
         }
 
+        if($context){
+            $message .= sprintf(', context: %s', var_export($context, true));
+        }
+
         $str = date('Y-m-d H:i:s') . ' ['.$level.']: ' . $message . PHP_EOL;
         if(defined("DREAMCOMMERCE_LOG_FILE")) {
             if(DREAMCOMMERCE_LOG_FILE) {

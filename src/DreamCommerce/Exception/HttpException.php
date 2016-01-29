@@ -43,17 +43,63 @@ class HttpException extends Exception
      * @var mixed raw server response
      */
     protected $response = null;
+    /**
+     * HTTP method
+     * @var string
+     */
+    protected $method;
+    /**
+     * queried URL
+     * @var
+     */
+    protected $url;
+    /**
+     * request body
+     * @var
+     */
+    protected $body;
+    /**
+     * query string parameters
+     * @var
+     */
+    protected $query;
+    /**
+     * response headers
+     * @var
+     */
+    protected $responseHeaders;
 
     /**
      * @param string $message
      * @param int $code
      * @param \Exception $previous
+     * @param null $method
+     * @param null $url
      * @param array $headers an array with HTTP response headers
+     * @param array $query
+     * @param array $body
      * @param string $response raw response
+     * @param array $responseHeaders
      */
-    public function __construct($message = '', $code = 0, \Exception $previous = null, $headers = array(), $response = ''){
+    public function __construct(
+        $message = '',
+        $code = 0,
+        \Exception $previous = null,
+        $method = null,
+        $url = null,
+        $headers = array(),
+        $query = array(),
+        $body = array(),
+        $response = null,
+        $responseHeaders = array()
+    ){
         $this->headers = $headers;
         $this->response = $response;
+        $this->method = $method;
+        $this->url = $url;
+        $this->body = $body;
+        $this->query = $query;
+        $this->responseHeaders = $responseHeaders;
         return parent::__construct($message, $code, $previous);
     }
 
@@ -71,5 +117,37 @@ class HttpException extends Exception
      */
     public function getResponse(){
         return $this->response;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMethod()
+    {
+        return $this->method;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBody()
+    {
+        return $this->body;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getQuery()
+    {
+        return $this->query;
     }
 }

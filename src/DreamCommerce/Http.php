@@ -102,32 +102,123 @@ class Http implements HttpInterface
     protected function perform($method, $url, $body = array(), $query = array(), $headers = array())
     {
 
-        static $lastRequestHeaders = array();
+        // response data placeholders
+        $response = null;
+        $responseHeaders = array();
+
+        $logger = $this->getLogger();
 
         // determine allowed methods
         $methodName = strtoupper($method);
 
-        $logger = $this->getLogger();
-        $logger->debug('NEW REQUEST: '.$methodName.' '.$url.'?'.http_build_query($query));
+        // query string processing
+        $processedUrl = $this->prepareUrl($url, $query);
 
-        if (!in_array($methodName, array(
-            'GET', 'POST', 'PUT', 'DELETE', 'HEAD'
-        ))
-        ) {
-            throw new HttpException('Method not supported', HttpException::METHOD_NOT_SUPPORTED);
+        try {
+
+            $logger->debug('NEW REQUEST: ' . $methodName . ' ' . $processedUrl);
+
+            if (!in_array($methodName, array(
+                'GET', 'POST', 'PUT', 'DELETE', 'HEAD'
+            ))
+            ) {
+                throw new \Exception('Method not supported', HttpException::METHOD_NOT_SUPPORTED);
+            }
+
+            // prepare request headers and fields
+            $contextParams = array(
+                'http' => array(
+                    'method' => $methodName,
+                    'ignore_errors' => true   // we want to catch output although the error
+                ));
+
+
+            // inject request parameters
+            $this->applyHeaders($contextParams, $headers);
+            $json = !empty($headers['Content-Type']) && $headers['Content-Type']=='application/json';
+            $this->applyBody($contextParams, $methodName, $body, $json);
+
+            // make request stream context
+            $ctx = stream_context_create($contextParams);
+
+            // initialize requests counter
+            $counter = self::$retryLimit;
+
+            $response = null;
+
+            // perform request regarding counter limit and quotas
+            while ($counter--) {
+                try {
+                    // pause upon limits exceeding
+                    if (isset($responseHeaders['X-Shop-Api-Calls'])) {
+
+                        $calls = $responseHeaders['X-Shop-Api-Calls'];
+                        $limit = $responseHeaders['X-Shop-Api-Limit'];
+
+                        if ($limit - $calls == 0) {
+                            sleep(1);
+                        }
+                    }
+
+                    $response = $this->doRequest($processedUrl, $ctx, $responseHeaders, $methodName);
+
+                    break;
+                } catch (\Exception $ex) {
+                    // server pauses request for X seconds
+                    if (!empty($responseHeaders['Retry-After'])) {
+                        if ($counter <= 0) {
+                            throw new \Exception('Retries count exceeded', HttpException::QUOTA_EXCEEDED);
+                        }
+                        sleep($responseHeaders['Retry-After']);
+                    } else {
+                        // other error
+                        throw $ex;
+                    }
+                }
+            }
+
+            $parsedPayload = null;
+            if ($methodName != 'HEAD') {
+                // try to decode response
+                if ($responseHeaders['Content-Type'] == 'application/json') {
+                    $parsedPayload = @json_decode($response, true);
+
+                    if (!$parsedPayload && !is_array($parsedPayload)) {
+                        throw new \Exception('Result is not a valid JSON', HttpException::MALFORMED_RESULT);
+                    }
+
+                } else {
+                    $parsedPayload = $response;
+                }
+
+                $logger->debug('Response body (decoded): ' . var_export($parsedPayload, true));
+            }
+        }catch(\Exception $ex){
+
+            $message = $ex->getMessage();
+
+            $logger->error(
+                $ex->getMessage(), compact('method', 'url', 'query', 'headers', 'body', 'responseHeaders', 'response')
+            );
+
+            if($ex->getCode()!=HttpException::REQUEST_FAILED){
+                $response = $message;
+                $message = 'Server error';
+            }
+
+            throw new HttpException(
+                $message, $ex->getCode(), null, $method, $url, $headers, $query, $body, $response, $responseHeaders
+            );
         }
 
-        // prepare request headers and fields
-        $contextParams = array(
-            'http' => array(
-                'method' => $methodName,
-                'ignore_errors'=>true   // we want to catch output although the error
-            ));
+        return array(
+            'data' => $parsedPayload,
+            'headers' => $responseHeaders
+        );
+    }
 
-        if(!$headers){
-            $headers = array();
-        }
-
+    protected function applyHeaders(&$contextParams, $headers)
+    {
         if(!isset($headers['Content-Type'])) {
             $headers['Content-Type'] = 'application/json';
         }
@@ -142,167 +233,8 @@ class Http implements HttpInterface
         }
         $contextParams['http']['header'] = $headersString;
 
-        $logger->debug('Headers: '.var_export($headers, true));
 
-        // request body
-        if ($methodName == 'POST' || $methodName == 'PUT') {
-
-            $body = (array)$body;
-
-            if(!empty($headers['Content-Type']) && $headers['Content-Type']=='application/json'){
-                $content = json_encode($body);
-            }else{
-                $content = http_build_query($body);
-            }
-
-            $contextParams['http']['content'] = $content;
-
-            $logger->debug('Document body: '.var_export($body, true));
-            $logger->debug('Document body (JSON-ified): '.$content);
-        }
-
-        // make request stream context
-        $ctx = stream_context_create($contextParams);
-
-        // query string processing
-        $processedUrl = $url;
-
-        if ($query) {
-            // URL has already query string, merge
-            if (strpos($url, '?') !== false) {
-                $components = parse_url($url);
-                $params = array();
-                parse_str($components['query'], $params);
-                $params = $params + $query;
-                $components['query'] = http_build_query($params);
-                $processedUrl = http_build_url($components);
-            } else {
-                $processedUrl .= '?' . http_build_query($query);
-            }
-        }
-
-        $that = $this;
-
-        // perform request
-        $doRequest = function($url, $ctx) use(&$lastRequestHeaders, $methodName, $that) {
-            // make a real request
-            $result = @file_get_contents($url, null, $ctx);
-            if(!$result) {
-                throw new HttpException('HTTP request failed', HttpException::REQUEST_FAILED);
-            }
-
-            // catch headers
-            $lastRequestHeaders = $that->parseHeaders($http_response_header);
-
-            foreach(array('Content-Encoding', 'content-encoding') as $header) {
-                if (isset($lastRequestHeaders[$header])) {
-                    if (strtolower($lastRequestHeaders[$header]) == 'gzip') {
-                        $result = gzinflate(substr($result, 10, -8));
-                        break;
-                    }
-                }
-            }
-
-            $logger = $that->getLogger();
-            $logger->debug('Response headers: '.var_export($lastRequestHeaders, true));
-            $logger->debug('Response body: '.$result);
-
-            try {
-                // completely failed
-                if (!$result && $methodName != 'HEAD') {
-                    throw new \Exception();
-                } else if ($lastRequestHeaders['Code'] < 200 || $lastRequestHeaders['Code'] >= 400) {
-                    // server returned error code
-
-                    // decode if it's JSON
-                    if($lastRequestHeaders['Content-Type']=='application/json'){
-                        $result = @json_decode($result, true);
-                    }
-
-                    if (is_array($result)){
-                        $description = $result['error'];
-                        if(isset($result['error_description'])) {
-                            $description = $result['error_description'];
-                        }
-                        throw new HttpException($description, HttpException::REQUEST_FAILED, null, $lastRequestHeaders, $result);
-                    }else{
-                        throw new \Exception($result);
-                    }
-                }
-            }catch(\Exception $ex){
-                throw new HttpException(
-                    'HTTP request failed',
-                    HttpException::REQUEST_FAILED,
-                    $ex,
-                    $lastRequestHeaders
-                );
-            }
-
-            return $result;
-        };
-
-        // initialize requests counter
-        $counter = self::$retryLimit;
-
-        $result = null;
-
-        // perform request regarding counter limit and quotas
-        while(true){
-            try {
-                // pause upon limits exceeding
-                if(isset($lastRequestHeaders['X-Shop-Api-Calls'])){
-
-                    $calls = $lastRequestHeaders['X-Shop-Api-Calls'];
-                    //$bandwidth = $lastRequestHeaders['X-Shop-Api-Bandwidth'];
-                    $limit = $lastRequestHeaders['X-Shop-Api-Limit'];
-
-                    if($limit-$calls == 0){
-                        //sleep(ceil(2/$bandwidth));
-                        sleep(1);
-                    }
-
-                }
-
-                $result = $doRequest($processedUrl, $ctx);
-
-                break;
-            }catch(HttpException $ex){
-                // server pauses request for X seconds
-                if(!empty($lastRequestHeaders['Retry-After'])){
-                    if($counter<=0){
-                        throw new HttpException('Retries count exceeded', HttpException::QUOTA_EXCEEDED, null, $lastRequestHeaders);
-                    }
-                    sleep($lastRequestHeaders['Retry-After']);
-                }else{
-                    // other error
-                    throw $ex;
-                }
-            }
-
-            $counter--;
-        }
-
-        $parsedPayload = null;
-        if($methodName != 'HEAD') {
-            // try to decode response
-            if ($lastRequestHeaders['Content-Type'] == 'application/json') {
-                $parsedPayload = @json_decode($result, true);
-
-                if (!$parsedPayload && !is_array($parsedPayload)) {
-                    throw new HttpException('Result is not a valid JSON', HttpException::MALFORMED_RESULT, null, $lastRequestHeaders, $result);
-                }
-
-            } else {
-                $parsedPayload = $result;
-            }
-
-            $logger->debug('Response body (decoded): ' . var_export($parsedPayload, true));
-        }
-
-        return array(
-            'data' => $parsedPayload,
-            'headers' => $lastRequestHeaders
-        );
+        $this->getLogger()->debug('Headers: '.var_export($headers, true));
     }
 
     /**
@@ -358,4 +290,117 @@ class Http implements HttpInterface
 
         return $this->logger;
     }
+
+    /**
+     * add body contents to the POST/PUT request
+     * @param Resource $contextParams target context resource
+     * @param string $methodName HTTP method
+     * @param array $body request body
+     * @param bool $json body encoding method
+     */
+    protected function applyBody(&$contextParams, $methodName, $body, $json = true)
+    {
+        // request body
+        if ($methodName == 'POST' || $methodName == 'PUT') {
+
+            $body = (array)$body;
+
+            if($json){
+                $content = json_encode($body);
+            }else{
+                $content = http_build_query($body);
+            }
+
+            $contextParams['http']['content'] = $content;
+
+            $logger = $this->getLogger();
+            $logger->debug('Document body: '.var_export($body, true));
+            $logger->debug('Document body (JSON-ified): '.$content);
+        }
+    }
+
+    /**
+     * return an URL with query string
+     * @param string $url base URL
+     * @param array $query query string contents
+     * @return string
+     */
+    protected function prepareUrl($url, $query = array())
+    {
+        $processedUrl = $url;
+
+        if ($query) {
+            // URL has already query string, merge
+            if (strpos($url, '?') !== false) {
+                $components = parse_url($url);
+                $params = array();
+                parse_str($components['query'], $params);
+                $params = $params + $query;
+                $components['query'] = http_build_query($params);
+                $processedUrl = http_build_url($components);
+            } else {
+                $processedUrl .= '?' . http_build_query($query);
+            }
+        }
+
+        return $processedUrl;
+    }
+
+    /**
+     * perform target request
+     * @param string $url URL
+     * @param Resource $ctx context
+     * @param array $responseHeaders reference to returned headers
+     * @param string $methodName HTTP method
+     * @return mixed|string
+     * @throws \Exception
+     */
+    protected function doRequest($url, $ctx, &$responseHeaders, $methodName) {
+        // make a real request
+        $result = @file_get_contents($url, null, $ctx);
+        if (!$result) {
+            throw new \Exception('HTTP request failed', HttpException::REQUEST_FAILED);
+        }
+
+        // catch headers
+        $responseHeaders = $this->parseHeaders($http_response_header);
+
+        foreach (array('Content-Encoding', 'content-encoding') as $header) {
+            if (isset($responseHeaders[$header])) {
+                if (strtolower($responseHeaders[$header]) == 'gzip') {
+                    $result = gzinflate(substr($result, 10, -8));
+                    break;
+                }
+            }
+        }
+
+        $logger = $this->getLogger();
+        $logger->debug('Response headers: ' . var_export($responseHeaders, true));
+        $logger->debug('Response body: ' . $result);
+
+        // completely failed
+        if (!$result && $methodName != 'HEAD') {
+            throw new \Exception('No response from server');
+        } else if ($responseHeaders['Code'] < 200 || $responseHeaders['Code'] >= 400) {
+            // server returned error code
+
+            // decode if it's JSON
+            if ($responseHeaders['Content-Type'] == 'application/json') {
+                $result = @json_decode($result, true);
+            }
+
+            if (is_array($result)) {
+                $description = $result['error'];
+                if (isset($result['error_description'])) {
+                    $description = $result['error_description'];
+                }
+                throw new \Exception($description, HttpException::REQUEST_FAILED);
+            } else {
+                throw new \Exception($result);
+            }
+        }
+
+        return $result;
+    }
+
 }
