@@ -5,6 +5,12 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
+## Version 0.3
+* \# refactored debugging facilities - added particular exceptions, eg. ``NotFoundException``, etc. 
+* \# stripped away some rubbish code
+* \# narrowed namespace of library - ``DreamCommerce\\ShopAppstoreLib``
+* \# improved error logging - exceptions have attached all request/response data
+
 ## Version 0.2.15
 * \# another ``MetafieldValue`` collection hydration fix and docs adjustments
 
