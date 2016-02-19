@@ -161,7 +161,7 @@ class HttpException extends Exception
 
     public function __toString()
     {
-        $context = var_export([
+        $context = var_export(array(
             'headers'=>$this->headers,
             'body'=>$this->body,
             'method'=>$this->method,
@@ -169,7 +169,7 @@ class HttpException extends Exception
             'response'=>$this->response,
             'responseHeaders'=>$this->responseHeaders,
             'url'=>$this->url
-        ], true);
+        ), true);
 
         return sprintf('%d: %s - %s', $this->code, $this->message, $context);
     }

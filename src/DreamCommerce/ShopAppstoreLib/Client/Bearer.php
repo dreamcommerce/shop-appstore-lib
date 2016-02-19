@@ -171,7 +171,7 @@ abstract class Bearer implements ClientInterface
                 if($response['error']=='unauthorized_client' && $handler){
                     $exceptionHandled = $handler($this, $ex);
                     if($exceptionHandled){
-                        return [];
+                        return array();
                     }
                 }
             }
@@ -295,17 +295,5 @@ abstract class Bearer implements ClientInterface
     {
         $this->locale = $locale;
         return $this;
-    }
-
-    /**
-     * Automagic instantiator, alternative:
-     * $resource = new \DreamCommerce\ShopAppstoreLib\Resource(Client $client, 'name')
-     *
-     * @return Resource
-     * @param $resource
-     */
-    public function __get($resource)
-    {
-        return Resource::factory($this, $resource);
     }
 }

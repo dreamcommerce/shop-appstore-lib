@@ -3,12 +3,13 @@
 namespace DreamCommerce\Exception;
 
 use DreamCommerce\Exception;
+use DreamCommerce\ShopAppstoreLib\Exception\HttpException;
 
 /**
  * Class ResourceException
  * @package DreamCommerce\Exception
  */
-class ResourceException extends Exception
+class ResourceException extends \Exception
 {
     /**
      * cannot parse server response

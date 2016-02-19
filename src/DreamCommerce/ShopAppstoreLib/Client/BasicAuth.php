@@ -32,7 +32,7 @@ class BasicAuth extends Bearer
      * User login
      * @var null|string
      */
-    protected $user = null;
+    protected $username = null;
     /**
      * User password
      * @var null|string

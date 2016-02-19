@@ -10,6 +10,7 @@ See: http://developers.shoper.pl/
 * \# stripped away some rubbish code
 * \# narrowed namespace of library - ``DreamCommerce\\ShopAppstoreLib``
 * \# improved error logging - exceptions have attached all request/response data
+* \# removed magic, especially ``__call`` on ``Resource``
 
 ## Version 0.2.15
 * \# another ``MetafieldValue`` collection hydration fix and docs adjustments
