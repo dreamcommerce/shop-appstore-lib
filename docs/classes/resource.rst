@@ -32,6 +32,7 @@ resources
     resource/gauge
     resource/geolocation_country
     resource/geolocation_region
+    resource/geolocation_subregion
     resource/language
     resource/metafield
     resource/metafield_value

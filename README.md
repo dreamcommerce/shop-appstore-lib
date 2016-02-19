@@ -12,6 +12,9 @@ See: http://developers.shoper.pl/
 * \# improved error logging - exceptions have attached all request/response data
 * \# removed magic, especially ``__call`` on ``Resource``
 
+## Version 0.2.16
+* \# ``GeolocationSubregion`` resource added
+
 ## Version 0.2.15
 * \# another ``MetafieldValue`` collection hydration fix and docs adjustments
 
