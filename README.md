@@ -5,6 +5,9 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
+## Version 0.2.16
+* \# ``GeolocationSubregion`` resource added
+
 ## Version 0.2.15
 * \# another ``MetafieldValue`` collection hydration fix and docs adjustments
 
