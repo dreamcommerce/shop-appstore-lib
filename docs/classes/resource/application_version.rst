@@ -1,7 +1,7 @@
 ApplicationVersion
 ==================
 
-.. php:namespace:: DreamCommerce\Resource
+.. php:namespace:: DreamCommerce\ShopAppstoreLib\Resource
 .. php:class:: ApplicationVersion
 
 Check: :doc:`../resource`.

@@ -181,9 +181,7 @@ abstract class Bearer implements ClientInterface
     }
 
     /**
-     * fired if token is invalid
-     * @param Callable|null $callback
-     * @return $this
+     * @inheritdoc
      */
     public function setOnTokenInvalidHandler($callback = null)
     {

@@ -1,7 +1,7 @@
 OptionGroup
 ===========
 
-.. php:namespace:: DreamCommerce\Resource
+.. php:namespace:: DreamCommerce\ShopAppstoreLib\Resource
 .. php:class:: OptionGroup
 
 Check: :doc:`../resource`.

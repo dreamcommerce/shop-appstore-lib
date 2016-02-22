@@ -70,4 +70,11 @@ interface ClientInterface
      * @return LoggerInterface
      */
     public function getLogger();
+
+    /**
+     * set callback upon invalid token error received
+     * @param \Callable|null $callback
+     * @return mixed
+     */
+    public function setOnTokenInvalidHandler($callback = null);
 }

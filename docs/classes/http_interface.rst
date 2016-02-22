@@ -10,12 +10,12 @@ Each of implemented methods returns following data set:
 .. _structure:
 .. code-block:: php
 
-    [
-        'headers' => [
+    array(
+        'headers' => (
             'Content-Type' => 'application/json'
-        ],
+        ),
         'data' => <\ArrayObject|string>
-    ]
+    )
 
 methods
 *******

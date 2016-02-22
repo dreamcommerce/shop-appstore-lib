@@ -1,6 +1,6 @@
 Bearer
 ======
-.. php:namespace:: DreamCommerce\Client
+.. php:namespace:: DreamCommerce\ShopAppstoreLib\Client
 .. php:class:: Bearer
 
 An abstract client class for most of REST operations.
@@ -47,13 +47,6 @@ methods
 
     ``entrypoint``
         shop URL
-
-.. php:method:: __get($resource)
-
-    Returns resource object by name
-
-    :param string $resource: resource name
-    :rtype: resource
 
 .. php:method:: getAccessToken()
 

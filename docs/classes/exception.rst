@@ -3,21 +3,6 @@ Exception
 .. php:namespace:: DreamCommerce
 .. php:class:: Exception
 
-static methods
-**************
-
-.. php:staticmethod:: setLogger(LoggerInterface $logger)
-
-    Set own logger for exceptions.
-
-    :param LoggerInterface $logger: instance
-
-.. php:staticmethod:: getLogger()
-
-    Get logger for exceptions. If none was defined, instantiate and return :php:class:`DreamCommerce\\Logger`.
-
-    :rtype: LoggerInterface
-
 derived classes
 ***************
 

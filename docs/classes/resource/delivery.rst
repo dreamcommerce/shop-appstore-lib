@@ -1,7 +1,7 @@
 Delivery
 ========
 
-.. php:namespace:: DreamCommerce\Resource
+.. php:namespace:: DreamCommerce\ShopAppstoreLib\Resource
 .. php:class:: Delivery
 
 Check: :doc:`../resource`.

@@ -37,9 +37,16 @@ methods
 
     .. code-block:: php
 
-        [
+        array(
             'Code'=>404,
             'Status'=>'Not Found'
             'X-Header1'=>'value',
             'X-Header2'=>'value'
-        ]
+        )
+
+.. php:method:: setSkipSsl($status)
+
+    Tell PHP to skip SSL certificates validation.
+
+    :param boolean $status: skip?
+    :rtype: void

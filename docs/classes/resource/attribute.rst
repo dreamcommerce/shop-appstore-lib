@@ -1,7 +1,7 @@
 Attribute
 =========
 
-.. php:namespace:: DreamCommerce\Resource
+.. php:namespace:: DreamCommerce\ShopAppstoreLib\Resource
 .. php:class:: Attribute
 
 Check: :doc:`../resource`.

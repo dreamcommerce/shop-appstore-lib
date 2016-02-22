@@ -1,7 +1,7 @@
 Parcel
 ======
 
-.. php:namespace:: DreamCommerce\Resource
+.. php:namespace:: DreamCommerce\ShopAppstoreLib\Resource
 .. php:class:: Parcel
 
 Check: :doc:`../resource`.

@@ -1,7 +1,7 @@
 Category
 ========
 
-.. php:namespace:: DreamCommerce\Resource
+.. php:namespace:: DreamCommerce\ShopAppstoreLib\Resource
 .. php:class:: Category
 
 Check: :doc:`../resource`.

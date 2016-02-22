@@ -110,29 +110,29 @@ REST GET
 
 .. code-block:: php
 
-    use DreamCommerce\Client;
-    use DreamCommerce\Exception\ClientException;
-    use DreamCommerce\Exception\ResourceException;
+    use DreamCommerce\ShopAppstoreLib\Client;
+    use DreamCommerce\ShopAppstoreLib\Exception\ClientException;
+    use DreamCommerce\ShopAppstoreLib\Exception\ResourceException;
 
     $config = require 'bootstrap.php';
 
     try {
         // set custom retries count
         // it will throw HttpException if the limit is too low
-        \DreamCommerce\Http::setRetryLimit(2);
+        \DreamCommerce\ShopAppstoreLib\Http::setRetryLimit(2);
 
         $client = Client::factory(
             Client::ADAPTER_OAUTH,
-            [
+            array(
                 'entrypoint'=>'https://myshop.example.com',
                 'client_id'=>$config['appId'],
                 'client_secret'=>$config['appSecret']
-            ]
+            )
         );
 
         $client->setAccessToken('INSERT TOKEN HERE');
 
-        $resource = new \DreamCommerce\Resource\Product($client);
+        $resource = new \DreamCommerce\ShopAppstoreLib\Resource\Product($client);
         // or
         $resource = $client->products;
 
@@ -164,29 +164,29 @@ REST POST
 
 .. code-block:: php
 
-    use DreamCommerce\Client;
-    use DreamCommerce\Exception\ClientException;
-    use DreamCommerce\Exception\ResourceException;
+    use DreamCommerce\ShopAppstoreLib\Client;
+    use DreamCommerce\ShopAppstoreLib\Exception\ClientException;
+    use DreamCommerce\ShopAppstoreLib\Exception\ResourceException;
 
     $config = require 'bootstrap.php';
 
     try {
         // set custom retries count
         // it will throw HttpException if the limit is too low
-        \DreamCommerce\Http::setRetryLimit(2);
+        \DreamCommerce\ShopAppstoreLib\Http::setRetryLimit(2);
 
         $client = Client::factory(
             Client::ADAPTER_OAUTH,
-            [
+            array(
                 'entrypoint'=>'https://myshop.example.com',
                 'client_id'=>$config['appId'],
                 'client_secret'=>$config['appSecret']
-            ]
+            )
         );
 
         $client->setAccessToken('INSERT TOKEN HERE');
 
-        $resource = new \DreamCommerce\Resource\Producer($client);
+        $resource = new \DreamCommerce\ShopAppstoreLib\Resource\Producer($client);
         // or
         $resource = $client->producers;
 
@@ -213,29 +213,29 @@ REST PUT
 
 .. code-block:: php
 
-    use DreamCommerce\Client;
-    use DreamCommerce\Exception\ClientException;
-    use DreamCommerce\Exception\ResourceException;
+    use DreamCommerce\ShopAppstoreLib\Client;
+    use DreamCommerce\ShopAppstoreLib\Exception\ClientException;
+    use DreamCommerce\ShopAppstoreLib\Exception\ResourceException;
 
     $config = require 'bootstrap.php';
 
     try {
         // set custom retries count
         // it will throw HttpException if the limit is too low
-        \DreamCommerce\Http::setRetryLimit(2);
+        \DreamCommerce\ShopAppstoreLib\Http::setRetryLimit(2);
 
         $client = Client::factory(
             Client::ADAPTER_OAUTH,
-            [
+            array(
                 'entrypoint'=>'https://myshop.example.com',
                 'client_id'=>$config['appId'],
                 'client_secret'=>$config['appSecret']
-            ]
+            )
         );
 
         $client->setAccessToken('INSERT TOKEN HERE');
 
-        $resource = new \DreamCommerce\Resource\Producer($client);
+        $resource = new \DreamCommerce\ShopAppstoreLib\Resource\Producer($client);
         // or
         $resource = $client->producers;
 
@@ -256,29 +256,29 @@ REST DELETE
 
 .. code-block:: php
 
-    use DreamCommerce\Client;
-    use DreamCommerce\Exception\ClientException;
-    use DreamCommerce\Exception\ResourceException;
+    use DreamCommerce\ShopAppstoreLib\Client;
+    use DreamCommerce\ShopAppstoreLib\Exception\ClientException;
+    use DreamCommerce\ShopAppstoreLib\Exception\ResourceException;
 
     $config = require 'bootstrap.php';
 
     try {
         // set custom retries count
         // it will throw HttpException if the limit is too low
-        \DreamCommerce\Http::setRetryLimit(2);
+        \DreamCommerce\ShopAppstoreLib\Http::setRetryLimit(2);
 
         $client = Client::factory(
             Client::ADAPTER_OAUTH,
-            [
+            array(
                 'entrypoint'=>'https://myshop.example.com',
                 'client_id'=>$config['appId'],
                 'client_secret'=>$config['appSecret']
-            ]
+            )
         );
 
         $client->setAccessToken('INSERT TOKEN HERE');
 
-        $resource = new \DreamCommerce\Resource\Producer($client);
+        $resource = new \DreamCommerce\ShopAppstoreLib\Resource\Producer($client);
         // or
         $resource = $client->producers;
 
@@ -296,14 +296,15 @@ Token refreshing
 
 .. code-block:: php
 
-    use DreamCommerce\Exception\ClientException;
+    use DreamCommerce\ShopAppstoreLib\Client;
+    use DreamCommerce\ShopAppstoreLib\Exception\ClientException;
 
     $config = require 'bootstrap.php';
     try {
 
         $client = Client::factory(
             Client::ADAPTER_OAUTH,
-            [
+            array(
                 'entrypoint'=>'https://myshop.example.com',
                 'client_id'=>$config['appId'],
                 'client_secret'=>$config['appSecret']

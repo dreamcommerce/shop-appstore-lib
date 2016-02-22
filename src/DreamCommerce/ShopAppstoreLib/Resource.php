@@ -456,7 +456,7 @@ class Resource
         $logger = $this->client->getLogger();
         // log error if no custom logger is configured
         if($logger && $logger instanceof Logger){
-            $logger->error((string)$httpException, [(string)$httpException]);
+            $logger->error((string)$httpException, array((string)$httpException));
         }
 
         throw $exception;

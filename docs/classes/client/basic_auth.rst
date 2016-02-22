@@ -1,6 +1,6 @@
 BasicAuth
 =========
-.. php:namespace:: DreamCommerce\Client
+.. php:namespace:: DreamCommerce\ShopAppstoreLib\Client
 .. php:class:: BasicAuth
 
 A client library allowing to perform REST-ful requests using ``Basic`` authentication method.

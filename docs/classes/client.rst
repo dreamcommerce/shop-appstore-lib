@@ -5,8 +5,7 @@ Client
 
 A client library allowing to perform REST-ful requests.
 
-This class implements :php:interface:`ClientInterface`. Remember using implemented methods is deprecated due we moved
-their implementation to the adapters.
+This class implements :php:interface:`ClientInterface`. .
 
 adapters
 ********
@@ -84,13 +83,6 @@ methods
             'client_secret' => $clientSecret
         )
 
-
-.. php:method:: __get($resource)
-
-    Returns resource object by name
-
-    :param string $resource: resource name
-    :rtype: resource
 
 .. php:method:: getToken($authCode)
 

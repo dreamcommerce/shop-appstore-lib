@@ -1,6 +1,6 @@
 ResourceException
 =================
-.. php:namespace:: DreamCommerce\Exception
+.. php:namespace:: DreamCommerce\ShopAppstoreLib\Exception
 .. php:class:: ResourceException
 
 An exception raised upon problems with data manipulation, eg. invalid parameters.

@@ -2,8 +2,6 @@
 
 namespace DreamCommerce\ShopAppstoreLib\Resource;
 
-use DreamCommerce\Resource;
-use DreamCommerce\Exception;
 use DreamCommerce\ShopAppstoreLib\Resource;
 
 /**

@@ -36,7 +36,7 @@ The log file may be set by defining ``DREAMCOMMERCE_LOG_FILE`` constant.
 ======= ==========================================================================
 value   meaning
 ======= ==========================================================================
-false	logging is disabled
+false	logging is disabled - except errors but you still need to specify log file
 string	file path or stream (i.e. ``"php://stdout"``, ``"logs/application.log"``)
 ======= ==========================================================================
 
@@ -50,14 +50,14 @@ Messages can be passed to simple logger class using multiple priorities:
 
 .. code-block:: php
 
-    \DreamCommerce\Logger::debug("debug message");
-    \DreamCommerce\Logger::info("informational message");
-    \DreamCommerce\Logger::notice("notice message");
-    \DreamCommerce\Logger::warning("warning message");
-    \DreamCommerce\Logger::error("error message");
-    \DreamCommerce\Logger::critical("critical message");
-    \DreamCommerce\Logger::alert("alert message");
-    \DreamCommerce\Logger::emergency("emergency message");
+    \DreamCommerce\ShopAppstoreLib\Logger::debug("debug message");
+    \DreamCommerce\ShopAppstoreLib\Logger::info("informational message");
+    \DreamCommerce\ShopAppstoreLib\Logger::notice("notice message");
+    \DreamCommerce\ShopAppstoreLib\Logger::warning("warning message");
+    \DreamCommerce\ShopAppstoreLib\Logger::error("error message");
+    \DreamCommerce\ShopAppstoreLib\Logger::critical("critical message");
+    \DreamCommerce\ShopAppstoreLib\Logger::alert("alert message");
+    \DreamCommerce\ShopAppstoreLib\Logger::emergency("emergency message");
 
 Debug messages are filtered if debug mode is disabled.
 
@@ -72,11 +72,11 @@ and pass it to the library.
 
     $client = Client::factory(
         Client::ADAPTER_OAUTH,
-        [
+        array(
             'entrypoint'=>$shop->getShopUrl(),
             'client_id'=>$this->getAppId(),
             'client_secret'=>$this->getAppSecret()
-        ]
+        )
     );
 
     $client->setAccessToken($tokens->getAccessToken());
@@ -95,28 +95,38 @@ A code example using exceptions handling:
 .. code-block:: php
 
     try{
-        $client = new \DreamCommerce\Client(
-            'https://myshop.example.com', 'Application ID', 'Secret'
+        $client = Client::factory(
+            Client::ADAPTER_OAUTH,
+            array(
+                'entrypoint'=>'https://example.com',
+                'client_id'=>'app_id',
+                'client_secret'=>'app_secret'
+            )
         );
 
-        $client->setAccessToken('SHOP TOKEN');
+        $client->setAccessToken('TOKEN');
 
         // fetch collection/object
-        $product = new \DreamCommerce\Resource\Product($client);
+        $product = new \DreamCommerce\ShopAppstoreLib\Resource\Product($client);
         $list = $product->get();
 
         foreach($list as $item){
             //...
         }
 
-    } catch (\DreamCommerce\Exception\ClientException $ex) {
-        // client error
-        \DreamCommerce\Logger::error($ex);
-    } catch (\DreamCommerce\Exception\ResourceException $ex) {
+    } catch (\DreamCommerce\ShopAppstoreLib\Resource\Exception\NotFoundException $ex) {
+        \DreamCommerce\ShopAppstoreLib\Logger::debug('resource not found', array((string)$ex));
+    } catch (\DreamCommerce\ShopAppstoreLib\Exception\ResourceException $ex) {
         // resource error
-        \DreamCommerce\Logger::error($ex);
+        \DreamCommerce\ShopAppstoreLib\Logger::error($ex);
     }
 
+Using default logger library, all traffic is being logged unless you disable debug mode. More over,
+if debugging is disabled, logger will catch all exceptions that are not covered by particular ones.
+This means if server returns HTTP 500, this exception data will be stored. You can disable it at all by not setting
+``DREAMCOMMERCE_LOG_FILE``.
+
+If you need to take more control on data logging, implement your own logger.
 
 Each exception lets to access an exception of lower layer, eg. HTTP response.
 Simply use standard exception's method ``getPrevious`` on every exception.
@@ -127,20 +137,20 @@ Simply use standard exception's method ``getPrevious`` on every exception.
 
         // ...
 
-    } catch (\DreamCommerce\Exception\ClientException $ex) {
+    } catch (\DreamCommerce\ShopAppstoreLib\Exception\ClientException $ex) {
         \DreamCommerce\Logger::error(sprintf("Client error: %s", $ex->getMessage()));
 
         $prev = $ex->getPrevious();
 
-        if($prev instanceof \DreamCommerce\Exception\HttpException){
-            \DreamCommerce\Logger::error(sprintf("HTTP error: %s", $prev->getMessage()));
+        if($prev instanceof \DreamCommerce\ShopAppstoreLib\Exception\HttpException){
+            \DreamCommerce\ShopAppstoreLib\Logger::error(sprintf("HTTP error: %s", $prev->getMessage()));
 
-            if($prev->getCode() == \DreamCommerce\Exception\HttpException::QUOTA_EXCEEDED){
-                \DreamCommerce\Logger::warning("Quota exceeded");
+            if($prev->getCode() == \DreamCommerce\ShopAppstoreLib\Exception\HttpException::QUOTA_EXCEEDED){
+                \DreamCommerce\ShopAppstoreLib\Logger::warning("Quota exceeded");
             }
         }
 
-    } catch (\DreamCommerce\Exception\ResourceException $ex) {
-        \DreamCommerce\Logger::error(sprintf("Resource error: %s", $ex->getMessage()));
+    } catch (\DreamCommerce\ShopAppstoreLib\Exception\ResourceException $ex) {
+        \DreamCommerce\ShopAppstoreLib\Logger::error(sprintf("Resource error: %s", $ex->getMessage()));
     }
 

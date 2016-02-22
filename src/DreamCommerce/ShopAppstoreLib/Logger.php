@@ -18,11 +18,11 @@ class Logger extends AbstractLogger
         }
 
         if($level == LogLevel::DEBUG){
-            if(!in_array($level, [
+            if(!in_array($level, array(
                 LogLevel::ERROR,
                 LogLevel::CRITICAL,
                 LogLevel::EMERGENCY
-            ]) && !$status){
+            )) && !$status){
                 // debug mode disabled
                 return;
             }

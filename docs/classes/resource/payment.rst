@@ -1,7 +1,7 @@
 Payment
 =======
 
-.. php:namespace:: DreamCommerce\Resource
+.. php:namespace:: DreamCommerce\ShopAppstoreLib\Resource
 .. php:class:: Payment
 
 Check: :doc:`../resource`.

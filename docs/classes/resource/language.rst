@@ -1,7 +1,7 @@
 Language
 ========
 
-.. php:namespace:: DreamCommerce\Resource
+.. php:namespace:: DreamCommerce\ShopAppstoreLib\Resource
 .. php:class:: Language
 
 Check: :doc:`../resource`.

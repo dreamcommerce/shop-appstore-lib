@@ -13,10 +13,10 @@ The configuration is done by specifying values in client object factory, eg:
 
     $client = Client::factory(
         Client::ADAPTER_OAUTH,
-        [
+        array(
             'entrypoint'=>$params['shop_url'],
             'client_id'=>$app['app_id'],
             'client_secret'=>$app['app_secret']
-        ]
+        )
     );
 

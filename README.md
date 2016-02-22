@@ -5,7 +5,7 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
-## Version 0.3
+## Version 1.0.0
 * \# refactored debugging facilities - added particular exceptions, eg. ``NotFoundException``, etc. 
 * \# stripped away some rubbish code
 * \# narrowed namespace of library - ``DreamCommerce\\ShopAppstoreLib``

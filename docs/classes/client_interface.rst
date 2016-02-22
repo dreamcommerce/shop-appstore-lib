@@ -20,11 +20,11 @@ methods
 
     .. code-block:: php
 
-        {
-            'access_token': 'xxxxxx',
-            'expires_in':   '3600',
-            'token_type':   'bearer'
-        }
+        array(
+            'access_token'=>'xxxxxx',
+            'expires_in'=>'3600',
+            'token_type'=>'bearer'
+        )
 
 .. php:method:: request(Resource $res, $method, $objectPath = null, $data = [], $query = [])
 

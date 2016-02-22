@@ -126,7 +126,7 @@ static methods
 
     .. code-block:: php
 
-        \DreamCommerce\Resource::factory($client, "product");
+        \DreamCommerce\ShopAppstoreLib\Resource::factory($client, "product");
 
 methods
 *******

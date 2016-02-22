@@ -1,7 +1,7 @@
 ProductImage
 ============
 
-.. php:namespace:: DreamCommerce\Resource
+.. php:namespace:: DreamCommerce\ShopAppstoreLib\Resource
 .. php:class:: ProductImage
 
 Check: :doc:`../resource`.

@@ -1,7 +1,7 @@
 Order
 =====
 
-.. php:namespace:: DreamCommerce\Resource
+.. php:namespace:: DreamCommerce\ShopAppstoreLib\Resource
 .. php:class:: Order
 
 Check: :doc:`../resource`.

@@ -1,6 +1,6 @@
 ClientException
 ===============
-.. php:namespace:: DreamCommerce\Exception
+.. php:namespace:: DreamCommerce\ShopAppstoreLib\Exception
 .. php:class:: ClientException
 
 An exception raised upon :php:class:`DreamCommerce\\Client` library error.

@@ -1,7 +1,7 @@
 AdditionalField
 ===============
 
-.. php:namespace:: DreamCommerce\Resource
+.. php:namespace:: DreamCommerce\ShopAppstoreLib\Resource
 .. php:class:: AdditionalField
 
 Check: :doc:`../resource`.

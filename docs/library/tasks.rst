@@ -32,12 +32,12 @@ The most convenient way is to exchange this code during the install. In billing 
 
     $client = Client::factory(
         Client::ADAPTER_OAUTH,
-        [
+        array(
             'entrypoint'=>'https://shop.url',
             'client_id'=>'application_id',
             'client_secret'=>'application_secret',
             'auth_code'=>'auth_code'
-        ]
+        )
     );
 
     // and get tokens
@@ -57,12 +57,12 @@ In case the token gets expired (look at: ``expires_in``) or in case it's invalid
 
     $client = Client::factory(
         Client::ADAPTER_OAUTH,
-        [
+        array(
             'entrypoint'=>'https://shop.url',
             'client_id'=>'application_id',
             'client_secret'=>'application_secret',
             'refresh_token'=>'refresh_token'
-        ]
+        )
     );
 
     // and get tokens
@@ -81,17 +81,17 @@ With a valid token, it's possible to perform request to the shop according to th
 
     $client = Client::factory(
         Client::ADAPTER_OAUTH,
-        [
+        array(
             'entrypoint'=>'http://myshop.example.com',
             'client_id'=>'application_id',
             'client_secret'=>'application_secret'
-        ]
+        )
     );
 
     $client->setAccessToken('SHOP TOKEN');
 
     // getting collection/object
-    $product = new \DreamCommerce\Resource\Product($client);
+    $product = new \DreamCommerce\ShopAppstoreLib\Resource\Product($client);
     $list = $product->get();
 
     foreach($list as $item){

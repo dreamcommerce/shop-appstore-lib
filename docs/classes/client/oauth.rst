@@ -1,6 +1,6 @@
 OAuth
 =====
-.. php:namespace:: DreamCommerce\Client
+.. php:namespace:: DreamCommerce\ShopAppstoreLib\Client
 .. php:class:: OAuth
 
 An adapter for OAuth requests.

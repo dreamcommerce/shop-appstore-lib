@@ -3,7 +3,6 @@
 namespace DreamCommerce\ShopAppstoreLib\Resource;
 
 use DreamCommerce\ShopAppstoreLib\Resource;
-use DreamCommerce\ShopAppstoreLib\Exception;
 
 /**
  * Resource GeolocationRegion

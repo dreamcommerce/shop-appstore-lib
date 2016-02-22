@@ -1,7 +1,7 @@
 Status
 ======
 
-.. php:namespace:: DreamCommerce\Resource
+.. php:namespace:: DreamCommerce\ShopAppstoreLib\Resource
 .. php:class:: Status
 
 Check: :doc:`../resource`.

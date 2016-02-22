@@ -70,16 +70,16 @@ class HttpException extends Exception
     protected $responseHeaders;
 
     /**
-     * @param string $message
-     * @param int $code
-     * @param \Exception $previous
-     * @param null $method
-     * @param null $url
+     * @param string $message exception message
+     * @param int $code error code
+     * @param \Exception $previous previous exception
+     * @param string $method HTTP method
+     * @param string $url URL to entrypoint that caused failure
      * @param array $headers an array with HTTP response headers
-     * @param array $query
-     * @param array $body
-     * @param string $response raw response
-     * @param array $responseHeaders
+     * @param array $query query string parameters
+     * @param array $body body parameters
+     * @param string $response raw server response
+     * @param array $responseHeaders server response headers
      */
     public function __construct(
         $message = '',
@@ -159,6 +159,10 @@ class HttpException extends Exception
         return $this->responseHeaders;
     }
 
+    /**
+     * serializes exception to loggable form
+     * @return string
+     */
     public function __toString()
     {
         $context = var_export(array(

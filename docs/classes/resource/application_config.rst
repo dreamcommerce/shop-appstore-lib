@@ -1,7 +1,7 @@
 ApplicationConfig
 =================
 
-.. php:namespace:: DreamCommerce\Resource
+.. php:namespace:: DreamCommerce\ShopAppstoreLib\Resource
 .. php:class:: ApplicationConfig
 
 Check: :doc:`../resource`.

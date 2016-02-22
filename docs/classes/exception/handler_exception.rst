@@ -1,6 +1,6 @@
 HandlerException
 ================
-.. php:namespace:: DreamCommerce\Exception
+.. php:namespace:: DreamCommerce\ShopAppstoreLib\Exception
 .. php:class:: HandlerException
 
 An exception raised upon billing system responder error.
