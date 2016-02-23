@@ -252,6 +252,8 @@ abstract class Bearer implements ClientInterface
             }
         }
 
+        $this->httpClient->setSkipSsl($this->skipSsl);
+
         return $this->httpClient;
     }
 
