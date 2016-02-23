@@ -2,7 +2,7 @@
 
 namespace DreamCommerce\ShopAppstoreLib;
 
-use DreamCommerce\ShopAppstoreLib\Exception\ClientException;
+use DreamCommerce\ShopAppstoreLib\Client\Exception\Exception;
 
 /**
  * DreamCommerce requesting library
@@ -28,37 +28,37 @@ class Client
      * @param string $adapter
      * @param array $options
      * @return ClientInterface
-     * @throws ClientException
+     * @throws Exception
      */
     public static function factory($adapter, $options = array())
     {
         if (!is_string($adapter) || empty($adapter)) {
-            throw new ClientException('Adapter name must be specified in a string');
+            throw new Exception('Adapter name must be specified in a string');
         }
 
         if (!is_array($options)) {
-            throw new ClientException('Adapter parameters must be in an array');
+            throw new Exception('Adapter parameters must be in an array');
         }
 
         $adapterNamespace = '\\DreamCommerce\ShopAppstoreLib\\Client';
-        if (isset($config['adapterNamespace'])) {
-            if ($config['adapterNamespace'] != '') {
-                $adapterNamespace = $config['adapterNamespace'];
+        if (isset($options['adapterNamespace'])) {
+            if ($options['adapterNamespace'] != '') {
+                $adapterNamespace = $options['adapterNamespace'];
             }
-            unset($config['adapterNamespace']);
+            unset($options['adapterNamespace']);
         }
 
         $adapterName = $adapterNamespace . '\\';
         $adapterName .= str_replace(' ', '\\', ucwords(str_replace('\\', ' ', $adapter)));
 
         if (!class_exists($adapterName)) {
-            throw new ClientException('Cannot load class "' . $adapterName . '"');
+            throw new Exception('Cannot load class "' . $adapterName . '"');
         }
 
         $clientAdapter = new $adapterName($options);
 
         if(!($clientAdapter instanceof ClientInterface)) {
-            throw new ClientException('Adapter class "' . $adapterName . '" does not implement \\DreamCommerce\ShopAppstoreLib\\ClientInterface');
+            throw new Exception('Adapter class "' . $adapterName . '" does not implement \\DreamCommerce\ShopAppstoreLib\\ClientInterface');
         }
 
         if(self::$defaultAdapter === null) {

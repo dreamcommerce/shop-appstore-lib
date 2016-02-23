@@ -1,6 +1,6 @@
 Client
 ======
-.. php:namespace:: DreamCommerce
+.. php:namespace:: DreamCommerce\ShopAppstoreLib
 .. php:class:: Client
 
 A client library allowing to perform REST-ful requests.
@@ -44,7 +44,7 @@ static methods
 
     ``entrypoint``
         shop URL
-    ``namespace``
+    ``adapterNamespace``
         a namespace used to find ``$adapter`` class
 
 .. php:staticmethod:: getDefaultAdapter()

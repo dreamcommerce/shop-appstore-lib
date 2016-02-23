@@ -1,6 +1,6 @@
 <?php
 
-namespace DreamCommerce\ShopAppstoreLib;
+namespace DreamCommerce\ShopAppstoreLib\Exception;
 
 /**
  * exception parent

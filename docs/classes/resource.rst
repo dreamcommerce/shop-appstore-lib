@@ -1,6 +1,6 @@
 Resource
 ========
-.. php:namespace:: DreamCommerce
+.. php:namespace:: DreamCommerce\ShopAppstoreLib
 .. php:class:: Resource
 
 Represents particular resource.
@@ -61,57 +61,71 @@ resources
     resource/webhook
     resource/zone
 
-=================================== ==================================
-resource	                        description
-=================================== ==================================
-:doc:`resource/about_page`          About page
-:doc:`resource/additional_field`    Additional field
-:doc:`resource/application_lock`    Administrator panel lock
-:doc:`resource/application_config`  Application config
-:doc:`resource/application_version` Application config
-:doc:`resource/attribute_group`	    Attributes group
-:doc:`resource/attribute`           Attribute
-:doc:`resource/auction`             Auction
-:doc:`resource/auction_house`       Auction house
-:doc:`resource/auction_order`       Auction order
-:doc:`resource/availability`        Product availability
-:doc:`resource/category`            Category
-:doc:`resource/categories_tree`	    Category tree
-:doc:`resource/currency`            Currency
-:doc:`resource/dashboard_activity`  Dashboard activity
-:doc:`resource/dashboard_stat`      Sales stats
-:doc:`resource/delivery`            Delivery
-:doc:`resource/gauge`               Gauge
-:doc:`resource/geolocation_country` Geolocation country
-:doc:`resource/geolocation_region`  Geolocation region
-:doc:`resource/language`            Language
-:doc:`resource/metafield`           Metafield
-:doc:`resource/metafield_value`     Metafield Value
-:doc:`resource/object_mtime`        Modification timestamp of object
-:doc:`resource/option_group`        Option group
-:doc:`resource/option`              Variant
-:doc:`resource/option_value`        Variant value
-:doc:`resource/order_product`       Product of order
-:doc:`resource/order`               Order
-:doc:`resource/parcel`              Parcel
-:doc:`resource/payment`             Payment method
-:doc:`resource/producer`            Producer
-:doc:`resource/product`             Product
-:doc:`resource/product_file`        Product file
-:doc:`resource/product_image`       Photo of product
-:doc:`resource/product_stock`       Product stock
-:doc:`resource/shipping`            Shipping method
-:doc:`resource/status`              Order status
-:doc:`resource/subscriber_group`    Subscriber group
-:doc:`resource/subscriber`          Subscriber
-:doc:`resource/tax`                 Tax value
-:doc:`resource/unit`                Unit of measurement
-:doc:`resource/user_address`        Shipping address
-:doc:`resource/user_group`          User group
-:doc:`resource/user`                User
-:doc:`resource/webhook`             Webhook
-:doc:`resource/zone`                Zone
-=================================== ==================================
+exceptions
+**********
+.. toctree::
+    :maxdepth: 2
+    :hidden:
+
+    resource/exception/resource_exception
+    resource/exception/communication_exception
+    resource/exception/not_found_exception
+    resource/exception/object_locked_exception
+    resource/exception/permissions_exception
+    resource/exception/validation_exception
+
+====================================== ==================================
+resource	                           description
+====================================== ==================================
+:doc:`resource/about_page`             About page
+:doc:`resource/additional_field`       Additional field
+:doc:`resource/application_lock`       Administrator panel lock
+:doc:`resource/application_config`     Application config
+:doc:`resource/application_version`    Application config
+:doc:`resource/attribute_group`	       Attributes group
+:doc:`resource/attribute`              Attribute
+:doc:`resource/auction`                Auction
+:doc:`resource/auction_house`          Auction house
+:doc:`resource/auction_order`          Auction order
+:doc:`resource/availability`           Product availability
+:doc:`resource/category`               Category
+:doc:`resource/categories_tree`	       Category tree
+:doc:`resource/currency`               Currency
+:doc:`resource/dashboard_activity`     Dashboard activity
+:doc:`resource/dashboard_stat`         Sales stats
+:doc:`resource/delivery`               Delivery
+:doc:`resource/gauge`                  Gauge
+:doc:`resource/geolocation_country`    Geolocation country
+:doc:`resource/geolocation_region`     Geolocation region
+:doc:`resource/geolocation_subregion`  Geolocation subregion
+:doc:`resource/language`               Language
+:doc:`resource/metafield`              Metafield
+:doc:`resource/metafield_value`        Metafield Value
+:doc:`resource/object_mtime`           Modification timestamp of object
+:doc:`resource/option_group`           Option group
+:doc:`resource/option`                 Variant
+:doc:`resource/option_value`           Variant value
+:doc:`resource/order_product`          Product of order
+:doc:`resource/order`                  Order
+:doc:`resource/parcel`                 Parcel
+:doc:`resource/payment`                Payment method
+:doc:`resource/producer`               Producer
+:doc:`resource/product`                Product
+:doc:`resource/product_file`           Product file
+:doc:`resource/product_image`          Photo of product
+:doc:`resource/product_stock`          Product stock
+:doc:`resource/shipping`               Shipping method
+:doc:`resource/status`                 Order status
+:doc:`resource/subscriber_group`       Subscriber group
+:doc:`resource/subscriber`             Subscriber
+:doc:`resource/tax`                    Tax value
+:doc:`resource/unit`                   Unit of measurement
+:doc:`resource/user_address`           Shipping address
+:doc:`resource/user_group`             User group
+:doc:`resource/user`                   User
+:doc:`resource/webhook`                Webhook
+:doc:`resource/zone`                   Zone
+====================================== ==================================
 
 static methods
 **************

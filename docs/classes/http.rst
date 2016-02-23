@@ -1,6 +1,6 @@
 Http
 ====
-.. php:namespace:: DreamCommerce
+.. php:namespace:: DreamCommerce\ShopAppstoreLib
 .. php:class:: Http
 
 A class performing HTTP requests.

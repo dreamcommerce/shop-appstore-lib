@@ -1,6 +1,6 @@
 HandlerInterface
 ================
-.. php:namespace:: DreamCommerce
+.. php:namespace:: DreamCommerce\ShopAppstoreLib
 .. php:interface:: HandlerInterface
 
 Interface specifying methods for handler modules.
