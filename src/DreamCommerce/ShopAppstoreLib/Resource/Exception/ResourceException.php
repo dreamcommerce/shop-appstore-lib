@@ -2,8 +2,7 @@
 
 namespace DreamCommerce\ShopAppstoreLib\Resource\Exception;
 
-use DreamCommerce\ShopAppstoreLib\Exception;
-use DreamCommerce\ShopAppstoreLib\Exception\HttpException;
+use DreamCommerce\ShopAppstoreLib\Exception\Exception;
 
 /**
  * Class ResourceException

@@ -134,7 +134,7 @@ Simply use standard exception's method ``getPrevious`` on every exception.
 
         // ...
 
-    } catch (\DreamCommerce\ShopAppstoreLib\Exception\ClientException $ex) {
+    } catch (\DreamCommerce\ShopAppstoreLib\Client\Exception\Exception $ex) {
         \DreamCommerce\Logger::error(sprintf("Client error: %s", $ex->getMessage()));
 
         $prev = $ex->getPrevious();

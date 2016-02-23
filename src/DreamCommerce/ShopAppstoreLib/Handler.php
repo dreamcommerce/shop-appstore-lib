@@ -1,7 +1,7 @@
 <?php
 namespace DreamCommerce\ShopAppstoreLib;
 
-use DreamCommerce\ShopAppstoreLib\Exception\ClientException;
+use DreamCommerce\ShopAppstoreLib\Client\Exception\Exception;
 use DreamCommerce\ShopAppstoreLib\Exception\HandlerException;
 use Psr\Log\LoggerInterface;
 
@@ -230,7 +230,7 @@ class Handler implements HandlerInterface
         if($this->client === null) {
             try {
                 $this->client = new Client($this->entrypoint, $this->clientId, $this->clientSecret);
-            } catch (ClientException $ex) {
+            } catch (Exception $ex) {
                 throw new HandlerException('Client initialization failed', HandlerException::CLIENT_INITIALIZATION_FAILED, $ex);
             }
         }

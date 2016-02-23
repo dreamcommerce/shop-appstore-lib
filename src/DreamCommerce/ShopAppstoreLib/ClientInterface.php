@@ -34,7 +34,7 @@ interface ClientInterface
      * @param array $data
      * @param array $query
      * @return array
-     * @throws \DreamCommerce\ShopAppstoreLib\Exception\ClientException
+     * @throws \DreamCommerce\ShopAppstoreLib\Client\Exception\Exception
      */
     public function request(Resource $res, $method, $objectPath = null, $data = array(), $query = array());
 

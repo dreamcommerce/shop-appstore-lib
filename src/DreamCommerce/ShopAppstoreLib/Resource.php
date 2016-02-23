@@ -2,7 +2,7 @@
 
 namespace DreamCommerce\ShopAppstoreLib;
 
-use DreamCommerce\ShopAppstoreLib\Exception\ClientException;
+use DreamCommerce\ShopAppstoreLib\Client\Exception\Exception;
 use DreamCommerce\ShopAppstoreLib\Exception\HttpException;
 use DreamCommerce\ShopAppstoreLib\Resource\Exception\CommunicationException;
 use DreamCommerce\ShopAppstoreLib\Resource\Exception\ObjectLockedException;
@@ -312,9 +312,11 @@ class Resource
 
         $isCollection = $this->isCollection($args);
 
+        $response = '';
+
         try {
             $response = $this->client->request($this, 'get', $args, array(), $query);
-        } catch(ClientException $ex) {
+        } catch(Exception $ex) {
             $this->dispatchException($ex);
         }
 
@@ -336,9 +338,11 @@ class Resource
             $args = null;
         }
 
+        $response = '';
+
         try {
             $response = $this->client->request($this, 'head', $args, array(), $query);
-        } catch(ClientException $ex) {
+        } catch(Exception $ex) {
             $this->dispatchException($ex);
         }
 
@@ -370,10 +374,12 @@ class Resource
             $data = array_pop($args);
         }
 
+        $response = '';
+
         try {
             $response = $this->client->request($this, 'post', $args, $data);
             return $response['data'];
-        } catch (ClientException $ex) {
+        } catch (Exception $ex) {
             $this->dispatchException($ex);
         }
 
@@ -398,7 +404,7 @@ class Resource
 
         try {
             $this->client->request($this, 'put', $args, $data);
-        } catch(ClientException $ex) {
+        } catch(Exception $ex) {
             $this->dispatchException($ex);
         }
 
@@ -424,14 +430,14 @@ class Resource
 
         try {
             $this->client->request($this, 'delete', $args);
-        }catch(ClientException $ex){
+        }catch(Exception $ex){
             $this->dispatchException($ex);
         }
 
         return true;
     }
 
-    protected function dispatchException(ClientException $ex){
+    protected function dispatchException(Exception $ex){
 
         /**
          * @var $httpException HttpException
