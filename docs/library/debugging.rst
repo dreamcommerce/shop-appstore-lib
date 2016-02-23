@@ -1,10 +1,7 @@
 Debugging
 =========
 
-SDK raises errors using exceptions:
-
-- :php:class:`DreamCommerce\\Exception\\ClientException` - informs about errors occurred within client library, eg. invalid token or credentials
-- :php:class:`DreamCommerce\\Exception\\ResourceException` - connected with particular resources, eg. invalid parameters
+SDK raises errors using exceptions. Explore library exceptions: :ref:`classes-list`.
 
 Debug mode
 **********

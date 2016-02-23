@@ -1,3 +1,5 @@
+.. _classes-list:
+
 Classes list
 ============
 
@@ -6,7 +8,7 @@ Classes list
 
     classes/client
     classes/client_interface
-    classes/exception
+    classes/exception/exception
     classes/handler
     classes/handler_interface
     classes/http

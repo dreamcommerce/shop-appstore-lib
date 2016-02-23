@@ -7,6 +7,16 @@ A client library allowing to perform REST-ful requests.
 
 This class implements :php:interface:`ClientInterface`. .
 
+exceptions
+**********
+.. toctree::
+    :maxdepth: 2
+
+    client/exception/basic_auth_exception
+    client/exception/exception
+    client/exception/oauth_exception
+
+
 adapters
 ********
 

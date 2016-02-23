@@ -61,19 +61,6 @@ resources
     resource/webhook
     resource/zone
 
-exceptions
-**********
-.. toctree::
-    :maxdepth: 2
-    :hidden:
-
-    resource/exception/resource_exception
-    resource/exception/communication_exception
-    resource/exception/not_found_exception
-    resource/exception/object_locked_exception
-    resource/exception/permissions_exception
-    resource/exception/validation_exception
-
 ====================================== ==================================
 resource	                           description
 ====================================== ==================================
@@ -126,6 +113,31 @@ resource	                           description
 :doc:`resource/webhook`                Webhook
 :doc:`resource/zone`                   Zone
 ====================================== ==================================
+
+
+exceptions
+**********
+.. toctree::
+    :maxdepth: 2
+    :hidden:
+
+    resource/exception/resource_exception
+    resource/exception/communication_exception
+    resource/exception/not_found_exception
+    resource/exception/object_locked_exception
+    resource/exception/permissions_exception
+    resource/exception/validation_exception
+
+=================================================== ======================================
+exception	                                        description
+=================================================== ======================================
+:doc:`resource/exception/communication_exception`   Server communication problem
+:doc:`resource/exception/not_found_exception`       Object not found
+:doc:`resource/exception/object_locked_exception`   Object is locked for editing
+:doc:`resource/exception/permissions_exception`     Insufficient permissions for object
+:doc:`resource/exception/resource_exception`        Base class for exceptions
+:doc:`resource/exception/validation_exception`	    Supplied data is invalid
+=================================================== ======================================
 
 static methods
 **************
