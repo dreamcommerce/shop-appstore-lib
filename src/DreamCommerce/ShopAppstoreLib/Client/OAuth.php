@@ -62,7 +62,7 @@ class OAuth extends Bearer
     public function __construct($options = array())
     {
         if(!is_array($options)) {
-            throw new ClientOAuthException('Adapter parameters must be in an array', ClientException::PARAMETER_NOT_SPECIFIED);
+            throw new ClientOAuthException('Adapter parameters must be an array', ClientException::PARAMETER_NOT_SPECIFIED);
         }
 
         foreach(array('client_id', 'client_secret') as $reqParam) {
