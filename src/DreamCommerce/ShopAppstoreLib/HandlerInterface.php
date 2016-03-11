@@ -66,7 +66,6 @@ interface HandlerInterface
 
     /**
      * @return ClientInterface
-     * @throws HandlerException
      */
     public function getClient();
 

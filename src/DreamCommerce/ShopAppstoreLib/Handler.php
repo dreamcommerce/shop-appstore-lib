@@ -229,7 +229,14 @@ class Handler implements HandlerInterface
     {
         if($this->client === null) {
             try {
-                $this->client = new Client($this->entrypoint, $this->clientId, $this->clientSecret);
+                $this->client = Client::factory(
+                    Client::ADAPTER_OAUTH,
+                    array(
+                        'entrypoint' => $this->entrypoint,
+                        'client_id' => $this->clientId,
+                        'client_secret' => $this->clientSecret
+                    )
+                );
             } catch (ClientException $ex) {
                 throw new HandlerException('Client initialization failed', HandlerException::CLIENT_INITIALIZATION_FAILED, $ex);
             }
