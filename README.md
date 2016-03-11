@@ -5,6 +5,9 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
+## Version 1.0.1
+* \# fixed ``Handler`` client instantiation
+
 ## Version 1.0.0
 * \# refactored debugging facilities - added particular exceptions, eg. ``NotFoundException``, etc. 
 * \# stripped away some rubbish code
@@ -13,7 +16,7 @@ See: http://developers.shoper.pl/
 * \# removed magic, especially ``__call`` on ``Resource``
 
 ## Version 0.2.16
-* \# ``GeolocationSubregion`` resource added
+* \+ ``GeolocationSubregion`` resource added
 
 ## Version 0.2.15
 * \# another ``MetafieldValue`` collection hydration fix and docs adjustments
