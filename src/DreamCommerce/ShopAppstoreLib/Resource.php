@@ -210,7 +210,7 @@ class Resource
      * set records limit
      * @param int $count collection's items limit in range 1-50
      * @return $this
-     * @throws RuntimeException
+     * @throws \RuntimeException
      */
     public function limit($count)
     {
@@ -227,7 +227,7 @@ class Resource
      * set filters for finding
      * @param array $filters
      * @return $this
-     * @throws ResourceException
+     * @throws \RuntimeException
      */
     public function filters($filters)
     {
@@ -244,7 +244,7 @@ class Resource
      * specify page
      * @param int $page
      * @return $this
-     * @throws ResourceException
+     * @throws \RuntimeException
      */
     public function page($page)
     {
@@ -266,7 +266,7 @@ class Resource
      * or
      * (+|-)<field>
      * @return $this
-     * @throws ResourceException
+     * @throws \RuntimeException
      */
     public function order($expr)
     {

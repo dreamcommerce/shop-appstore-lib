@@ -1,7 +1,7 @@
 <?php
 namespace DreamCommerce\ShopAppstoreLib;
 
-use DreamCommerce\ShopAppstoreLib\Client\Exception\Exception;
+use DreamCommerce\ShopAppstoreLib\Client\Exception\Exception as ClientException;
 use DreamCommerce\ShopAppstoreLib\Exception\HandlerException;
 use Psr\Log\LoggerInterface;
 
@@ -148,7 +148,7 @@ class Handler implements HandlerInterface
      * fires handlers for a specific action
      * @param $action
      * @param $params
-     * @throws Exception\HandlerException
+     * @throws HandlerException
      */
     protected function fire($action, $params)
     {
@@ -229,8 +229,15 @@ class Handler implements HandlerInterface
     {
         if($this->client === null) {
             try {
-                $this->client = new Client($this->entrypoint, $this->clientId, $this->clientSecret);
-            } catch (Exception $ex) {
+                $this->client = Client::factory(
+                    Client::ADAPTER_OAUTH,
+                    array(
+                        'entrypoint' => $this->entrypoint,
+                        'client_id' => $this->clientId,
+                        'client_secret' => $this->clientSecret
+                    )
+                );
+            } catch (ClientException $ex) {
                 throw new HandlerException('Client initialization failed', HandlerException::CLIENT_INITIALIZATION_FAILED, $ex);
             }
         }

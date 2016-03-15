@@ -77,6 +77,9 @@ class OAuth extends Bearer
         if(isset($options['auth_code'])) {
             $this->authCode = $options['auth_code'];
         }
+        if(isset($options['access_token'])) {
+            $this->accessToken = $options['access_token'];
+        }
         if(isset($options['refresh_token'])) {
             $this->refreshToken = $options['refresh_token'];
         }

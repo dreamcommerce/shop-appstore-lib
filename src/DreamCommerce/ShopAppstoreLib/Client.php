@@ -24,6 +24,10 @@ class Client
      */
     protected static $defaultAdapter = null;
 
+    private function __construct() {
+
+    }
+
     /**
      * @param string $adapter
      * @param array $options
