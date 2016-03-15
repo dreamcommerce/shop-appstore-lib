@@ -5,6 +5,9 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
+## Version 1.0.2
+* \# ``Handler`` client instantiation fix re-applied; last time was present only in changelog
+
 ## Version 1.0.1
 * \# fixed ``Handler`` client instantiation
 
