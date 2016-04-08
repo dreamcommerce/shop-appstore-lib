@@ -326,7 +326,10 @@ class Http implements HttpInterface
             $body = (array)$body;
 
             if($json){
-                $content = json_encode($body);
+                $content = @json_encode($body);
+                if(!$content){
+                    throw new \Exception('Body is not serializable');
+                }
             }else{
                 $content = http_build_query($body);
             }
