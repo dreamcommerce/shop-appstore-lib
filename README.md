@@ -5,6 +5,10 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
+## Version 1.0.3
+* \# fixed PHP 5.3 compatibility issues
+* \# forgetting to base64 encode files payload now will return more specific exception with corresponding message
+
 ## Version 1.0.2
 * \# ``Handler`` client instantiation fix re-applied; last time was present only in changelog
 
