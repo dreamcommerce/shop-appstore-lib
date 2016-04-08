@@ -2,9 +2,9 @@
 
 namespace DreamCommerce\ShopAppstoreLib\Client;
 
-use DreamCommerce\ShopAppstoreLib\Exception\ClientBasicAuthException;
+use DreamCommerce\ShopAppstoreLib\Client\Exception\BasicAuthException;
 use DreamCommerce\ShopAppstoreLib\Resource;
-use DreamCommerce\ShopAppstoreLib\Exception\ClientException;
+use DreamCommerce\ShopAppstoreLib\Client\Exception\Exception;
 
 /**
  * DreamCommerce requesting library
@@ -41,24 +41,17 @@ class BasicAuth extends Bearer
 
     /**
      * @param array $options
-     * @throws \DreamCommerce\ShopAppstoreLib\Exception\ClientBasicAuthException
-     *
-     * Example:
-     * {
-     *      entrypoint:     'http://shop.com',
-     *      username:       '12345',
-     *      password:       '54321'
-     * }
+     * @throws BasicAuthException
      */
     public function __construct($options = array())
     {
         if(!is_array($options)) {
-            throw new ClientBasicAuthException('Adapter parameters must be in an array', ClientException::PARAMETER_NOT_SPECIFIED);
+            throw new BasicAuthException('Adapter parameters must be in an array', Exception::PARAMETER_NOT_SPECIFIED);
         }
 
         foreach(array('username', 'password') as $reqParam) {
             if(!isset($options[$reqParam])) {
-                throw new ClientBasicAuthException('Parameter "' . $reqParam . '" is required', ClientException::PARAMETER_NOT_SPECIFIED);
+                throw new BasicAuthException('Parameter "' . $reqParam . '" is required', Exception::PARAMETER_NOT_SPECIFIED);
             }
         }
 
@@ -70,7 +63,6 @@ class BasicAuth extends Bearer
 
     /**
      * {@inheritdoc}
-     * @throws \DreamCommerce\ShopAppstoreLib\Exception\ClientBasicAuthException
      */
     public function authenticate($force = false)
     {
@@ -92,16 +84,16 @@ class BasicAuth extends Bearer
         );
 
         if(!$res) {
-            throw new ClientBasicAuthException('General failure', ClientBasicAuthException::GENERAL_FAILURE);
+            throw new BasicAuthException('General failure', BasicAuthException::GENERAL_FAILURE);
         } elseif(isset($res['data']['error'])) {
             $description = 'General failure';
             if(isset($res['data']['error_description'])) {
                 $description = $res['data']['error_description'];
             }
-            throw new ClientBasicAuthException(array(
+            throw new BasicAuthException(array(
                 'message' => $description,
                 'http_error' => $res['data']['error']
-            ), ClientBasicAuthException::API_ERROR);
+            ), BasicAuthException::API_ERROR);
         }
 
         // automatically set token to the freshly requested

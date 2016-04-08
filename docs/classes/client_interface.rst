@@ -1,6 +1,6 @@
 ClientInterface
 ===============
-.. php:namespace:: DreamCommerce
+.. php:namespace:: DreamCommerce\ShopAppstoreLib
 .. php:interface:: ClientInterface
 
 Interface specifying methods for client modules.

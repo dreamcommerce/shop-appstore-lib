@@ -1,12 +1,12 @@
 <?php
 
-namespace DreamCommerce\ShopAppstoreLib\Exception;
+namespace DreamCommerce\ShopAppstoreLib\Client\Exception;
 
 /**
  * Class ClientBasicAuthException
  * @package DreamCommerce
  */
-class ClientBasicAuthException extends ClientException
+class BasicAuthException extends Exception
 {
     const GENERAL_FAILURE = 1;
 }

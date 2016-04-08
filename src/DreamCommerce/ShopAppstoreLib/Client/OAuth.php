@@ -3,9 +3,9 @@
 namespace DreamCommerce\ShopAppstoreLib\Client;
 
 use DreamCommerce\ShopAppstoreLib\Client;
+use DreamCommerce\ShopAppstoreLib\Client\Exception\Exception;
 use DreamCommerce\ShopAppstoreLib\Resource;
-use DreamCommerce\ShopAppstoreLib\Exception\ClientException;
-use DreamCommerce\ShopAppstoreLib\Exception\ClientOAuthException;
+use DreamCommerce\ShopAppstoreLib\Client\Exception\OAuthException;
 
 /**
  * DreamCommerce requesting library
@@ -46,8 +46,6 @@ class OAuth extends Bearer
 
     /**
      * @param array $options
-     * @throws \DreamCommerce\ShopAppstoreLib\Exception\ClientException
-     * @throws \DreamCommerce\ShopAppstoreLib\Exception\ClientOAuthException
      *
      * Example:
      * {
@@ -58,16 +56,18 @@ class OAuth extends Bearer
      *      refresh_token:  'xxxxx',
      *      access_token:   'xxxxx'
      * }
+     * @throws Exception
+     * @throws OAuthException
      */
     public function __construct($options = array())
     {
         if(!is_array($options)) {
-            throw new ClientOAuthException('Adapter parameters must be in an array', ClientException::PARAMETER_NOT_SPECIFIED);
+            throw new OAuthException('Adapter parameters must be an array', Exception::PARAMETER_NOT_SPECIFIED);
         }
 
         foreach(array('client_id', 'client_secret') as $reqParam) {
             if(!isset($options[$reqParam])) {
-                throw new ClientOAuthException('Parameter "' . $reqParam . '" is required', ClientException::PARAMETER_NOT_SPECIFIED);
+                throw new OAuthException('Parameter "' . $reqParam . '" is required', Exception::PARAMETER_NOT_SPECIFIED);
             }
         }
 
@@ -91,7 +91,7 @@ class OAuth extends Bearer
      * Authentication
      *
      * @param boolean $force
-     * @throws \DreamCommerce\ShopAppstoreLib\Exception\ClientException
+     * @throws \DreamCommerce\ShopAppstoreLib\Exception\Exception
      * @return \stdClass
      * Example output:
      * {
@@ -122,7 +122,7 @@ class OAuth extends Bearer
         );
 
         if(!$res || isset($res['data']['error'])){
-            throw new ClientOAuthException($res['data']['error'], ClientException::API_ERROR);
+            throw new OAuthException($res['data']['error'], Exception::API_ERROR);
         }
 
         $this->accessToken = $res['data']['access_token'];
@@ -137,7 +137,7 @@ class OAuth extends Bearer
      * Refresh OAuth tokens
      *
      * @return array
-     * @throws \DreamCommerce\ShopAppstoreLib\Exception\ClientException
+     * @throws \DreamCommerce\ShopAppstoreLib\Exception\Exception
      */
     public function refreshTokens()
     {
@@ -152,7 +152,7 @@ class OAuth extends Bearer
         ));
 
         if(!$res || !empty($res['data']['error'])){
-            throw new ClientException($res['error'], ClientException::API_ERROR);
+            throw new Exception($res['error'], Exception::API_ERROR);
         }
 
         $this->accessToken = $res['data']['access_token'];
@@ -201,12 +201,12 @@ class OAuth extends Bearer
 
     /**
      * @return string
-     * @throws \DreamCommerce\ShopAppstoreLib\Exception\ClientException
+     * @throws \DreamCommerce\ShopAppstoreLib\Exception\Exception
      */
     public function getAuthCode()
     {
         if($this->authCode === null) {
-            throw new ClientException('Parameter "auth_code" is required', ClientException::PARAMETER_NOT_SPECIFIED);
+            throw new Exception('Parameter "auth_code" is required', Exception::PARAMETER_NOT_SPECIFIED);
         }
 
         return $this->authCode;
@@ -224,12 +224,12 @@ class OAuth extends Bearer
 
     /**
      * @return string
-     * @throws \DreamCommerce\ShopAppstoreLib\Exception\ClientException
+     * @throws \DreamCommerce\ShopAppstoreLib\Exception\Exception
      */
     public function getRefreshToken()
     {
         if($this->refreshToken === null) {
-            throw new ClientException('Parameter "refresh_token" is required', ClientException::PARAMETER_NOT_SPECIFIED);
+            throw new Exception('Parameter "refresh_token" is required', Exception::PARAMETER_NOT_SPECIFIED);
         }
 
         return $this->refreshToken;

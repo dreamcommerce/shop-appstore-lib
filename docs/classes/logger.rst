@@ -1,6 +1,6 @@
 Logger
 ======
-.. php:namespace:: DreamCommerce
+.. php:namespace:: DreamCommerce\ShopAppstoreLib
 .. php:class:: Logger
 
 A class performing simple messages logging.

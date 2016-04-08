@@ -3,7 +3,7 @@
 namespace DreamCommerce\ShopAppstoreLib\Client;
 
 use DreamCommerce\ShopAppstoreLib\ClientInterface;
-use DreamCommerce\ShopAppstoreLib\Exception\ClientException;
+use DreamCommerce\ShopAppstoreLib\Client\Exception\Exception;
 use DreamCommerce\ShopAppstoreLib\Exception\HttpException;
 use DreamCommerce\ShopAppstoreLib\Http;
 use DreamCommerce\ShopAppstoreLib\HttpInterface;
@@ -85,16 +85,16 @@ abstract class Bearer implements ClientInterface
 
     /**
      * @param array $options
-     * @throws \DreamCommerce\ShopAppstoreLib\Exception\ClientException
+     * @throws \DreamCommerce\ShopAppstoreLib\Exception\Exception
      */
     public function __construct($options = array())
     {
         if(!is_array($options)) {
-            throw new ClientException('Adapter parameters must be in an array', ClientException::PARAMETER_NOT_SPECIFIED);
+            throw new Exception('Adapter parameters must be in an array', Exception::PARAMETER_NOT_SPECIFIED);
         }
 
         if(!isset($options['entrypoint'])) {
-            throw new ClientException('Parameter "entrypoint" is required', ClientException::PARAMETER_NOT_SPECIFIED);
+            throw new Exception('Parameter "entrypoint" is required', Exception::PARAMETER_NOT_SPECIFIED);
         }
 
         if(isset($options['skip_ssl'])){
@@ -104,7 +104,7 @@ abstract class Bearer implements ClientInterface
         $entrypoint = $options['entrypoint'];
 
         if(!filter_var($entrypoint, FILTER_VALIDATE_URL)){
-            throw new ClientException('Invalid entrypoint URL', ClientException::ENTRYPOINT_URL_INVALID);
+            throw new Exception('Invalid entrypoint URL', Exception::ENTRYPOINT_URL_INVALID);
         }
 
         // adjust base URL
@@ -130,7 +130,7 @@ abstract class Bearer implements ClientInterface
         $client = $this->getHttpClient();
 
         if(!method_exists($client, $method)) {
-            throw new ClientException('Method not supported', ClientException::METHOD_NOT_SUPPORTED);
+            throw new Exception('Method not supported', Exception::METHOD_NOT_SUPPORTED);
         }
 
         $client->setSkipSsl($this->skipSsl);
@@ -176,7 +176,7 @@ abstract class Bearer implements ClientInterface
                 }
             }
 
-            throw new ClientException('HTTP error: '.$ex->getMessage(), ClientException::API_ERROR, $ex);
+            throw new Exception('HTTP error: '.$ex->getMessage(), Exception::API_ERROR, $ex);
         }
     }
 
@@ -191,12 +191,12 @@ abstract class Bearer implements ClientInterface
 
     /**
      * @return string
-     * @throws \DreamCommerce\ShopAppstoreLib\Exception\ClientException
+     * @throws \DreamCommerce\ShopAppstoreLib\Exception\Exception
      */
     public function getAccessToken()
     {
         if($this->accessToken === null) {
-            throw new ClientException('Parameter "access_token" is required', ClientException::PARAMETER_NOT_SPECIFIED);
+            throw new Exception('Parameter "access_token" is required', Exception::PARAMETER_NOT_SPECIFIED);
         }
 
         return $this->accessToken;
@@ -251,6 +251,8 @@ abstract class Bearer implements ClientInterface
                 $this->httpClient->setLogger($this->logger);
             }
         }
+
+        $this->httpClient->setSkipSsl($this->skipSsl);
 
         return $this->httpClient;
     }

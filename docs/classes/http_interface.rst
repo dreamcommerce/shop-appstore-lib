@@ -1,6 +1,6 @@
 HttpInterface
 =============
-.. php:namespace:: DreamCommerce
+.. php:namespace:: DreamCommerce\ShopAppstoreLib
 .. php:interface:: HttpInterface
 
 Interface specifying methods for HTTP communication layer.

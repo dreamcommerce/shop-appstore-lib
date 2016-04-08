@@ -1,14 +1,14 @@
 <?php
 
-namespace DreamCommerce\ShopAppstoreLib\Exception;
+namespace DreamCommerce\ShopAppstoreLib\Client\Exception;
 
-use DreamCommerce\ShopAppstoreLib\Exception;
+use DreamCommerce\ShopAppstoreLib\Exception\Exception as BaseException;
 
 /**
  * Class ClientException
  * @package DreamCommerce
  */
-class ClientException extends Exception
+class Exception extends BaseException
 {
     /**
      * error occurs when cannot determine more detailed information

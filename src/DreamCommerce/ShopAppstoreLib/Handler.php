@@ -1,7 +1,7 @@
 <?php
 namespace DreamCommerce\ShopAppstoreLib;
 
-use DreamCommerce\ShopAppstoreLib\Exception\ClientException;
+use DreamCommerce\ShopAppstoreLib\Client\Exception\Exception as ClientException;
 use DreamCommerce\ShopAppstoreLib\Exception\HandlerException;
 use Psr\Log\LoggerInterface;
 
@@ -148,7 +148,7 @@ class Handler implements HandlerInterface
      * fires handlers for a specific action
      * @param $action
      * @param $params
-     * @throws Exception\HandlerException
+     * @throws HandlerException
      */
     protected function fire($action, $params)
     {

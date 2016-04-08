@@ -5,7 +5,7 @@ OAuth
 
 An adapter for OAuth requests.
 
-This class implements :php:interface:`DreamCommerce\\ClientInterface`.
+This class implements :php:interface:`DreamCommerce\\ShopAppstoreLib\\ClientInterface`.
 
 methods
 *******

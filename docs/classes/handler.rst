@@ -1,12 +1,12 @@
 Handler
 =======
-.. php:namespace:: DreamCommerce
+.. php:namespace:: DreamCommerce\ShopAppstoreLib
 .. php:class:: Handler
 
 It's an object for handling automatic messages from AppStore. It's event-based which allows to easily bind many handlers
 to the particular event (eg. for installation handler, it's possible to bind database storing, cache purging, etc).
 
-See :php:interface:`DreamCommerce\\HandlerInterface`.
+See :php:interface:`DreamCommerce\\ShopAppstoreLib\\HandlerInterface`.
 
 methods
 *******

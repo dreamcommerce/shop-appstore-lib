@@ -5,7 +5,7 @@ Bearer
 
 An abstract client class for most of REST operations.
 
-This class implements :php:interface:`DreamCommerce\\ClientInterface`.
+This class implements :php:interface:`DreamCommerce\\ShopAppstoreLib\\ClientInterface`.
 
 constants
 *********

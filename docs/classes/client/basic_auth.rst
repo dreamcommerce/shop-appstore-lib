@@ -5,7 +5,7 @@ BasicAuth
 
 A client library allowing to perform REST-ful requests using ``Basic`` authentication method.
 
-This class implements :php:interface:`DreamCommerce\\ClientInterface`.
+This class implements :php:interface:`DreamCommerce\\ShopAppstoreLib\\ClientInterface`.
 
 constants
 *********
