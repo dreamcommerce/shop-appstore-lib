@@ -117,7 +117,7 @@ class Http implements HttpInterface
 
         // response data placeholders
         $response = null;
-        $responseHeaders = [];
+        $responseHeaders = array();
 
         $logger = $this->getLogger();
 
@@ -345,7 +345,7 @@ class Http implements HttpInterface
      * @param array $query query string contents
      * @return string
      */
-    protected function prepareUrl($url, $query = [])
+    protected function prepareUrl($url, $query = array())
     {
         $processedUrl = $url;
 
