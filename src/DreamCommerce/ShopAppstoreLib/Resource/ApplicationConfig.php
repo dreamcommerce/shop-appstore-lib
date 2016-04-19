@@ -9,7 +9,6 @@ use DreamCommerce\ShopAppstoreLib\Exception;
  * Resource ApplicationConfig
  *
  * @package DreamCommerce\ShopAppstoreLib\Resource
- * @since 5.7.4
  * @link https://developers.shoper.pl/developers/api/resources/application-config
  */
 class ApplicationConfig extends Resource

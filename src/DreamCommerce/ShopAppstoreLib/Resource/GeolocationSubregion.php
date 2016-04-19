@@ -9,7 +9,6 @@ use DreamCommerce\ShopAppstoreLib\Resource;
  *
  * @package DreamCommerce\Resource
  * @link https://developers.shoper.pl/developers/api/resources/geolocation-subregions
- * @since shop 5.7.7
  */
 class GeolocationSubregion extends Resource
 {

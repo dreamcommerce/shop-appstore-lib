@@ -11,7 +11,6 @@ use DreamCommerce\ShopAppstoreLib\Resource\Exception\MethodUnsupportedException;
  *
  * @package DreamCommerce\ShopAppstoreLib\Resource
  * @link https://developers.shoper.pl/developers/api/resources/application-version
- * @since shop 5.7.0
  */
 class ApplicationVersion extends Resource
 {
