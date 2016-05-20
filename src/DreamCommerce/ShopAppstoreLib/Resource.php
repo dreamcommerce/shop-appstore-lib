@@ -272,25 +272,31 @@ class Resource
     {
         $matches = array();
 
-        // basic syntax, with asc/desc suffix
-        if(preg_match('/([a-z_0-9.]+) (asc|desc)$/i', $expr)) {
-            $this->order = $expr;
-        } else if(preg_match('/([\+\-]?)([a-z_0-9.]+)/i', $expr, $matches)) {
+        $expr = (array)$expr;
 
-            // alternative syntax - with +/- prefix
-            $result = $matches[2];
-            if($matches[1]=='' || $matches[1]=='+'){
-                $result .= ' asc';
+        $result = array();
+
+        foreach($expr as $e) {
+            // basic syntax, with asc/desc suffix
+            if (preg_match('/([a-z_0-9.]+) (asc|desc)$/i', $e)) {
+                $result[] = $e;
+            } else if (preg_match('/([\+\-]?)([a-z_0-9.]+)/i', $e, $matches)) {
+
+                // alternative syntax - with +/- prefix
+                $subResult = $matches[2];
+                if ($matches[1] == '' || $matches[1] == '+') {
+                    $subResult .= ' asc';
+                } else {
+                    $subResult .= ' desc';
+                }
+                $result[] = $subResult;
             } else {
-                $result .= ' desc';
+                // something which should never happen but take care [;
+                throw new \RuntimeException('Cannot understand ordering expression', ResourceException::ORDER_NOT_SUPPORTED);
             }
-            $this->order = $result;
-        } else {
-            // something which should never happen but take care [;
-            throw new \RuntimeException('Cannot understand ordering expression', ResourceException::ORDER_NOT_SUPPORTED);
         }
 
-        return $this;
+        $this->order = $result;
 
     }
 
