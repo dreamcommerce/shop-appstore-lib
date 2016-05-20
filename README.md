@@ -5,6 +5,11 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
+## Version 1.1.1
+* \+ ``AuctionHouse`` and ``AuctionZone`` resources
+* \+ added ability to use more than single field in ``Resource::order`` argument
+* \# some phpdoc clean-up
+
 ## Version 1.1.0
 * \# fixed PHP 5.3 compatibility issues
 * \# forgetting to base64 encode files payload now will return more specific exception with corresponding message
