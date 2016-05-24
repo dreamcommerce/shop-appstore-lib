@@ -114,6 +114,14 @@ resource	                           description
 :doc:`resource/zone`                   Zone
 ====================================== ==================================
 
+constants
+*********
+
+``HTTP_ERROR_OBJECT_READONLY``
+    object is marked as read-only and cannot be altered
+
+``HTTP_ERROR_CANNOT_DELETE_INTERNAL_OBJECT``
+    object is considered as pre-installed or internal and cannot be deleted
 
 exceptions
 **********
