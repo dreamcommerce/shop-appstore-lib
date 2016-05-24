@@ -2,7 +2,6 @@
 
 namespace DreamCommerce\ShopAppstoreLib\Exception;
 
-use Exception;
 
 /**
  * Class HandlerException

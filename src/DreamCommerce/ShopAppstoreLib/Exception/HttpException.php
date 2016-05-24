@@ -1,7 +1,6 @@
 <?php
 
 namespace DreamCommerce\ShopAppstoreLib\Exception;
-use Exception;
 
 /**
  * Class HttpException
