@@ -5,6 +5,10 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
+## Version 1.1.2
+* \+ new constants documented
+* \# fixed ``HandlerException`` and ``HttpException`` exceptions hierarchy
+
 ## Version 1.1.1
 * \+ ``AuctionHouse`` and ``AuctionZone`` resources
 * \+ added ability to use more than single field in ``Resource::order`` argument
