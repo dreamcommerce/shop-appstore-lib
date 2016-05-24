@@ -19,6 +19,16 @@ use DreamCommerce\ShopAppstoreLib\Resource\Exception\ValidationException;
 class Resource
 {
     /**
+     * Object '%s' as id: '%s' is read-only and cannot be modified
+     */
+    const HTTP_ERROR_OBJECT_READONLY = 'object_readonly';
+
+    /**
+     * Cannot delete internal object '%s' as id: '%s'
+     */
+    const HTTP_ERROR_CANNOT_DELETE_INTERNAL_OBJECT = 'cannot_delete_internal_object';
+
+    /**
      * @var ClientInterface|null
      */
     public $client = null;

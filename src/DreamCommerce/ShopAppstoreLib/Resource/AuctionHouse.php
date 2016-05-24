@@ -9,7 +9,6 @@ use DreamCommerce\ShopAppstoreLib\Resource;
  *
  * @package DreamCommerce\ShopAppstoreLib\Resource
  * @link https://developers.shoper.pl/developers/api/resources/auction-houses
- * @since soon
  */
 class AuctionHouse extends Resource
 {

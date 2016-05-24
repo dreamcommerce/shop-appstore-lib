@@ -10,7 +10,6 @@ use DreamCommerce\ShopAppstoreLib\Resource;
  *
  * @package DreamCommerce\ShopAppstoreLib\Resource
  * @link https://developers.shoper.pl/developers/api/resources/geolocation-countries
- * @since shop 5.7.0
  */
 class GeolocationCountry extends Resource
 {
