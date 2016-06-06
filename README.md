@@ -5,6 +5,9 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
+## Version 1.1.3
+* \# fixed multiple HTTP response codes handling
+
 ## Version 1.1.2
 * \+ new constants documented
 * \# fixed ``HandlerException`` and ``HttpException`` exceptions hierarchy
