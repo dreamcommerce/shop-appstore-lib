@@ -7,6 +7,7 @@ See: http://developers.shoper.pl/
 
 ## Version 1.1.3
 * \# fixed multiple HTTP response codes handling
+* \# fixed ``Aboutpage`` autoloading issue (file name case problem)
 
 ## Version 1.1.2
 * \+ new constants documented
