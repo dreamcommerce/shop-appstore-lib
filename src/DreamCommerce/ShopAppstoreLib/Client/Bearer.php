@@ -123,8 +123,8 @@ abstract class Bearer implements ClientInterface
             $entrypoint .= '/webapi/rest';
         }
 
-        if(!empty($options['userAgent'])) {
-            $this->userAgent = $options['userAgent'];
+        if(!empty($options['user_agent'])) {
+            $this->userAgent = $options['user_agent'];
         }else{
             if (empty($this->userAgent)) {
                 if (is_callable(array($this, 'getClientId'))) {
