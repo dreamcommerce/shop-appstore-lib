@@ -75,7 +75,7 @@ class BasicAuth extends Bearer
             'Content-Type' => 'application/x-www-form-urlencoded'
         );
 
-        $this->injectUserAgent($headers);
+        $headers = $this->injectUserAgent($headers);
 
         $res = $this->getHttpClient()->post(
             $this->entrypoint . '/auth',

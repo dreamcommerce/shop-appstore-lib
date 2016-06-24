@@ -114,7 +114,7 @@ class OAuth extends Bearer
             'Content-Type' => 'application/x-www-form-urlencoded'
         );
 
-        $this->injectUserAgent($headers);
+        $headers = $this->injectUserAgent($headers);
 
         $res = $this->getHttpClient()->post(
             $this->entrypoint . '/oauth/token',
@@ -149,7 +149,7 @@ class OAuth extends Bearer
             'Content-Type' => 'application/x-www-form-urlencoded'
         );
 
-        $this->injectUserAgent($headers);
+        $headers = $this->injectUserAgent($headers);
 
         $res = $this->getHttpClient()->post($this->entrypoint . '/oauth/token', array(
             'client_id' => $this->getClientId(),

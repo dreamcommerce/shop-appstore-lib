@@ -167,7 +167,7 @@ abstract class Bearer implements ClientInterface
             'Accept-Language' => $this->getLocale() . ';q=0.8'
         );
 
-        $this->injectUserAgent($headers);
+        $headers = $this->injectUserAgent($headers);
 
         try {
             // dispatch correct method
