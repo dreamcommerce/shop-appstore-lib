@@ -84,6 +84,12 @@ abstract class Bearer implements ClientInterface
     protected $skipSsl;
 
     /**
+     * user agent used to include with every request
+     * @var string
+     */
+    protected $userAgent = null;
+
+    /**
      * @param array $options
      * @throws \DreamCommerce\ShopAppstoreLib\Exception\Exception
      */
@@ -117,6 +123,18 @@ abstract class Bearer implements ClientInterface
             $entrypoint .= '/webapi/rest';
         }
 
+        if(!empty($options['userAgent'])) {
+            $this->userAgent = $options['userAgent'];
+        }else{
+            if (empty($this->userAgent)) {
+                if (is_callable(array($this, 'getClientId'))) {
+                    $this->userAgent = $this->getClientId();
+                } else if (is_callable(array($this, 'getUsername'))) {
+                    $this->userAgent = $this->getUsername();
+                }
+            }
+        }
+
         $this->entrypoint = $entrypoint;
     }
 
@@ -148,6 +166,8 @@ abstract class Bearer implements ClientInterface
             'Content-Type' => 'application/json',
             'Accept-Language' => $this->getLocale() . ';q=0.8'
         );
+
+        $this->injectUserAgent($headers);
 
         try {
             // dispatch correct method
@@ -295,5 +315,18 @@ abstract class Bearer implements ClientInterface
     {
         $this->locale = $locale;
         return $this;
+    }
+
+    /**
+     * inject user agent to the headers array
+     * @param array $headers
+     * @return array
+     */
+    protected function injectUserAgent($headers){
+        if(!empty($this->userAgent)){
+            $headers['User-Agent'] = $this->userAgent;
+        }
+
+        return $headers;
     }
 }
