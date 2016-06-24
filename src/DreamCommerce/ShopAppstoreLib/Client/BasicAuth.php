@@ -70,6 +70,13 @@ class BasicAuth extends Bearer
             return false;
         }
 
+        $headers = array(
+            'Accept-Language' => $this->getLocale() . ';q=0.8',
+            'Content-Type' => 'application/x-www-form-urlencoded'
+        );
+
+        $headers = $this->injectUserAgent($headers);
+
         $res = $this->getHttpClient()->post(
             $this->entrypoint . '/auth',
             array(),
@@ -77,10 +84,7 @@ class BasicAuth extends Bearer
                 'client_id' => $this->username,
                 'client_secret' => $this->password
             ),
-            array(
-                'Accept-Language' => $this->getLocale() . ';q=0.8',
-                'Content-Type' => 'application/x-www-form-urlencoded'
-            )
+            $headers
         );
 
         if(!$res) {

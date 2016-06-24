@@ -108,17 +108,21 @@ class OAuth extends Bearer
             return false;
         }
 
+        $headers = array(
+            'Authorization' => 'Basic ' . base64_encode($this->getClientId() . ':' . $this->getClientSecret()),
+            'Accept-Language' => $this->getLocale() . ';q=0.8',
+            'Content-Type' => 'application/x-www-form-urlencoded'
+        );
+
+        $headers = $this->injectUserAgent($headers);
+
         $res = $this->getHttpClient()->post(
             $this->entrypoint . '/oauth/token',
             array(
                 'code' => $this->getAuthCode()
             ), array(
                 'grant_type' => 'authorization_code'
-            ), array(
-                'Authorization' => 'Basic ' . base64_encode($this->getClientId() . ':' . $this->getClientSecret()),
-                'Accept-Language' => $this->getLocale() . ';q=0.8',
-                'Content-Type' => 'application/x-www-form-urlencoded'
-            )
+            ), $headers
         );
 
         if(!$res || isset($res['data']['error'])){
@@ -141,15 +145,19 @@ class OAuth extends Bearer
      */
     public function refreshTokens()
     {
+        $headers = array(
+            'Content-Type' => 'application/x-www-form-urlencoded'
+        );
+
+        $headers = $this->injectUserAgent($headers);
+
         $res = $this->getHttpClient()->post($this->entrypoint . '/oauth/token', array(
             'client_id' => $this->getClientId(),
             'client_secret' => $this->getClientSecret(),
             'refresh_token' => $this->getRefreshToken()
         ), array(
             'grant_type'=>'refresh_token'
-        ), array(
-            'Content-Type' => 'application/x-www-form-urlencoded'
-        ));
+        ), $headers);
 
         if(!$res || !empty($res['data']['error'])){
             throw new Exception($res['error'], Exception::API_ERROR);

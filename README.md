@@ -5,6 +5,9 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
+## Version 1.2.0
+* \+ added possibility to specify requests user-agent
+
 ## Version 1.1.3
 * \# fixed multiple HTTP response codes handling
 * \# fixed ``Aboutpage`` autoloading issue (file name case problem)
