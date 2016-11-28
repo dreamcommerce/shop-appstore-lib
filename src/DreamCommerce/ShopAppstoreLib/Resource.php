@@ -460,6 +460,10 @@ class Resource
          */
         $httpException = $ex->getPrevious();
 
+        if(!$httpException){
+            throw $ex;
+        }
+
         switch($httpException->getCode()){
             case 400:
                 throw new ValidationException($httpException->getResponse(), 0, $httpException);
