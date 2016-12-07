@@ -5,6 +5,10 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
+## Version 1.2.2
+* \# version constraint less restrictive
+* \# changed developers e-mails
+
 ## Version 1.2.1
 * \# fixed handling exception when HTTP response is empty
 
