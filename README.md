@@ -5,6 +5,9 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
+## Version 1.2.3
+* \+ added ``News``, ``NewsCategory``, ``NewsComment``, ``NewsFile``, ``NewsTag`` resources
+
 ## Version 1.2.2
 * \# version constraint less restrictive
 * \# changed developers e-mails
