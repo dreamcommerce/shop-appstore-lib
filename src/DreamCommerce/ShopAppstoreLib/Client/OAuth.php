@@ -125,8 +125,17 @@ class OAuth extends Bearer
             ), $headers
         );
 
-        if(!$res || isset($res['data']['error'])){
-            throw new OAuthException($res['data']['error'], Exception::API_ERROR);
+        if(!$res) {
+            throw new OAuthException('General failure', OAuthException::GENERAL_FAILURE);
+        } elseif(isset($res['data']['error'])) {
+            $description = 'General failure';
+            if(isset($res['data']['error_description'])) {
+                $description = $res['data']['error_description'];
+            }
+            throw new OAuthException(array(
+                'message' => $description,
+                'http_error' => $res['data']['error']
+            ), OAuthException::API_ERROR);
         }
 
         $this->accessToken = $res['data']['access_token'];
@@ -159,8 +168,17 @@ class OAuth extends Bearer
             'grant_type'=>'refresh_token'
         ), $headers);
 
-        if(!$res || !empty($res['data']['error'])){
-            throw new Exception($res['error'], Exception::API_ERROR);
+        if(!$res) {
+            throw new OAuthException('General failure', OAuthException::GENERAL_FAILURE);
+        } elseif(isset($res['data']['error'])) {
+            $description = 'General failure';
+            if(isset($res['data']['error_description'])) {
+                $description = $res['data']['error_description'];
+            }
+            throw new OAuthException(array(
+                'message' => $description,
+                'http_error' => $res['data']['error']
+            ), OAuthException::API_ERROR);
         }
 
         $this->accessToken = $res['data']['access_token'];

@@ -8,5 +8,5 @@ namespace DreamCommerce\ShopAppstoreLib\Client\Exception;
  */
 class OAuthException extends Exception
 {
-
+    const GENERAL_FAILURE = 1;
 }
