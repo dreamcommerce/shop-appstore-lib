@@ -273,10 +273,9 @@ class Http implements HttpInterface
 
             // header with no key/value - HTTP response, get code and status
             if(!isset($row[1])){
-                $headers[] = $row[0];
 
                 $matches = array();
-                if(!$codeMatched && preg_match('#HTTP/[1-2]\.[0-1] ([0-9]{3})(.*)#si', $row[0], $matches)){
+                if(preg_match('#HTTP/[1-2]\.[0-1] ([0-9]{3})(.*)#si', $row[0], $matches)){
                     $headers['Code'] = $matches[1];
                     $headers['Status'] = trim($matches[2]);
                 }
