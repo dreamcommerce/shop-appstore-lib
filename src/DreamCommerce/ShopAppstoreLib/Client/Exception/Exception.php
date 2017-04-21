@@ -51,8 +51,8 @@ class Exception extends BaseException
             }
 
             $message = 'General failure';
-            if(isset($message['message'])) {
-                $message = $message['message'];
+            if(isset($params['message'])) {
+                $message = $params['message'];
             }
 
             parent::__construct($message, $code, $previous);
