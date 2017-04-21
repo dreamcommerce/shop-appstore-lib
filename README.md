@@ -5,6 +5,10 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
+## Version 1.2.4
+* \# fixed parsing response headers
+* \# fixed handling OAuth exception when HTTP response is empty
+
 ## Version 1.2.3
 * \+ added ``News``, ``NewsCategory``, ``NewsComment``, ``NewsFile``, ``NewsTag`` resources
 
