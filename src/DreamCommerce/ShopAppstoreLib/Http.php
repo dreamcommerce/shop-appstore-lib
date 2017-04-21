@@ -268,7 +268,6 @@ class Http implements HttpInterface
     {
         $headers = array();
 
-        $codeMatched = false;
         foreach ($src as $i) {
             $row = explode(':', $i, 2);
 
@@ -277,10 +276,9 @@ class Http implements HttpInterface
                 $headers[] = $row[0];
 
                 $matches = array();
-                if(!$codeMatched && preg_match('#HTTP/1.[0-1] ([0-9]{3})(.*)#si', $row[0], $matches)){
+                if(!$codeMatched && preg_match('#HTTP/[1-2]\.[0-1] ([0-9]{3})(.*)#si', $row[0], $matches)){
                     $headers['Code'] = $matches[1];
                     $headers['Status'] = trim($matches[2]);
-                    $codeMatched = true;
                 }
 
                 continue;
