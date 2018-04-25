@@ -5,6 +5,9 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
+## Version 1.2.5
+* \+ added ``Specialoffers`` resource
+
 ## Version 1.2.4
 * \# fixed parsing response headers
 * \# fixed handling OAuth exception when HTTP response is empty
