@@ -151,6 +151,10 @@ constants
     Order status after parcel is created - integer|null
 ``CONFIG_SHOPPING_PARCEL_SEND_STATUS_ID``
     Order status after parcel is sent - integer|null
+``CONFIG_SHOPPING_CHANGE_STATUS_PAYMENT_MADE_ID``
+    Order status after receiving payment - integer|null
+``CONFIG_SHOPPING_CHANGE_STATUS_REFUND_MADE_ID``
+    Order status after refund has been made - integer|null
 ``CONFIG_SHOPPING_PRICE_COMPARISON_FIELD``
     Field which products are identified by - for price comparison websites, available values:
 
