@@ -243,6 +243,17 @@ class ApplicationConfig extends Resource
     const CONFIG_SHOPPING_PARCEL_SEND_STATUS_ID = 'shopping_parcel_send_status_id';
 
     /**
+     * Order status after receiving payment - integer|null
+     */
+    const CONFIG_SHOPPING_CHANGE_STATUS_PAYMENT_MADE_ID = 'shopping_change_status_payment_made_id';
+
+    /**
+     * Order status after refund has been made - integer|null
+     */
+    const CONFIG_SHOPPING_CHANGE_STATUS_REFUND_MADE_ID = 'shopping_change_status_refund_made_id';
+
+
+    /**
      * Show shipping and payment, available values:
      *  - 0 - show in basket
      *  - 1 - show as separated step
