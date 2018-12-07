@@ -372,7 +372,7 @@ class Resource
      */
     protected function isCollection($args)
     {
-        return !$this->isSingleOnly && count($args)==0;
+        return !$this->isSingleOnly && empty($args);
     }
 
     /**
