@@ -7,6 +7,7 @@ See: http://developers.shoper.pl/
 
 ## Version 1.2.5
 * \+ added ``Specialoffers`` resource
+* \+ fixed PHP 7.2 compatibility issue
 
 ## Version 1.2.4
 * \# fixed parsing response headers
