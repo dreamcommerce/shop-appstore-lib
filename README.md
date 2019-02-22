@@ -5,6 +5,9 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
+## Version 1.2.6
+* \+ added ``PromotionCode`` resource
+
 ## Version 1.2.5
 * \+ added ``Specialoffers`` resource
 * \+ fixed PHP 7.2 compatibility issue
