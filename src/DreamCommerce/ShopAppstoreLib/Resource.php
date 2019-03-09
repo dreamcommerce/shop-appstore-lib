@@ -260,7 +260,7 @@ class Resource
     {
         $page = (int)$page;
 
-        if($page<0){
+        if($page<1){
             throw new \RuntimeException('Invalid page specified', ResourceException::INVALID_PAGE);
         }
 
