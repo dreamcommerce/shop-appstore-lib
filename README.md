@@ -5,6 +5,9 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
+## Version 1.2.7
+* \+ added ``Redirect`` resource
+
 ## Version 1.2.6
 * \+ added ``PromotionCode`` resource
 
