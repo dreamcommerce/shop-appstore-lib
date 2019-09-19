@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Api\Http;
 
-use DreamCommerce\Component\Common\Http\ClientInterface;
+use DreamCommerce\Component\Common\Http\ClientInterface as HttpClientInterface;
+use DreamCommerce\Component\Common\Http\LoggerInterface as HttpLoggerInterface;
 use DreamCommerce\Component\Common\Util\Sleeper;
 use DreamCommerce\Component\ShopAppstore\Api\Exception\LimitExceededException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Log\LoggerInterface;
 
 final class AwaitShopClient extends ShopClient
 {
@@ -33,18 +33,18 @@ final class AwaitShopClient extends ShopClient
     private $sleeper;
 
     /**
-     * @param ClientInterface|null $httpClient
-     * @param LoggerInterface|null $logger
+     * @param HttpClientInterface|null $httpClient
+     * @param HttpLoggerInterface|null $httpLogger
      * @param Sleeper|null $sleeper
      */
-    public function __construct(ClientInterface $httpClient = null, LoggerInterface $logger = null, Sleeper $sleeper = null)
+    public function __construct(HttpClientInterface $httpClient = null, HttpLoggerInterface $httpLogger = null, Sleeper $sleeper = null)
     {
         if($sleeper === null) {
             $sleeper = new Sleeper();
         }
         $this->sleeper = $sleeper;
 
-        parent::__construct($httpClient, $logger);
+        parent::__construct($httpClient, $httpLogger);
     }
 
     /**
