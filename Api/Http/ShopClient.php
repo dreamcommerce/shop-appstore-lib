@@ -180,7 +180,7 @@ class ShopClient implements ShopClientInterface
         }
 
         if($responseCode !== 200) {
-            throw Exception\CommunicationException::forInvalidResponseCode($request, $response);
+            throw Exception\CommunicationException::forInvalidResponseCode($request, $response, $previous);
         }
     }
 }
