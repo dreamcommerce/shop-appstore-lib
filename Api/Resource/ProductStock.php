@@ -15,7 +15,7 @@ namespace DreamCommerce\Component\ShopAppstore\Api\Resource;
 
 use DreamCommerce\Component\ShopAppstore\Api\ItemResource;
 
-final class ProductStock extends ItemResource implements ObjectAwareInterface
+class ProductStock extends ItemResource implements ObjectAwareInterface
 {
     /**
      * keep base price

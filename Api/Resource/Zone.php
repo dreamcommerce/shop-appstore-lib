@@ -15,7 +15,7 @@ namespace DreamCommerce\Component\ShopAppstore\Api\Resource;
 
 use DreamCommerce\Component\ShopAppstore\Api\ItemResource;
 
-final class Zone extends ItemResource implements ObjectAwareInterface
+class Zone extends ItemResource implements ObjectAwareInterface
 {
     /**
      * zone division by countries

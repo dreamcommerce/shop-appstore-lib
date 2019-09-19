@@ -15,7 +15,7 @@ namespace DreamCommerce\Component\ShopAppstore\Api\Resource;
 
 use DreamCommerce\Component\ShopAppstore\Api\ItemResource;
 
-final class Option extends ItemResource implements ObjectAwareInterface
+class Option extends ItemResource implements ObjectAwareInterface
 {
     /**
      * It's not possible to change required flag for option with warehouse support

@@ -15,7 +15,7 @@ namespace DreamCommerce\Component\ShopAppstore\Api\Resource;
 
 use DreamCommerce\Component\ShopAppstore\Api\ItemResource;
 
-final class Parcel extends ItemResource implements ObjectAwareInterface
+class Parcel extends ItemResource implements ObjectAwareInterface
 {
     /**
      * It's not possibly to modify shipped parcel except shipping code

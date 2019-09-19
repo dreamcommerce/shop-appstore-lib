@@ -21,7 +21,7 @@ use DreamCommerce\Component\ShopAppstore\Model\ShopItemInterface;
 use DreamCommerce\Component\ShopAppstore\Model\ShopItemListInterface;
 use Webmozart\Assert\Assert;
 
-final class MetafieldValue extends ItemResource
+class MetafieldValue extends ItemResource
 {
     /**
      * {@inheritdoc}

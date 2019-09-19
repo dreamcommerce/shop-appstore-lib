@@ -15,7 +15,7 @@ namespace DreamCommerce\Component\ShopAppstore\Api\Resource;
 
 use DreamCommerce\Component\ShopAppstore\Api\ItemResource;
 
-final class Status extends ItemResource implements ObjectAwareInterface
+class Status extends ItemResource implements ObjectAwareInterface
 {
     /**
      * status: new

@@ -15,7 +15,7 @@ namespace DreamCommerce\Component\ShopAppstore\Api\Resource;
 
 use DreamCommerce\Component\ShopAppstore\Api\ItemResource;
 
-final class OptionValue extends ItemResource implements ObjectAwareInterface
+class OptionValue extends ItemResource implements ObjectAwareInterface
 {
     /**
      * This option type doesn't support values management

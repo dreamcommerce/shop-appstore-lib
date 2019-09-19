@@ -22,7 +22,7 @@ use DreamCommerce\Component\ShopAppstore\Model\ShopItemListInterface;
 use DreamCommerce\Component\ShopAppstore\Model\ShopItemPartListInterface;
 use Psr\Http\Message\UriInterface;
 
-final class Metafield extends ItemResource implements ObjectAwareInterface
+class Metafield extends ItemResource implements ObjectAwareInterface
 {
     /**
      * @var string|null

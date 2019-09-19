@@ -15,7 +15,7 @@ namespace DreamCommerce\Component\ShopAppstore\Api\Resource;
 
 use DreamCommerce\Component\ShopAppstore\Api\ItemResource;
 
-final class NewsTag extends ItemResource implements ObjectAwareInterface
+class NewsTag extends ItemResource implements ObjectAwareInterface
 {
     /**
      * {@inheritdoc}

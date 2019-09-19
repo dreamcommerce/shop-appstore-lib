@@ -15,7 +15,7 @@ namespace DreamCommerce\Component\ShopAppstore\Api\Resource;
 
 use DreamCommerce\Component\ShopAppstore\Api\ItemResource;
 
-final class Shipping extends ItemResource implements ObjectAwareInterface
+class Shipping extends ItemResource implements ObjectAwareInterface
 {
     /**
      * {@inheritdoc}

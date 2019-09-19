@@ -15,7 +15,7 @@ namespace DreamCommerce\Component\ShopAppstore\Api\Resource;
 
 use DreamCommerce\Component\ShopAppstore\Api\ItemResource;
 
-final class ProductImage extends ItemResource
+class ProductImage extends ItemResource
 {
     /**
      * {@inheritdoc}

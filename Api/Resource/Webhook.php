@@ -15,7 +15,7 @@ namespace DreamCommerce\Component\ShopAppstore\Api\Resource;
 
 use DreamCommerce\Component\ShopAppstore\Api\ItemResource;
 
-final class Webhook extends ItemResource implements ObjectAwareInterface
+class Webhook extends ItemResource implements ObjectAwareInterface
 {
     /**
      * webhook data encoded using JSON

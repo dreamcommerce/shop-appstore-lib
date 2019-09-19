@@ -15,7 +15,7 @@ namespace DreamCommerce\Component\ShopAppstore\Api\Resource;
 
 use DreamCommerce\Component\ShopAppstore\Api\DataResource;
 
-final class ApplicationVersion extends DataResource
+class ApplicationVersion extends DataResource
 {
     /**
      * {@inheritdoc}

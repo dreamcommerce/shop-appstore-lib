@@ -15,7 +15,7 @@ namespace DreamCommerce\Component\ShopAppstore\Api\Resource;
 
 use DreamCommerce\Component\ShopAppstore\Api\DataResource;
 
-final class ObjectMtime extends DataResource
+class ObjectMtime extends DataResource
 {
     /**
      * {@inheritdoc}

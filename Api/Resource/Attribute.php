@@ -15,7 +15,7 @@ namespace DreamCommerce\Component\ShopAppstore\Api\Resource;
 
 use DreamCommerce\Component\ShopAppstore\Api\ItemResource;
 
-final class Attribute extends ItemResource implements ObjectAwareInterface
+class Attribute extends ItemResource implements ObjectAwareInterface
 {
     /**
      * field type text

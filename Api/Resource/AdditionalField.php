@@ -15,7 +15,7 @@ namespace DreamCommerce\Component\ShopAppstore\Api\Resource;
 
 use DreamCommerce\Component\ShopAppstore\Api\ItemResource;
 
-final class AdditionalField extends ItemResource implements ObjectAwareInterface
+class AdditionalField extends ItemResource implements ObjectAwareInterface
 {
     /**
      * text input

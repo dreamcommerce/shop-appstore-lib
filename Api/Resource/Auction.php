@@ -15,7 +15,7 @@ namespace DreamCommerce\Component\ShopAppstore\Api\Resource;
 
 use DreamCommerce\Component\ShopAppstore\Api\ItemResource;
 
-final class Auction extends ItemResource implements ObjectAwareInterface
+class Auction extends ItemResource implements ObjectAwareInterface
 {
     /**
      * auction is bid-based

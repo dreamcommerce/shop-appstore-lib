@@ -15,14 +15,14 @@ namespace DreamCommerce\Component\ShopAppstore\Api\Resource;
 
 use DreamCommerce\Component\ShopAppstore\Api\ItemResource;
 
-class NewsFile extends ItemResource implements ObjectAwareInterface
+class Specialoffer extends ItemResource implements ObjectAwareInterface
 {
     /**
      * {@inheritdoc}
      */
     public function getName(): string
     {
-        return 'news-files';
+        return 'specialoffers';
     }
 
     /**
@@ -30,7 +30,7 @@ class NewsFile extends ItemResource implements ObjectAwareInterface
      */
     public function getExternalIdName(): string
     {
-        return 'file_id';
+        return 'promo_id';
     }
 
     /**
@@ -38,6 +38,6 @@ class NewsFile extends ItemResource implements ObjectAwareInterface
      */
     public function getObjectName(): string
     {
-        return 'news-file';
+        return 'special-offer';
     }
 }

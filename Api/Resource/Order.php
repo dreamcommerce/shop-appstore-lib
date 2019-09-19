@@ -15,7 +15,7 @@ namespace DreamCommerce\Component\ShopAppstore\Api\Resource;
 
 use DreamCommerce\Component\ShopAppstore\Api\ItemResource;
 
-final class Order extends ItemResource implements ObjectAwareInterface
+class Order extends ItemResource implements ObjectAwareInterface
 {
     /**
      * Combined order has been detected
