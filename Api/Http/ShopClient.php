@@ -38,12 +38,22 @@ class ShopClient implements ShopClientInterface
     /**
      * @var string
      */
-    private $userAgent = Info::LOCALE;
+    private $userAgent = Info::HTTP_USER_AGENT;
 
     /**
      * @var string
      */
     private $locale = Info::LOCALE;
+
+    /**
+     * @var RequestInterface
+     */
+    private $lastRequest;
+
+    /**
+     * @var ResponseInterface
+     */
+    private $lastResponse;
 
     /**
      * @var HttpClientInterface
@@ -73,27 +83,29 @@ class ShopClient implements ShopClientInterface
         $request = $request->withAddedHeader('Accept-Language', $this->locale . ';q=0.8');
 
         $exception = null;
-        $response = null;
+
+        $this->lastRequest = $request;
+        $this->lastResponse = null;
 
         try {
-            $response = $this->getHttpClient()->send($request);
+            $this->lastResponse = $this->getHttpClient()->send($this->lastRequest);
         } catch (Throwable $exception) {
             if (class_exists('\\GuzzleHttp\\Exception\\RequestException') &&
                 $exception instanceof \GuzzleHttp\Exception\RequestException
             ) {
-                $response = $exception->getResponse();
+                $this->lastResponse = $exception->getResponse();
             }
-            if($response === null) {
-                throw Exception\CommunicationException::forBrokenConnection($request, $exception);
+            if($this->lastResponse === null) {
+                throw Exception\CommunicationException::forBrokenConnection($this->lastRequest, $exception);
             }
         }
 
         if($this->httpLogger !== null) {
-            $this->httpLogger->logResponse($response);
+            $this->httpLogger->logResponse($this->lastResponse);
         }
-        $this->checkResponse($request, $response, $exception);
+        $this->checkResponse($exception);
 
-        return $response;
+        return $this->lastResponse;
     }
 
     /**
@@ -131,6 +143,22 @@ class ShopClient implements ShopClientInterface
     /**
      * {@inheritdoc}
      */
+    public function getLastRequest(): ?RequestInterface
+    {
+        return $this->lastRequest;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLastResponse(): ?ResponseInterface
+    {
+        return $this->lastResponse;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getHttpClient(): HttpClientInterface
     {
         if($this->httpClient !== null) {
@@ -149,8 +177,6 @@ class ShopClient implements ShopClientInterface
     }
 
     /**
-     * @param RequestInterface $request
-     * @param ResponseInterface $response
      * @param Throwable $previous
      * @throws Exception\CommunicationException
      * @throws Exception\MethodUnsupportedException
@@ -160,27 +186,27 @@ class ShopClient implements ShopClientInterface
      * @throws Exception\ValidationException
      * @throws Exception\LimitExceededException
      */
-    private function checkResponse(RequestInterface $request, ResponseInterface $response, Throwable $previous = null): void
+    private function checkResponse(Throwable $previous = null): void
     {
-        $responseCode = $response->getStatusCode();
+        $responseCode = $this->lastResponse->getStatusCode();
 
         switch ($responseCode) {
             case 400:
-                throw Exception\ValidationException::forResponse($request, $response, $previous);
+                throw Exception\ValidationException::forResponse($this->lastRequest, $this->lastResponse, $previous);
             case 401:
-                throw Exception\PermissionsException::forResponse($request, $response, $previous);
+                throw Exception\PermissionsException::forResponse($this->lastRequest, $this->lastResponse, $previous);
             case 404:
-                throw Exception\NotFoundException::forResponse($request, $response, $previous);
+                throw Exception\NotFoundException::forResponse($this->lastRequest, $this->lastResponse, $previous);
             case 405:
-                throw Exception\MethodUnsupportedException::forResponse($request, $response, $previous);
+                throw Exception\MethodUnsupportedException::forResponse($this->lastRequest, $this->lastResponse, $previous);
             case 409:
-                throw Exception\ObjectLockedException::forResponse($request, $response, $previous);
+                throw Exception\ObjectLockedException::forResponse($this->lastRequest, $this->lastResponse, $previous);
             case 429:
-                throw Exception\LimitExceededException::forResponse($request, $response, $previous);
+                throw Exception\LimitExceededException::forResponse($this->lastRequest, $this->lastResponse, $previous);
         }
 
         if($responseCode !== 200) {
-            throw Exception\CommunicationException::forInvalidResponseCode($request, $response, $previous);
+            throw Exception\CommunicationException::forInvalidResponseCode($this->lastRequest, $this->lastResponse, $previous);
         }
     }
 }

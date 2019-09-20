@@ -36,6 +36,16 @@ interface ShopClientInterface
     public function getLocale(): string;
 
     /**
+     * @return RequestInterface|null
+     */
+    public function getLastRequest(): ?RequestInterface;
+
+    /**
+     * @return ResponseInterface|null
+     */
+    public function getLastResponse(): ?ResponseInterface;
+
+    /**
      * @return HttpClientInterface
      */
     public function getHttpClient(): HttpClientInterface;
