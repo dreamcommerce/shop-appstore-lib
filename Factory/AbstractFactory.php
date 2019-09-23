@@ -33,10 +33,12 @@ abstract class AbstractFactory implements FactoryInterface
 
     /**
      * @param DataFactoryInterface $dataFactory
+     * @param array $resourceMap
      */
-    public function __construct(DataFactoryInterface $dataFactory)
+    public function __construct(DataFactoryInterface $dataFactory, array $resourceMap = array())
     {
         $this->dataFactory = $dataFactory;
+        $this->resourceMap = $resourceMap;
     }
 
     /**

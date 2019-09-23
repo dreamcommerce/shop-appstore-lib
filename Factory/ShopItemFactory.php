@@ -33,10 +33,14 @@ class ShopItemFactory extends AbstractFactory implements ShopItemFactoryInterfac
         MetafieldValueResource::class => MetafieldValue::class
     ];
 
-    public function __construct(DataFactoryInterface $dataFactory)
+    /**
+     * @param DataFactoryInterface $dataFactory
+     * @param array $resourceMap
+     */
+    public function __construct(DataFactoryInterface $dataFactory, array $resourceMap = array())
     {
-        $this->addResourceMap(MetafieldResource::class, Metafield::class);
-        parent::__construct($dataFactory);
+        $resourceMap[MetafieldResource::class] = Metafield::class;
+        parent::__construct($dataFactory, $resourceMap);
     }
 
     /**
