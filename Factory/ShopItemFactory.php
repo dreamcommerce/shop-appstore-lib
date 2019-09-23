@@ -29,16 +29,15 @@ class ShopItemFactory extends AbstractFactory implements ShopItemFactoryInterfac
     /**
      * @var array
      */
-    protected $resourceItemMap = [
-        MetafieldResource::class => Metafield::class
-    ];
-
-    /**
-     * @var array
-     */
     protected $discriminatorMap = [
         MetafieldValueResource::class => MetafieldValue::class
     ];
+
+    public function __construct(DataFactoryInterface $dataFactory)
+    {
+        $this->addResourceMap(MetafieldResource::class, Metafield::class);
+        parent::__construct($dataFactory);
+    }
 
     /**
      * {@inheritdoc}
@@ -54,8 +53,8 @@ class ShopItemFactory extends AbstractFactory implements ShopItemFactoryInterfac
     public function createByApiResource(ItemResourceInterface $resource, ShopInterface $shop, array $data): ShopItemInterface
     {
         $class = get_class($resource);
-        if(isset($this->resourceItemMap[$class])) {
-            $item = new $this->resourceItemMap[$class];
+        if(isset($this->resourceMap[$class])) {
+            $item = new $this->resourceMap[$class];
         } elseif(isset($this->discriminatorMap[$class])) {
             $itemClass = $this->discriminatorMap[$class];
 

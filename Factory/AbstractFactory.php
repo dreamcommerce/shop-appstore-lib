@@ -22,6 +22,11 @@ use Sylius\Component\Resource\Factory\FactoryInterface;
 abstract class AbstractFactory implements FactoryInterface
 {
     /**
+     * @var array
+     */
+    protected $resourceMap = [];
+
+    /**
      * @var DataFactoryInterface
      */
     protected $dataFactory;
@@ -32,6 +37,23 @@ abstract class AbstractFactory implements FactoryInterface
     public function __construct(DataFactoryInterface $dataFactory)
     {
         $this->dataFactory = $dataFactory;
+    }
+
+    /**
+     * @param string $resourceClass
+     * @param string $className
+     */
+    public function addResourceMap(string $resourceClass, string $className)
+    {
+        $this->resourceMap[$resourceClass] = $className;
+    }
+
+    /**
+     * @param array $resourceMap
+     */
+    public function setResourceMap(array $resourceMap)
+    {
+        $this->resourceMap = $resourceMap;
     }
 
     /**
