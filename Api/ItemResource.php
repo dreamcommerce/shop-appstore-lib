@@ -160,7 +160,9 @@ abstract class ItemResource extends Resource implements ItemResourceInterface
     {
         /** @var ResponseInterface $response */
         list(, $response) = $this->perform($shop, 'POST', null, $data);
-        $id = trim($response->getBody()->getContents(), '"');
+        $stream = $response->getBody();
+        $stream->rewind();
+        $id = trim($stream->getContents(), '"');
 
         $item = $this->getShopItemFactory()->createByApiResource($this, $shop, $data);
         $item->setExternalId((int)$id);
