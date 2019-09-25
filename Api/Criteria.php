@@ -286,8 +286,9 @@ final class Criteria
 
     /**
      * @param RequestInterface $request
+     * @return RequestInterface
      */
-    public function fillRequest(RequestInterface $request): void
+    public function fillRequest(RequestInterface $request): RequestInterface
     {
         $query = [];
         if(count($this->expressions) > 0) {
@@ -310,7 +311,9 @@ final class Criteria
             ksort($query);
 
             $uri = $uri->withQuery(http_build_query($query, '', '&'));
-            $request->withUri($uri);
+            $request = $request->withUri($uri);
         }
+
+        return $request;
     }
 }

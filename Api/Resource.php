@@ -108,7 +108,7 @@ abstract class Resource implements ResourceInterface
             $body
         );
         if($criteria !== null) {
-            $criteria->fillRequest($request);
+            $request = $criteria->fillRequest($request);
         }
 
         return [ $request, $shopClient->send($request) ];
