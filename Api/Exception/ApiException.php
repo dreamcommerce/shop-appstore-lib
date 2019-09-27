@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Api\Exception;
 
+use DreamCommerce\Component\ShopAppstore\Api\Error;
 use DreamCommerce\Component\ShopAppstore\Exception\ShopAppstoreException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -23,6 +24,11 @@ class ApiException extends ShopAppstoreException
     protected $httpResponse;
 
     /**
+     * @var Error[]
+     */
+    protected $errors = array();
+
+    /**
      * @return RequestInterface|null
      */
     public function getHttpRequest(): ?RequestInterface
@@ -36,5 +42,30 @@ class ApiException extends ShopAppstoreException
     public function getHttpResponse(): ?ResponseInterface
     {
         return $this->httpResponse;
+    }
+
+    /**
+     * @return Error[]
+     */
+    public function getErrors(): array
+    {
+        if($this->httpResponse !== null) {
+            $stream = $this->httpResponse->getBody();
+            $stream->rewind();
+
+            $body = $stream->getContents();
+            if (strlen($body) > 0) {
+                $message = @json_decode($body, true);
+                if (is_array($message)) {
+                    $error = isset($message['error']) ? $message['error'] : null;
+                    $errorDescriptions = explode('; ', $message['error_description']);
+                    foreach ($errorDescriptions as $errorDescription) {
+                        $this->errors[] = new Error($error, $errorDescription);
+                    }
+                }
+            }
+        }
+
+        return $this->errors;
     }
 }
