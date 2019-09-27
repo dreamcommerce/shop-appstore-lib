@@ -39,7 +39,9 @@ class ShopItemFactory extends AbstractFactory implements ShopItemFactoryInterfac
      */
     public function __construct(DataFactoryInterface $dataFactory, array $resourceMap = array())
     {
-        $resourceMap[MetafieldResource::class] = Metafield::class;
+        if(!isset($resourceMap[MetafieldResource::class])) {
+            $resourceMap[MetafieldResource::class] = Metafield::class;
+        }
         parent::__construct($dataFactory, $resourceMap);
     }
 
@@ -66,12 +68,12 @@ class ShopItemFactory extends AbstractFactory implements ShopItemFactoryInterfac
             $mapField = $itemClass::getMapField();
 
             if(!isset($data[$mapField])) {
-                // TODO
+                throw new \RuntimeException(); // TODO
             }
             $field = (int) $data[$mapField];
 
             if(!isset($mapClass[$field])) {
-                // TODO
+                throw new \RuntimeException(); // TODO
             }
 
             $item = new $mapClass[$field];
