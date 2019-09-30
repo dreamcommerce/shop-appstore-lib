@@ -69,6 +69,7 @@ class AwaitConnection implements MiddlewareInterface
         while($counter--) {
             try {
                 $next($request, $response);
+                break;
             } catch (LimitExceededException $exception) {
                 if ($exception->getCode() === LimitExceededException::CODE_EXCEEDED_API_CALLS) {
                     if ($counter <= 0) {
