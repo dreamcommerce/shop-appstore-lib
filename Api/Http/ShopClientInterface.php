@@ -19,6 +19,12 @@ use Psr\Http\Message\ResponseInterface;
 
 interface ShopClientInterface
 {
+    const PRIORITY_MIN = -1000;
+    const PRIORITY_LOW = -100;
+    const PRIORITY_NORMAL = 0;
+    const PRIORITY_HIGH = 100;
+    const PRIORITY_MAX = 1000;
+
     /**
      * @param RequestInterface $request
      * @return ResponseInterface
@@ -26,14 +32,10 @@ interface ShopClientInterface
     public function send(RequestInterface $request): ResponseInterface;
 
     /**
-     * @param string $locale
+     * @param MiddlewareInterface $middleware
+     * @param int $priority
      */
-    public function setLocale(string $locale): void;
-
-    /**
-     * @return string
-     */
-    public function getLocale(): string;
+    public function register(MiddlewareInterface $middleware, int $priority = self::PRIORITY_NORMAL): void;
 
     /**
      * @return RequestInterface|null

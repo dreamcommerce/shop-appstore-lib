@@ -17,7 +17,8 @@ use DreamCommerce\Component\ShopAppstore\Api\Authenticator\AuthenticatorInterfac
 use DreamCommerce\Component\ShopAppstore\Api\Authenticator\BasicAuthAuthenticator;
 use DreamCommerce\Component\ShopAppstore\Api\Authenticator\OAuthAuthenticator;
 use DreamCommerce\Component\ShopAppstore\Api\Exception\CommunicationException;
-use DreamCommerce\Component\ShopAppstore\Api\Http\AwaitShopClient;
+use DreamCommerce\Component\ShopAppstore\Api\Http\Middleware;
+use DreamCommerce\Component\ShopAppstore\Api\Http\ShopClient;
 use DreamCommerce\Component\ShopAppstore\Api\Http\ShopClientInterface;
 use DreamCommerce\Component\ShopAppstore\Factory\DataFactory;
 use DreamCommerce\Component\ShopAppstore\Factory\DataFactoryInterface;
@@ -173,7 +174,10 @@ abstract class Resource implements ResourceInterface
         }
 
         if(self::$globalShopClient === null) {
-            self::$globalShopClient = new AwaitShopClient();
+            self::$globalShopClient = new ShopClient();
+            self::$globalShopClient->register(new Middleware\Locale(), ShopClientInterface::PRIORITY_HIGH);
+            self::$globalShopClient->register(new Middleware\UserAgent(), ShopClientInterface::PRIORITY_HIGH);
+            self::$globalShopClient->register(new Middleware\AwaitConnection(), ShopClientInterface::PRIORITY_HIGH);
         }
 
         return self::$globalShopClient;

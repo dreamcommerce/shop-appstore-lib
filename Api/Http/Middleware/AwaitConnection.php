@@ -11,16 +11,15 @@
 
 declare(strict_types=1);
 
-namespace DreamCommerce\Component\ShopAppstore\Api\Http;
+namespace DreamCommerce\Component\ShopAppstore\Api\Http\Middleware;
 
-use DreamCommerce\Component\Common\Http\ClientInterface as HttpClientInterface;
-use DreamCommerce\Component\Common\Http\LoggerInterface as HttpLoggerInterface;
 use DreamCommerce\Component\Common\Util\Sleeper;
 use DreamCommerce\Component\ShopAppstore\Api\Exception\LimitExceededException;
+use DreamCommerce\Component\ShopAppstore\Api\Http\MiddlewareInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-final class AwaitShopClient extends ShopClient
+class AwaitConnection implements MiddlewareInterface
 {
     /**
      * @var int
@@ -33,18 +32,14 @@ final class AwaitShopClient extends ShopClient
     private $sleeper;
 
     /**
-     * @param HttpClientInterface|null $httpClient
-     * @param HttpLoggerInterface|null $httpLogger
      * @param Sleeper|null $sleeper
      */
-    public function __construct(HttpClientInterface $httpClient = null, HttpLoggerInterface $httpLogger = null, Sleeper $sleeper = null)
+    public function __construct(Sleeper $sleeper = null)
     {
         if($sleeper === null) {
             $sleeper = new Sleeper();
         }
         $this->sleeper = $sleeper;
-
-        parent::__construct($httpClient, $httpLogger);
     }
 
     /**
@@ -67,30 +62,23 @@ final class AwaitShopClient extends ShopClient
     /**
      * {@inheritdoc}
      */
-    public function send(RequestInterface $request): ResponseInterface
+    public function handle(callable $next, RequestInterface $request, ResponseInterface $response = null)
     {
         $counter = $this->retryLimit;
 
-        /** @var ResponseInterface $response */
-        $response = null;
-
         while($counter--) {
             try {
-                $response = parent::send($request);
-                break;
+                $next($request, $response);
             } catch (LimitExceededException $exception) {
-                if($exception->getCode() === LimitExceededException::CODE_EXCEEDED_API_CALLS) {
-                    if($counter <= 0) {
+                if ($exception->getCode() === LimitExceededException::CODE_EXCEEDED_API_CALLS) {
+                    if ($counter <= 0) {
                         throw LimitExceededException::forExceededMaxApiRetries($request, $this->retryLimit, $exception);
                     }
-                    $response = $exception->getHttpResponse();
                     $this->sleeper->sleep($exception->getRetryAfter());
                 } else {
                     throw $exception;
                 }
             }
         }
-
-        return $response;
     }
 }
