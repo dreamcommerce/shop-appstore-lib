@@ -70,7 +70,7 @@ class ShopClient implements ShopClientInterface
 
         $next = function() {};
 
-        foreach($this->middlewares as $middleware) {
+        foreach(clone $this->middlewares as $middleware) {
             $func = function(RequestInterface $request, ResponseInterface $response = null) use($middleware, $next) {
                 $this->lastRequest = $request;
                 $this->lastResponse = $response;
@@ -80,7 +80,7 @@ class ShopClient implements ShopClientInterface
             $next = $func;
         }
 
-        $next();
+        $next($this->lastRequest);
 
         return $this->lastResponse;
     }
