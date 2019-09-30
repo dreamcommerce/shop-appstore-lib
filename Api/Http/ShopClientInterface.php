@@ -22,6 +22,7 @@ interface ShopClientInterface
     const PRIORITY_MIN = -1000;
     const PRIORITY_LOW = -100;
     const PRIORITY_NORMAL = 0;
+    const PRIORITY_REQUEST = 50;
     const PRIORITY_HIGH = 100;
     const PRIORITY_MAX = 1000;
 

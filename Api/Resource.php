@@ -175,9 +175,9 @@ abstract class Resource implements ResourceInterface
 
         if(self::$globalShopClient === null) {
             self::$globalShopClient = new ShopClient();
-            self::$globalShopClient->register(new Middleware\Locale(), ShopClientInterface::PRIORITY_HIGH);
-            self::$globalShopClient->register(new Middleware\UserAgent(), ShopClientInterface::PRIORITY_HIGH);
-            self::$globalShopClient->register(new Middleware\AwaitConnection(), ShopClientInterface::PRIORITY_HIGH);
+            self::$globalShopClient->register(new Middleware\Locale());
+            self::$globalShopClient->register(new Middleware\UserAgent());
+            self::$globalShopClient->register(new Middleware\AwaitConnection(), ShopClientInterface::PRIORITY_MIN);
         }
 
         return self::$globalShopClient;

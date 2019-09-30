@@ -55,7 +55,7 @@ class ShopClient implements ShopClientInterface
     {
         $this->httpClient = $httpClient;
         $this->middlewares = new SplPriorityQueue();
-        $this->register(new SendRequest($httpClient));
+        $this->register(new SendRequest($this->getHttpClient()), self::PRIORITY_REQUEST);
     }
 
     /**
