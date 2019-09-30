@@ -15,11 +15,13 @@ namespace DreamCommerce\Component\ShopAppstore\Api\Http;
 
 use DreamCommerce\Component\Common\Http\ClientInterface as HttpClientInterface;
 use DreamCommerce\Component\Common\Http\GuzzleClient as GuzzlePsrClient;
+use DreamCommerce\Component\ShopAppstore\Api\Exception;
 use DreamCommerce\Component\ShopAppstore\Api\Http\Middleware\SendRequest;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use RuntimeException;
 use SplPriorityQueue;
+use Throwable;
 
 class ShopClient implements ShopClientInterface
 {
@@ -82,6 +84,12 @@ class ShopClient implements ShopClientInterface
 
         $next($this->lastRequest);
 
+        if($this->lastResponse === null) {
+            throw Exception\CommunicationException::forBrokenConnection($request);
+        } else {
+            $this->checkResponse();
+        }
+
         return $this->lastResponse;
     }
 
@@ -127,5 +135,38 @@ class ShopClient implements ShopClientInterface
         }
 
         return self::$globalHttpClient;
+    }
+
+    /**
+     * @throws Exception\CommunicationException
+     * @throws Exception\MethodUnsupportedException
+     * @throws Exception\NotFoundException
+     * @throws Exception\ObjectLockedException
+     * @throws Exception\PermissionsException
+     * @throws Exception\ValidationException
+     * @throws Exception\LimitExceededException
+     */
+    private function checkResponse(): void
+    {
+        $responseCode = $this->lastResponse->getStatusCode();
+
+        switch ($responseCode) {
+            case 400:
+                throw Exception\ValidationException::forResponse($this->lastRequest, $this->lastResponse);
+            case 401:
+                throw Exception\PermissionsException::forResponse($this->lastRequest, $this->lastResponse);
+            case 404:
+                throw Exception\NotFoundException::forResponse($this->lastRequest, $this->lastResponse);
+            case 405:
+                throw Exception\MethodUnsupportedException::forResponse($this->lastRequest, $this->lastResponse);
+            case 409:
+                throw Exception\ObjectLockedException::forResponse($this->lastRequest, $this->lastResponse);
+            case 429:
+                throw Exception\LimitExceededException::forResponse($this->lastRequest, $this->lastResponse);
+        }
+
+        if($responseCode !== 200) {
+            throw Exception\CommunicationException::forInvalidResponseCode($this->lastRequest, $this->lastResponse);
+        }
     }
 }
