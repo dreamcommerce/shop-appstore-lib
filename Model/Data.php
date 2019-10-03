@@ -47,7 +47,15 @@ class Data implements DataInterface
      */
     public function getData(): array
     {
-        return $this->_data;
+        $data = array();
+        foreach($this->_data as $key => $value) {
+            if($value instanceof DataInterface) {
+                $value = $value->getData();
+            }
+            $data[$key] = $value;
+        }
+
+        return $data;
     }
 
     /**
