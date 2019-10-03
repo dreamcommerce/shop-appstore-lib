@@ -281,7 +281,6 @@ final class Criteria
     public function rewind(): void
     {
         $this->page = 1;
-        $this->limit = Info::MAX_API_ITEMS;
     }
 
     /**
