@@ -82,14 +82,18 @@ class ShopClient implements ShopClientInterface
             $next = $func;
         }
 
+        $exception = null;
+
         try {
             $next($this->lastRequest);
         } catch(Throwable $exception) {
-            if ($this->lastResponse === null) {
-                throw Exception\CommunicationException::forBrokenConnection($request, $exception);
-            } else {
-                $this->checkResponse($exception);
-            }
+            // nothing
+        }
+
+        if ($this->lastResponse === null) {
+            throw Exception\CommunicationException::forBrokenConnection($request, $exception);
+        } else {
+            $this->checkResponse($exception);
         }
 
         return $this->lastResponse;
