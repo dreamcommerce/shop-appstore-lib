@@ -144,7 +144,7 @@ class ShopClient implements ShopClientInterface
     }
 
     /**
-     * @param Throwable $exception
+     * @param Throwable|null $exception
      * @throws Exception\CommunicationException
      * @throws Exception\MethodUnsupportedException
      * @throws Exception\NotFoundException
@@ -153,7 +153,7 @@ class ShopClient implements ShopClientInterface
      * @throws Exception\ValidationException
      * @throws Exception\LimitExceededException
      */
-    private function checkResponse(Throwable $exception): void
+    private function checkResponse(Throwable $exception = null): void
     {
         $responseCode = $this->lastResponse->getStatusCode();
 
