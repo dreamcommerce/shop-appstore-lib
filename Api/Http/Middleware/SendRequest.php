@@ -39,7 +39,7 @@ class SendRequest implements MiddlewareInterface
      */
     public function handle(callable $next, RequestInterface $request, ResponseInterface $response = null)
     {
-        $exception = null;
+        $response = null;
 
         try {
             $response = $this->httpClient->send($request);
@@ -48,7 +48,9 @@ class SendRequest implements MiddlewareInterface
                 $exception instanceof \GuzzleHttp\Exception\RequestException
             ) {
                 $response = $exception->getResponse();
-            } else {
+            }
+
+            if($response === null) {
                 throw $exception;
             }
         }

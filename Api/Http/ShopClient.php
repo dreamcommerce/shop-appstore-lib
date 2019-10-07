@@ -82,12 +82,14 @@ class ShopClient implements ShopClientInterface
             $next = $func;
         }
 
-        $next($this->lastRequest);
-
-        if($this->lastResponse === null) {
-            throw Exception\CommunicationException::forBrokenConnection($request);
-        } else {
-            $this->checkResponse();
+        try {
+            $next($this->lastRequest);
+        } catch(Throwable $exception) {
+            if ($this->lastResponse === null) {
+                throw Exception\CommunicationException::forBrokenConnection($request, $exception);
+            } else {
+                $this->checkResponse($exception);
+            }
         }
 
         return $this->lastResponse;
@@ -138,6 +140,7 @@ class ShopClient implements ShopClientInterface
     }
 
     /**
+     * @param Throwable $exception
      * @throws Exception\CommunicationException
      * @throws Exception\MethodUnsupportedException
      * @throws Exception\NotFoundException
@@ -146,27 +149,27 @@ class ShopClient implements ShopClientInterface
      * @throws Exception\ValidationException
      * @throws Exception\LimitExceededException
      */
-    private function checkResponse(): void
+    private function checkResponse(Throwable $exception): void
     {
         $responseCode = $this->lastResponse->getStatusCode();
 
         switch ($responseCode) {
             case 400:
-                throw Exception\ValidationException::forResponse($this->lastRequest, $this->lastResponse);
+                throw Exception\ValidationException::forResponse($this->lastRequest, $this->lastResponse, $exception);
             case 401:
-                throw Exception\PermissionsException::forResponse($this->lastRequest, $this->lastResponse);
+                throw Exception\PermissionsException::forResponse($this->lastRequest, $this->lastResponse, $exception);
             case 404:
-                throw Exception\NotFoundException::forResponse($this->lastRequest, $this->lastResponse);
+                throw Exception\NotFoundException::forResponse($this->lastRequest, $this->lastResponse, $exception);
             case 405:
-                throw Exception\MethodUnsupportedException::forResponse($this->lastRequest, $this->lastResponse);
+                throw Exception\MethodUnsupportedException::forResponse($this->lastRequest, $this->lastResponse, $exception);
             case 409:
-                throw Exception\ObjectLockedException::forResponse($this->lastRequest, $this->lastResponse);
+                throw Exception\ObjectLockedException::forResponse($this->lastRequest, $this->lastResponse, $exception);
             case 429:
-                throw Exception\LimitExceededException::forResponse($this->lastRequest, $this->lastResponse);
+                throw Exception\LimitExceededException::forResponse($this->lastRequest, $this->lastResponse, $exception);
         }
 
         if($responseCode !== 200) {
-            throw Exception\CommunicationException::forInvalidResponseCode($this->lastRequest, $this->lastResponse);
+            throw Exception\CommunicationException::forInvalidResponseCode($this->lastRequest, $this->lastResponse, $exception);
         }
     }
 }
