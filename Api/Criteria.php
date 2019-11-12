@@ -291,7 +291,7 @@ final class Criteria
     {
         $query = [];
         if(count($this->expressions) > 0) {
-            $query['filters'] = $this->expressions;
+            $query['filters'] = json_encode($this->expressions);
         }
         if(count($this->orderings) > 0) {
             $query['order'] = $this->orderings;
