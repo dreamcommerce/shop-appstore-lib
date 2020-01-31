@@ -43,6 +43,11 @@ class AdditionalField extends ItemResource implements ObjectAwareInterface
     const FIELD_TYPE_HIDDEN = 5;
 
     /**
+     * description
+     */
+    const FIELD_TYPE_DESCRIPTION = 6;
+
+    /**
      * place field in user context
      */
     const LOCATE_USER = 1;
