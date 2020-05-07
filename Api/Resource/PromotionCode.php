@@ -17,6 +17,10 @@ use DreamCommerce\Component\ShopAppstore\Api\ItemResource;
 
 class PromotionCode extends ItemResource implements ObjectAwareInterface
 {
+    const DISCOUNT_TYPE_PERCENT = 1;
+    const DISCOUNT_TYPE_AMOUNT = 2;
+    const DISCOUNT_TYPE_FREE_SHIPPING = 3;
+
     /**
      * {@inheritdoc}
      */
