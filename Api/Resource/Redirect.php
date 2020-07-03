@@ -17,6 +17,14 @@ use DreamCommerce\Component\ShopAppstore\Api\ItemResource;
 
 class Redirect extends ItemResource implements ObjectAwareInterface
 {
+    const TYPE_OWN = 0;
+    const TYPE_PRODUCT = 1;
+    const TYPE_CATEGORY = 2;
+    const TYPE_PRODUCER = 3;
+    const TYPE_ABOUT_PAGE = 4;
+    const TYPE_NEWS = 5;
+    const TYPE_NEWS_CATEGORY = 6;
+
     /**
      * {@inheritdoc}
      */
