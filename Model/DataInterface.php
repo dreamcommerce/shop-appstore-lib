@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Model;
 
-interface DataInterface
+use Iterator;
+
+interface DataInterface extends Iterator
 {
     /**
      * @param array $data

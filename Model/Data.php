@@ -16,9 +16,19 @@ namespace DreamCommerce\Component\ShopAppstore\Model;
 class Data implements DataInterface
 {
     /**
+     * @var int
+     */
+    protected $_pos = 0;
+
+    /**
      * @var array
      */
     protected $_data = [];
+
+    /**
+     * @var array
+     */
+    protected $_keys = [];
 
     /**
      * @var array
@@ -39,6 +49,7 @@ class Data implements DataInterface
     public function setData(array $data): void
     {
         $this->_data = $data;
+        $this->_keys = array_keys($data);
         $this->_changedKeys = [];
     }
 
@@ -90,6 +101,38 @@ class Data implements DataInterface
     public function setFieldValue(string $field, $value): void
     {
         $this->$field = $value;
+
+        if(!in_array($field, $this->_keys)) {
+            $this->_keys[] = $field;
+        }
+    }
+
+    public function current()
+    {
+        return $this->_data[$this->_keys[$this->_pos]];
+    }
+
+    public function next()
+    {
+        $this->_pos++;
+    }
+
+    public function key()
+    {
+        return $this->_keys[$this->_pos];
+    }
+
+    public function valid()
+    {
+        if(!isset($this->_keys[$this->_pos])) {
+            return false;
+        }
+        return isset($this->_data[$this->_keys[$this->_pos]]);
+    }
+
+    public function rewind()
+    {
+        $this->_pos = 0;
     }
 
     /**
