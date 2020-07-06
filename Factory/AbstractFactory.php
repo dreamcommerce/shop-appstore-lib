@@ -59,6 +59,32 @@ abstract class AbstractFactory implements FactoryInterface
     }
 
     /**
+     * @param array $data
+     * @param DataInterface|null $container
+     * @return DataInterface
+     */
+    public function createFromArray(array $data, DataInterface $container = null): DataInterface
+    {
+        if($container === null) {
+            $container = $this->dataFactory->createNew();
+        }
+
+        $vals = [];
+        foreach($data as $k => $v) {
+            if(is_array($v)) {
+                $vals[$k] = $this->createFromArray($v);
+            } elseif(is_scalar($v) || is_null($v)) {
+                $vals[$k] = $v;
+            } else {
+                // TODO throw exception
+            }
+        }
+        $container->setData($vals);
+
+        return $container;
+    }
+
+    /**
      * @param RequestInterface $request
      * @param ResponseInterface $response
      * @return array
@@ -80,31 +106,5 @@ abstract class AbstractFactory implements FactoryInterface
         }
 
         return $body;
-    }
-
-    /**
-     * @param array $data
-     * @param DataInterface|null $container
-     * @return DataInterface
-     */
-    protected function createFromArray(array $data, DataInterface $container = null): DataInterface
-    {
-        if($container === null) {
-            $container = $this->dataFactory->createNew();
-        }
-
-        $vals = [];
-        foreach($data as $k => $v) {
-            if(is_array($v)) {
-                $vals[$k] = $this->createFromArray($v);
-            } elseif(is_scalar($v) || is_null($v)) {
-                $vals[$k] = $v;
-            } else {
-                // TODO throw exception
-            }
-        }
-        $container->setData($vals);
-
-        return $container;
     }
 }

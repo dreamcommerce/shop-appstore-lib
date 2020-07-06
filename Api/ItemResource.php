@@ -192,7 +192,7 @@ abstract class ItemResource extends Resource implements ItemResourceInterface
     public function reattach(ShopItemInterface $shopItem): void
     {
         $actualItem = $this->find($shopItem->getShop(), $shopItem->getExternalId());
-        $shopItem->setData($actualItem->getData());
+        $this->getShopItemFactory()->createFromArray($actualItem->getData(), $shopItem);
         $shopItem->flush();
     }
 

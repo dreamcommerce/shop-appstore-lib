@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace DreamCommerce\Component\ShopAppstore\Factory;
 
 use DreamCommerce\Component\ShopAppstore\Api\DataResourceInterface;
+use DreamCommerce\Component\ShopAppstore\Model\DataInterface;
 use DreamCommerce\Component\ShopAppstore\Model\ShopDataInterface;
 use DreamCommerce\Component\ShopAppstore\Model\ShopInterface;
 use Psr\Http\Message\RequestInterface;
@@ -22,6 +23,13 @@ use Sylius\Component\Resource\Factory\FactoryInterface;
 
 interface ShopDataFactoryInterface extends FactoryInterface
 {
+    /**
+     * @param array $data
+     * @param DataInterface|null $container
+     * @return DataInterface
+     */
+    public function createFromArray(array $data, DataInterface $container = null): DataInterface;
+
     /**
      * @param DataResourceInterface $resource
      * @param ShopInterface $shop
