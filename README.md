@@ -5,6 +5,12 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
+## Version 1.2.8
+* \+ added ``Warehouse`` resource
+* \+ added ``WarehouseLog`` recource
+* \+ added ``WarehouseRelocation`` recource
+
+
 ## Version 1.2.7
 * \+ added ``Redirect`` resource
 
