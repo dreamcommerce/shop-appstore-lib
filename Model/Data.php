@@ -160,4 +160,23 @@ class Data implements DataInterface
 
         $this->_data[$name] = $value;
     }
+
+    /**
+     * @param string $name
+     * @return bool
+     */
+    public function __isset(string $name): bool
+    {
+        return isset($this->_data[$name]);
+    }
+
+    /**
+     * @param string $name
+     */
+    public function __unset(string $name): void
+    {
+        if(isset($this->_data[$name])) {
+            unset($this->_data[$name]);
+        }
+    }
 }
