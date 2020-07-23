@@ -5,6 +5,9 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
+## Version 1.2.8
+* \+ added ``AdditionalFieldOption``, ``OrderTag``, ``ProductTag``, ``Progress``, ``UserTag``, ``XmlFeed`` resources
+
 ## Version 1.2.7
 * \+ added ``Redirect`` resource
 
