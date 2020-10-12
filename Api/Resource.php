@@ -118,12 +118,17 @@ abstract class Resource implements ResourceInterface
     /**
      * @param ShopInterface $shop
      * @param int|null $id
+     * @param string|null $name
      * @return UriInterface
      */
-    protected function getUri(ShopInterface $shop, int $id = null): UriInterface
+    protected function getUri(ShopInterface $shop, int $id = null, string $name = null): UriInterface
     {
+        if($name === null) {
+            $name = $this->getName();
+        }
+
         $uri = $shop->getUri();
-        $uri = $uri->withPath($uri->getPath() . '/webapi/rest/' . $this->getName());
+        $uri = $uri->withPath($uri->getPath() . '/webapi/rest/' . $name);
 
         if($id !== null) {
             $uri = $uri->withPath($uri->getPath() . '/' . $id);

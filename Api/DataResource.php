@@ -15,22 +15,13 @@ namespace DreamCommerce\Component\ShopAppstore\Api;
 
 use DreamCommerce\Component\ShopAppstore\Api\Authenticator\AuthenticatorInterface;
 use DreamCommerce\Component\ShopAppstore\Api\Http\ShopClientInterface;
-use DreamCommerce\Component\ShopAppstore\Factory\ShopDataFactory;
 use DreamCommerce\Component\ShopAppstore\Factory\ShopDataFactoryInterface;
 use DreamCommerce\Component\ShopAppstore\Model\ShopDataInterface;
 use DreamCommerce\Component\ShopAppstore\Model\ShopInterface;
 
 abstract class DataResource extends Resource implements DataResourceInterface
 {
-    /**
-     * @var ShopDataFactoryInterface
-     */
-    private $shopDataFactory;
-
-    /**
-     * @var ShopDataFactoryInterface
-     */
-    private static $globalShopDataFactory;
+    use ShopDataTrait;
 
     /**
      * @param ShopClientInterface|null $shopClient
@@ -54,21 +45,5 @@ abstract class DataResource extends Resource implements DataResourceInterface
         list($request, $response) = $this->perform($shop, 'GET');
 
         return $this->getShopDataFactory()->createByApiRequest($this, $shop, $request, $response);
-    }
-
-    /**
-     * @return ShopDataFactoryInterface
-     */
-    protected function getShopDataFactory(): ShopDataFactoryInterface
-    {
-        if($this->shopDataFactory !== null) {
-            return $this->shopDataFactory;
-        }
-
-        if(self::$globalShopDataFactory === null) {
-            self::$globalShopDataFactory = new ShopDataFactory($this->getGlobalDataFactory());
-        }
-
-        return self::$globalShopDataFactory;
     }
 }

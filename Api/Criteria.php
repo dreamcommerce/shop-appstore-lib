@@ -284,10 +284,9 @@ final class Criteria
     }
 
     /**
-     * @param RequestInterface $request
-     * @return RequestInterface
+     * @return array
      */
-    public function fillRequest(RequestInterface $request): RequestInterface
+    public function getQueryParams(): array
     {
         $query = [];
         if(count($this->expressions) > 0) {
@@ -302,6 +301,17 @@ final class Criteria
         if($this->page !== null) {
             $query['page'] = $this->page;
         }
+
+        return $query;
+    }
+
+    /**
+     * @param RequestInterface $request
+     * @return RequestInterface
+     */
+    public function fillRequest(RequestInterface $request): RequestInterface
+    {
+        $query = $this->getQueryParams();
 
         if(count($query) > 0) {
             $uri = $request->getUri();
