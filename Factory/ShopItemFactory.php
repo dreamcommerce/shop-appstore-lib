@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace DreamCommerce\Component\ShopAppstore\Factory;
 
 use DreamCommerce\Component\ShopAppstore\Api\ItemResourceInterface;
-use DreamCommerce\Component\ShopAppstore\Api\Resource\Metafield as MetafieldResource;
-use DreamCommerce\Component\ShopAppstore\Api\Resource\MetafieldValue as MetafieldValueResource;
+use DreamCommerce\Component\ShopAppstore\Api\Resource\MetafieldResource as MetafieldResource;
+use DreamCommerce\Component\ShopAppstore\Api\Resource\MetafieldValueResource as MetafieldValueResource;
 use DreamCommerce\Component\ShopAppstore\Model\Shop\Metafield;
 use DreamCommerce\Component\ShopAppstore\Model\Shop\MetafieldValue;
 use DreamCommerce\Component\ShopAppstore\Model\ShopItem;
