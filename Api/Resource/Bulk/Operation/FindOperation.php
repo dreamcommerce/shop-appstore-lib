@@ -11,34 +11,33 @@
 
 declare(strict_types=1);
 
-namespace DreamCommerce\Component\ShopAppstore\Api\Resource\Bulk;
+namespace DreamCommerce\Component\ShopAppstore\Api\Resource\Bulk\Operation;
 
-use DreamCommerce\Component\ShopAppstore\Api\Criteria;
 use DreamCommerce\Component\ShopAppstore\Api\Resource\ItemResourceInterface;
 
-final class FindBy extends Operation
+final class FindOperation extends BaseOperation
 {
     /**
-     * @var Criteria
+     * @var int
      */
-    private $criteria;
+    private $id;
 
     /**
      * @param ItemResourceInterface $resource
-     * @param Criteria $criteria
+     * @param int $id
      */
-    public function __construct(ItemResourceInterface $resource, Criteria $criteria)
+    public function __construct(ItemResourceInterface $resource, int $id)
     {
-        $this->criteria = $criteria;
+        $this->id = $id;
 
         parent::__construct($resource);
     }
 
     /**
-     * @return Criteria
+     * @return int
      */
-    public function getCriteria(): Criteria
+    public function getId(): int
     {
-        return $this->criteria;
+        return $this->id;
     }
 }

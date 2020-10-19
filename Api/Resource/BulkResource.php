@@ -14,22 +14,31 @@ declare(strict_types=1);
 namespace DreamCommerce\Component\ShopAppstore\Api\Resource;
 
 use DreamCommerce\Component\ShopAppstore\Api\Authenticator\AuthenticatorInterface;
-use DreamCommerce\Component\ShopAppstore\Api\BulkContainerInterface;
 use DreamCommerce\Component\ShopAppstore\Api\Criteria;
 use DreamCommerce\Component\ShopAppstore\Api\Http\ShopClientInterface;
+use DreamCommerce\Component\ShopAppstore\Api\Resource\Bulk;
+use DreamCommerce\Component\ShopAppstore\Factory\ShopBulkFactory;
+use DreamCommerce\Component\ShopAppstore\Factory\ShopBulkFactoryInterface;
 use DreamCommerce\Component\ShopAppstore\Factory\ShopDataFactoryInterface;
 use DreamCommerce\Component\ShopAppstore\Factory\ShopItemFactoryInterface;
 use DreamCommerce\Component\ShopAppstore\Factory\ShopItemListFactoryInterface;
 use DreamCommerce\Component\ShopAppstore\Factory\ShopItemPartListFactoryInterface;
 use DreamCommerce\Component\ShopAppstore\Model\ShopInterface;
-use Psr\Http\Message\ResponseInterface;
 
 class BulkResource extends Resource implements BulkResourceInterface
 {
-    use ShopDataTrait;
     use ShopItemTrait;
+    use ShopDataTrait;
 
-    const MAX_API_CALLS = 25;
+    /**
+     * @var ShopBulkFactoryInterface
+     */
+    private $shopBulkFactory;
+
+    /**
+     * @var ShopBulkFactoryInterface
+     */
+    private static $globalShopBulkFactory;
 
     /**
      * @param ShopClientInterface|null $shopClient
@@ -38,18 +47,21 @@ class BulkResource extends Resource implements BulkResourceInterface
      * @param ShopItemFactoryInterface|null $shopItemFactory
      * @param ShopItemPartListFactoryInterface|null $shopItemPartListFactory
      * @param ShopItemListFactoryInterface|null $shopItemListFactory
+     * @param ShopBulkFactoryInterface|null $shopBulkFactory
      */
     public function __construct(ShopClientInterface $shopClient = null,
                                 AuthenticatorInterface $authenticator = null,
                                 ShopDataFactoryInterface $shopDataFactory = null,
                                 ShopItemFactoryInterface $shopItemFactory = null,
                                 ShopItemPartListFactoryInterface $shopItemPartListFactory = null,
-                                ShopItemListFactoryInterface $shopItemListFactory = null
+                                ShopItemListFactoryInterface $shopItemListFactory = null,
+                                ShopBulkFactoryInterface $shopBulkFactory = null
     ) {
         $this->shopDataFactory = $shopDataFactory;
         $this->shopItemFactory = $shopItemFactory;
         $this->shopItemPartListFactory = $shopItemPartListFactory;
         $this->shopItemListFactory = $shopItemListFactory;
+        $this->shopBulkFactory = $shopBulkFactory;
 
         parent::__construct($shopClient, $authenticator);
     }
@@ -57,7 +69,7 @@ class BulkResource extends Resource implements BulkResourceInterface
     /**
      * {@inheritDoc}
      */
-    public function execute(ShopInterface $shop, BulkContainerInterface $container): BulkResult
+    public function execute(ShopInterface $shop, Bulk\BulkContainerInterface $container): Bulk\BulkResultInterface
     {
         $rows = array();
 
@@ -67,15 +79,15 @@ class BulkResource extends Resource implements BulkResourceInterface
             );
 
             switch(get_class($operation)) {
-                case Bulk\Fetch::class:
+                case Bulk\Operation\FetchOperation::class:
                     $row['method'] = 'GET';
                     $row['path'] = $this->getUri($shop, null, $operation->getResourceName());
                     break;
-                case Bulk\Find::class:
+                case Bulk\Operation\FindOperation::class:
                     $row['method'] = 'GET';
                     $row['path'] = $this->getUri($shop, $operation->getId(), $operation->getResourceName());
                     break;
-                case Bulk\FindBy::class:
+                case Bulk\Operation\FindByOperation::class:
                     /** @var Criteria $criteria */
                     $criteria = clone $operation->getCriteria();
                     $criteria->rewind();
@@ -84,27 +96,30 @@ class BulkResource extends Resource implements BulkResourceInterface
                     $row['path'] = $this->getUri($shop, null, $operation->getResourceName());
                     $row['params'] = $criteria->getQueryParams();
                     break;
-                case Bulk\Insert::class:
+                case Bulk\Operation\InsertOperation::class:
                     $row['method'] = 'POST';
                     $row['path'] = $this->getUri($shop, null, $operation->getResourceName());
                     $row['body'] = $operation->getData();
                     break;
-                case Bulk\Update::class:
+                case Bulk\Operation\UpdateOperation::class:
                     $row['method'] = 'PUT';
                     $row['path'] = $this->getUri($shop, $operation->getId(), $operation->getResourceName());
                     $row['body'] = $operation->getData();
                     break;
-                case Bulk\Delete::class:
+                case Bulk\Operation\DeleteOperation::class:
                     $row['method'] = 'DELETE';
                     $row['path'] = $this->getUri($shop, $operation->getId(), $operation->getResourceName());
                     break;
+                default:
+                    throw new \Exception(); // TODO
             }
+
+            $rows[] = $row;
         }
 
-        /** @var ResponseInterface $response */
-        list(, $response) = $this->perform($shop, 'POST', null, $rows);
+        list($request, $response) = $this->perform($shop, 'POST', null, $rows);
 
-        // TODO
+        return $this->getShopBulkFactory()->createByApiRequest($this, $shop, $request, $response);
     }
 
     /**
@@ -113,5 +128,27 @@ class BulkResource extends Resource implements BulkResourceInterface
     public function getName(): string
     {
         return 'bulk';
+    }
+
+    /**
+     * @return ShopBulkFactoryInterface
+     */
+    protected function getShopBulkFactory(): ShopBulkFactoryInterface
+    {
+        if($this->shopBulkFactory !== null) {
+            return $this->shopBulkFactory;
+        }
+
+        if(self::$globalShopBulkFactory === null) {
+            self::$globalShopBulkFactory = new ShopBulkFactory(
+                $this->getGlobalDataFactory(),
+                $this->getShopDataFactory(),
+                $this->getShopItemFactory(),
+                $this->getShopItemPartListFactory(),
+                $this->getShopItemListFactory()
+            );
+        }
+
+        return self::$globalShopBulkFactory;
     }
 }

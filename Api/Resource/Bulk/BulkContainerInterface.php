@@ -11,18 +11,22 @@
 
 declare(strict_types=1);
 
-namespace DreamCommerce\Component\ShopAppstore\Api;
+namespace DreamCommerce\Component\ShopAppstore\Api\Resource\Bulk;
+
+use DreamCommerce\Component\ShopAppstore\Api\Criteria;
+use DreamCommerce\Component\ShopAppstore\Api\Resource\DataResourceInterface;
+use DreamCommerce\Component\ShopAppstore\Api\Resource\ItemResourceInterface;
 
 interface BulkContainerInterface
 {
     /**
      * @param string $key
-     * @param Bulk\Operation $operation
+     * @param Operation\BaseOperation $operation
      */
-    public function addOperation(string $key, Bulk\Operation $operation): void;
+    public function addOperation(string $key, Operation\BaseOperation $operation): void;
 
     /**
-     * @return Bulk\Operation[]
+     * @return Operation\BaseOperation[]
      */
     public function getOperations(): array;
 

@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Api\Resource;
 
-use DreamCommerce\Component\ShopAppstore\Api\BulkContainerInterface;
-use DreamCommerce\Component\ShopAppstore\Api\BulkResult;
+use DreamCommerce\Component\ShopAppstore\Api\Resource\Bulk\BulkContainerInterface;
+use DreamCommerce\Component\ShopAppstore\Api\Resource\Bulk\BulkResultInterface;
 use DreamCommerce\Component\ShopAppstore\Model\ShopInterface;
 
 interface BulkResourceInterface extends ResourceInterface
@@ -22,7 +22,7 @@ interface BulkResourceInterface extends ResourceInterface
     /**
      * @param ShopInterface $shop
      * @param BulkContainerInterface $container
-     * @return BulkResult
+     * @return BulkResultInterface
      */
-    public function execute(ShopInterface $shop, BulkContainerInterface $container): BulkResult;
+    public function execute(ShopInterface $shop, BulkContainerInterface $container): BulkResultInterface;
 }

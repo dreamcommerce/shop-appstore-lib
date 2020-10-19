@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace DreamCommerce\Component\ShopAppstore\Api\Resource\Bulk;
+namespace DreamCommerce\Component\ShopAppstore\Api\Resource\Bulk\Operation;
 
 use DreamCommerce\Component\ShopAppstore\Api\Resource\ResourceInterface;
 
-abstract class Operation
+abstract class BaseOperation
 {
     /**
      * @var ResourceInterface

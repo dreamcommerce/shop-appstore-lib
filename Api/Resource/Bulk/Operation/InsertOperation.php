@@ -11,17 +11,12 @@
 
 declare(strict_types=1);
 
-namespace DreamCommerce\Component\ShopAppstore\Api\Resource\Bulk;
+namespace DreamCommerce\Component\ShopAppstore\Api\Resource\Bulk\Operation;
 
 use DreamCommerce\Component\ShopAppstore\Api\Resource\ItemResourceInterface;
 
-final class Update extends Operation
+final class InsertOperation extends BaseOperation
 {
-    /**
-     * @var int
-     */
-    private $id;
-
     /**
      * @var array
      */
@@ -29,23 +24,13 @@ final class Update extends Operation
 
     /**
      * @param ItemResourceInterface $resource
-     * @param int $id
      * @param array $data
      */
-    public function __construct(ItemResourceInterface $resource, int $id, array $data)
+    public function __construct(ItemResourceInterface $resource, array $data)
     {
-        $this->id = $id;
         $this->data = $data;
 
         parent::__construct($resource);
-    }
-
-    /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
     }
 
     /**

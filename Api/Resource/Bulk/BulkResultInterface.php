@@ -13,15 +13,10 @@ declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Api\Resource\Bulk;
 
-use DreamCommerce\Component\ShopAppstore\Api\Resource\DataResourceInterface;
-
-final class Fetch extends Operation
+interface BulkResultInterface
 {
     /**
-     * @param DataResourceInterface $resource
+     * @return Result\BaseResult[]
      */
-    public function __construct(DataResourceInterface $resource)
-    {
-        parent::__construct($resource);
-    }
+    public function getResults(): array;
 }
