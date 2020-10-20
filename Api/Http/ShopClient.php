@@ -70,7 +70,10 @@ class ShopClient implements ShopClientInterface
         $this->lastRequest = $request;
         $this->lastResponse = null;
 
-        $next = function() {};
+        $next = function(RequestInterface $request, ResponseInterface $response = null) {
+            $this->lastRequest = $request;
+            $this->lastResponse = $response;
+        };
 
         foreach(clone $this->middlewares as $middleware) {
             $func = function(RequestInterface $request, ResponseInterface $response = null) use($middleware, $next) {
@@ -152,6 +155,7 @@ class ShopClient implements ShopClientInterface
      * @throws Exception\PermissionsException
      * @throws Exception\ValidationException
      * @throws Exception\LimitExceededException
+     * @throws Exception\NotImplementedException
      */
     private function checkResponse(Throwable $exception = null): void
     {
@@ -170,6 +174,8 @@ class ShopClient implements ShopClientInterface
                 throw Exception\ObjectLockedException::forResponse($this->lastRequest, $this->lastResponse, $exception);
             case 429:
                 throw Exception\LimitExceededException::forResponse($this->lastRequest, $this->lastResponse, $exception);
+            case 501:
+                throw Exception\NotImplementedException::forResponse($this->lastRequest, $this->lastResponse, $exception);
         }
 
         if($responseCode !== 200) {

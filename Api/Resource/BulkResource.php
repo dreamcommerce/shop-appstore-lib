@@ -16,7 +16,7 @@ namespace DreamCommerce\Component\ShopAppstore\Api\Resource;
 use DreamCommerce\Component\ShopAppstore\Api\Authenticator\AuthenticatorInterface;
 use DreamCommerce\Component\ShopAppstore\Api\Criteria;
 use DreamCommerce\Component\ShopAppstore\Api\Http\ShopClientInterface;
-use DreamCommerce\Component\ShopAppstore\Api\Resource\Bulk;
+use DreamCommerce\Component\ShopAppstore\Api\Bulk;
 use DreamCommerce\Component\ShopAppstore\Factory\ShopBulkFactory;
 use DreamCommerce\Component\ShopAppstore\Factory\ShopBulkFactoryInterface;
 use DreamCommerce\Component\ShopAppstore\Factory\ShopDataFactoryInterface;
@@ -77,15 +77,16 @@ class BulkResource extends Resource implements BulkResourceInterface
             $row = array(
                 'id' => $key
             );
+            $resourceName = $operation->getResource()->getName();
 
             switch(get_class($operation)) {
                 case Bulk\Operation\FetchOperation::class:
                     $row['method'] = 'GET';
-                    $row['path'] = $this->getUri($shop, null, $operation->getResourceName());
+                    $row['path'] = $this->getUri($shop, null, $resourceName)->getPath();
                     break;
                 case Bulk\Operation\FindOperation::class:
                     $row['method'] = 'GET';
-                    $row['path'] = $this->getUri($shop, $operation->getId(), $operation->getResourceName());
+                    $row['path'] = $this->getUri($shop, $operation->getId(), $resourceName)->getPath();
                     break;
                 case Bulk\Operation\FindByOperation::class:
                     /** @var Criteria $criteria */
@@ -93,22 +94,22 @@ class BulkResource extends Resource implements BulkResourceInterface
                     $criteria->rewind();
 
                     $row['method'] = 'GET';
-                    $row['path'] = $this->getUri($shop, null, $operation->getResourceName());
+                    $row['path'] = $this->getUri($shop, null, $resourceName)->getPath();
                     $row['params'] = $criteria->getQueryParams();
                     break;
                 case Bulk\Operation\InsertOperation::class:
                     $row['method'] = 'POST';
-                    $row['path'] = $this->getUri($shop, null, $operation->getResourceName());
+                    $row['path'] = $this->getUri($shop, null, $resourceName)->getPath();
                     $row['body'] = $operation->getData();
                     break;
                 case Bulk\Operation\UpdateOperation::class:
                     $row['method'] = 'PUT';
-                    $row['path'] = $this->getUri($shop, $operation->getId(), $operation->getResourceName());
+                    $row['path'] = $this->getUri($shop, $operation->getId(), $resourceName)->getPath();
                     $row['body'] = $operation->getData();
                     break;
                 case Bulk\Operation\DeleteOperation::class:
                     $row['method'] = 'DELETE';
-                    $row['path'] = $this->getUri($shop, $operation->getId(), $operation->getResourceName());
+                    $row['path'] = $this->getUri($shop, $operation->getId(), $resourceName)->getPath();
                     break;
                 default:
                     throw new \Exception(); // TODO
@@ -119,7 +120,7 @@ class BulkResource extends Resource implements BulkResourceInterface
 
         list($request, $response) = $this->perform($shop, 'POST', null, $rows);
 
-        return $this->getShopBulkFactory()->createByApiRequest($this, $shop, $request, $response);
+        return $this->getShopBulkFactory()->createByApiRequest($this, $container, $shop, $request, $response);
     }
 
     /**
@@ -144,8 +145,7 @@ class BulkResource extends Resource implements BulkResourceInterface
                 $this->getGlobalDataFactory(),
                 $this->getShopDataFactory(),
                 $this->getShopItemFactory(),
-                $this->getShopItemPartListFactory(),
-                $this->getShopItemListFactory()
+                $this->getShopItemPartListFactory()
             );
         }
 

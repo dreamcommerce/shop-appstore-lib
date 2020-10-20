@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace DreamCommerce\Component\ShopAppstore\Api\Resource\Bulk\Operation;
+namespace DreamCommerce\Component\ShopAppstore\Api\Bulk\Operation;
 
 use DreamCommerce\Component\ShopAppstore\Api\Resource\ResourceInterface;
 

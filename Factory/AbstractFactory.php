@@ -76,7 +76,7 @@ abstract class AbstractFactory implements FactoryInterface
             } elseif(is_scalar($v) || is_null($v)) {
                 $vals[$k] = $v;
             } else {
-                // TODO throw exception
+                throw new \Exception();
             }
         }
         $container->setData($vals);

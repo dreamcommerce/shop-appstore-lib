@@ -11,19 +11,32 @@
 
 declare(strict_types=1);
 
-namespace DreamCommerce\Component\ShopAppstore\Api\Resource\Bulk;
+namespace DreamCommerce\Component\ShopAppstore\Api\Bulk;
 
 use DreamCommerce\Component\ShopAppstore\Api\Criteria;
 use DreamCommerce\Component\ShopAppstore\Api\Resource\DataResourceInterface;
 use DreamCommerce\Component\ShopAppstore\Api\Resource\ItemResourceInterface;
+use Iterator;
 
-interface BulkContainerInterface
+interface BulkContainerInterface extends Iterator
 {
     /**
      * @param string $key
      * @param Operation\BaseOperation $operation
      */
     public function addOperation(string $key, Operation\BaseOperation $operation): void;
+
+    /**
+     * @param string $key
+     * @return bool
+     */
+    public function hasOperation(string $key): bool;
+
+    /**
+     * @param string $key
+     * @return Operation\BaseOperation|null
+     */
+    public function getOperation(string $key): ?Operation\BaseOperation;
 
     /**
      * @return Operation\BaseOperation[]

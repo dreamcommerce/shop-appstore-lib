@@ -11,12 +11,14 @@
 
 declare(strict_types=1);
 
-namespace DreamCommerce\Component\ShopAppstore\Api\Resource\Bulk;
+namespace DreamCommerce\Component\ShopAppstore\Api\Bulk;
 
-interface BulkResultInterface
+use Iterator;
+
+interface BulkResultInterface extends Iterator
 {
     /**
      * @return Result\BaseResult[]
      */
-    public function getResults(): array;
+    public function getList(): array;
 }

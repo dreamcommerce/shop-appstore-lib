@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace DreamCommerce\Component\ShopAppstore\Api\Resource\Bulk;
+namespace DreamCommerce\Component\ShopAppstore\Api\Bulk;
 
 use DreamCommerce\Component\Common\Exception\DefinedException;
 use DreamCommerce\Component\ShopAppstore\Api\Criteria;
@@ -21,16 +21,27 @@ use DreamCommerce\Component\ShopAppstore\Api\Resource\ItemResourceInterface;
 class BulkContainer implements BulkContainerInterface
 {
     /**
-     * @var Operation\BaseOperation[]
+     * @var int
      */
-    private $operations = array();
+    private $pos = 0;
 
     /**
-     * @param Operation\BaseOperation[] $operations
+     * @var string[]
      */
-    public function __construct(array $operations = array())
+    private $keys = [];
+
+    /**
+     * @var Result\BaseResult[]
+     */
+    private $list = [];
+
+    /**
+     * @param Operation\BaseOperation[] $list
+     */
+    public function __construct(array $list = array())
     {
-        $this->operations = $operations;
+        $this->list = $list;
+        $this->keys = array_keys($list);
     }
 
     /**
@@ -38,10 +49,30 @@ class BulkContainer implements BulkContainerInterface
      */
     public function addOperation(string $key, Operation\BaseOperation $operation): void
     {
-        if(array_key_exists($key, $this->operations)) {
+        if(array_key_exists($key, $this->list)) {
             throw DefinedException::forParameter($key);
         }
-        $this->operations[$key] = $operation;
+        $this->list[$key] = $operation;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function hasOperation(string $key): bool
+    {
+        return isset($this->list[$key]);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getOperation(string $key): ?Operation\BaseOperation
+    {
+        if(!$this->hasOperation($key)) {
+            return null;
+        }
+
+        return $this->list[$key];
     }
 
     /**
@@ -49,7 +80,7 @@ class BulkContainer implements BulkContainerInterface
      */
     public function getOperations(): array
     {
-        return $this->operations;
+        return $this->list;
     }
 
     /**
@@ -98,5 +129,74 @@ class BulkContainer implements BulkContainerInterface
     public function delete(string $key, ItemResourceInterface $resource, int $id): void
     {
         $this->addOperation($key, new Operation\DeleteOperation($resource, $id));
+    }
+
+    public function current()
+    {
+        return $this->list[$this->keys[$this->pos]];
+    }
+
+    public function next()
+    {
+        $this->pos++;
+    }
+
+    public function key()
+    {
+        return $this->keys[$this->pos];
+    }
+
+    public function valid()
+    {
+        if(!isset($this->keys[$this->pos])) {
+            return false;
+        }
+        return isset($this->list[$this->keys[$this->pos]]);
+    }
+
+    public function rewind()
+    {
+        $this->pos = 0;
+    }
+
+    /**
+     * @param string $name
+     * @return mixed|null
+     */
+    public function __get(string $name)
+    {
+        if(!isset($this->list[$name])) {
+            return null;
+        }
+
+        return $this->list[$name];
+    }
+
+    /**
+     * @param string $name
+     * @param mixed $value
+     */
+    public function __set(string $name, $value): void
+    {
+        $this->list[$name] = $value;
+    }
+
+    /**
+     * @param string $name
+     * @return bool
+     */
+    public function __isset(string $name): bool
+    {
+        return isset($this->list[$name]);
+    }
+
+    /**
+     * @param string $name
+     */
+    public function __unset(string $name): void
+    {
+        if(isset($this->list[$name])) {
+            unset($this->list[$name]);
+        }
     }
 }

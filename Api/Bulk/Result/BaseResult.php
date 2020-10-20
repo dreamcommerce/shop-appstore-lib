@@ -11,15 +11,15 @@
 
 declare(strict_types=1);
 
-namespace DreamCommerce\Component\ShopAppstore\Api\Resource\Bulk\Result;
+namespace DreamCommerce\Component\ShopAppstore\Api\Bulk\Result;
 
-use DreamCommerce\Component\ShopAppstore\Api\Resource\Bulk\Operation;
+use DreamCommerce\Component\ShopAppstore\Api\Bulk\Operation\BaseOperation;
 use DreamCommerce\Component\ShopAppstore\Model\ShopInterface;
 
 abstract class BaseResult
 {
     /**
-     * @var Operation\BaseOperation
+     * @var BaseOperation
      */
     private $operation;
 
@@ -29,19 +29,19 @@ abstract class BaseResult
     private $shop;
 
     /**
-     * @param Operation\BaseOperation $operation
+     * @param BaseOperation $operation
      * @param ShopInterface $shop
      */
-    public function __construct(Operation\BaseOperation $operation, ShopInterface $shop)
+    public function __construct(BaseOperation $operation, ShopInterface $shop)
     {
         $this->operation = $operation;
         $this->shop = $shop;
     }
 
     /**
-     * @return Operation\BaseOperation
+     * @return BaseOperation
      */
-    public function getOperation(): Operation\BaseOperation
+    public function getOperation(): BaseOperation
     {
         return $this->operation;
     }

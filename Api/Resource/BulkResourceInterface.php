@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Api\Resource;
 
-use DreamCommerce\Component\ShopAppstore\Api\Resource\Bulk\BulkContainerInterface;
-use DreamCommerce\Component\ShopAppstore\Api\Resource\Bulk\BulkResultInterface;
+use DreamCommerce\Component\ShopAppstore\Api\Bulk\BulkContainerInterface;
+use DreamCommerce\Component\ShopAppstore\Api\Bulk\BulkResultInterface;
 use DreamCommerce\Component\ShopAppstore\Model\ShopInterface;
 
 interface BulkResourceInterface extends ResourceInterface

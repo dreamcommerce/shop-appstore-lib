@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace DreamCommerce\Component\ShopAppstore\Factory;
 
 use DreamCommerce\Component\ShopAppstore\Api\Exception\CommunicationException;
-use DreamCommerce\Component\ShopAppstore\Api\ItemResourceInterface;
+use DreamCommerce\Component\ShopAppstore\Api\Resource\ItemResourceInterface;
 use DreamCommerce\Component\ShopAppstore\Model\ShopItemPartList;
 use DreamCommerce\Component\ShopAppstore\Model\ShopItemPartListInterface;
 use DreamCommerce\Component\ShopAppstore\Model\ShopInterface;
@@ -47,10 +47,27 @@ class ShopItemPartListFactory implements ShopItemPartListFactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function createByApiResource(ItemResourceInterface $resource, ShopInterface $shop): ShopItemPartListInterface
+    public function createByApiResource(ItemResourceInterface $resource, ShopInterface $shop,
+                                        array $data): ShopItemPartListInterface
     {
         $list = $this->createNew();
         $list->setShop($shop);
+
+        if(isset($data['page'])) {
+            $list->setPage((int)$data['page']);
+        }
+        if(isset($data['count'])) {
+            $list->setTotal((int)$data['count']);
+        }
+        if(isset($data['pages'])) {
+            $list->setTotalPages((int)$data['pages']);
+        }
+
+        $items = [];
+        foreach($data['list'] as $partData) {
+            $items[] = $this->shopItemFactory->createByApiResource($resource, $shop, $partData);
+        }
+        $list->setItems($items);
 
         return $list;
     }
@@ -74,23 +91,6 @@ class ShopItemPartListFactory implements ShopItemPartListFactoryInterface
             throw CommunicationException::forInvalidResponseBody($request, $response);
         }
 
-        $itemPartList = $this->createByApiResource($resource, $shop);
-        if(isset($body['page'])) {
-            $itemPartList->setPage((int)$body['page']);
-        }
-        if(isset($body['count'])) {
-            $itemPartList->setTotal((int)$body['count']);
-        }
-        if(isset($body['pages'])) {
-            $itemPartList->setTotalPages((int)$body['pages']);
-        }
-
-        $items = [];
-        foreach($body['list'] as $data) {
-            $items[] = $this->shopItemFactory->createByApiResource($resource, $shop, $data);
-        }
-        $itemPartList->setItems($items);
-
-        return $itemPartList;
+        return $this->createByApiResource($resource, $shop, $body);
     }
 }

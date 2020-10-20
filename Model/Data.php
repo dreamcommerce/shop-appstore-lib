@@ -18,29 +18,29 @@ class Data implements DataInterface
     /**
      * @var int
      */
-    protected $_pos = 0;
+    protected $pos = 0;
 
     /**
      * @var array
      */
-    protected $_data = [];
+    protected $data = [];
 
     /**
      * @var array
      */
-    protected $_keys = [];
+    protected $keys = [];
 
     /**
      * @var array
      */
-    protected $_changedKeys = [];
+    protected $changedKeys = [];
 
     /**
      * @param array $data
      */
     public function __construct(array $data = [])
     {
-        $this->_data = $data;
+        $this->setData($data);
     }
 
     /**
@@ -48,9 +48,9 @@ class Data implements DataInterface
      */
     public function setData(array $data): void
     {
-        $this->_data = $data;
-        $this->_keys = array_keys($data);
-        $this->_changedKeys = [];
+        $this->data = $data;
+        $this->keys = array_keys($data);
+        $this->changedKeys = [];
     }
 
     /**
@@ -59,7 +59,7 @@ class Data implements DataInterface
     public function getData(): array
     {
         $data = array();
-        foreach($this->_data as $key => $value) {
+        foreach($this->data as $key => $value) {
             if($value instanceof DataInterface) {
                 $value = $value->getData();
             }
@@ -74,10 +74,10 @@ class Data implements DataInterface
      */
     public function getDiffData(): array
     {
-        $diff = array_intersect_key($this->_data, array_flip($this->_changedKeys));
-        foreach($this->_data as $k => $v) {
-            if($this->_data[$k] instanceof DataInterface) {
-                $partDiff = $this->_data[$k]->getDiffData();
+        $diff = array_intersect_key($this->data, array_flip($this->changedKeys));
+        foreach($this->data as $k => $v) {
+            if($this->data[$k] instanceof DataInterface) {
+                $partDiff = $this->data[$k]->getDiffData();
                 if(!empty($partDiff)) {
                     $diff[$k] = $partDiff;
                 }
@@ -102,37 +102,37 @@ class Data implements DataInterface
     {
         $this->$field = $value;
 
-        if(!in_array($field, $this->_keys)) {
-            $this->_keys[] = $field;
+        if(!in_array($field, $this->keys)) {
+            $this->keys[] = $field;
         }
     }
 
     public function current()
     {
-        return $this->_data[$this->_keys[$this->_pos]];
+        return $this->data[$this->keys[$this->pos]];
     }
 
     public function next()
     {
-        $this->_pos++;
+        $this->pos++;
     }
 
     public function key()
     {
-        return $this->_keys[$this->_pos];
+        return $this->keys[$this->pos];
     }
 
     public function valid()
     {
-        if(!isset($this->_keys[$this->_pos])) {
+        if(!isset($this->keys[$this->pos])) {
             return false;
         }
-        return isset($this->_data[$this->_keys[$this->_pos]]);
+        return isset($this->data[$this->keys[$this->pos]]);
     }
 
     public function rewind()
     {
-        $this->_pos = 0;
+        $this->pos = 0;
     }
 
     /**
@@ -141,11 +141,11 @@ class Data implements DataInterface
      */
     public function __get(string $name)
     {
-        if(!isset($this->_data[$name])) {
+        if(!isset($this->data[$name])) {
             return null;
         }
 
-        return $this->_data[$name];
+        return $this->data[$name];
     }
 
     /**
@@ -154,11 +154,11 @@ class Data implements DataInterface
      */
     public function __set(string $name, $value): void
     {
-        if(!in_array($name, $this->_changedKeys)) {
-            $this->_changedKeys[] = $name;
+        if(!in_array($name, $this->changedKeys)) {
+            $this->changedKeys[] = $name;
         }
 
-        $this->_data[$name] = $value;
+        $this->data[$name] = $value;
     }
 
     /**
@@ -167,7 +167,7 @@ class Data implements DataInterface
      */
     public function __isset(string $name): bool
     {
-        return isset($this->_data[$name]);
+        return isset($this->data[$name]);
     }
 
     /**
@@ -175,8 +175,8 @@ class Data implements DataInterface
      */
     public function __unset(string $name): void
     {
-        if(isset($this->_data[$name])) {
-            unset($this->_data[$name]);
+        if(isset($this->data[$name])) {
+            unset($this->data[$name]);
         }
     }
 }

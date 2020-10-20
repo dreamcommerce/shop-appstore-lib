@@ -39,7 +39,7 @@ abstract class AbstractShopItemList implements Iterator, Countable, ArrayAccess
      */
     public function __construct(array $items = [])
     {
-        $this->items = $items;
+        $this->setItems($items);
     }
 
     /**
@@ -48,6 +48,8 @@ abstract class AbstractShopItemList implements Iterator, Countable, ArrayAccess
     public function setItems(array $items)
     {
         $this->items = $items;
+        $this->count = count($items);
+        $this->pointer = 0;
     }
 
     /**

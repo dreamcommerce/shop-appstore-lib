@@ -22,7 +22,6 @@ final class ShopItemList extends AbstractShopItemList implements ShopItemListInt
      */
     public function addPart(ShopItemPartList $itemPartList): void
     {
-        $this->items = array_merge($this->items, $itemPartList->items);
-        $this->count = count($this->items);
+        $this->setItems(array_merge($this->items, $itemPartList->items));
     }
 }
