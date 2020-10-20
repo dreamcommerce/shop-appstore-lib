@@ -19,10 +19,6 @@ use DreamCommerce\Component\ShopAppstore\Api\Http\ShopClientInterface;
 use DreamCommerce\Component\ShopAppstore\Api\Bulk;
 use DreamCommerce\Component\ShopAppstore\Factory\ShopBulkFactory;
 use DreamCommerce\Component\ShopAppstore\Factory\ShopBulkFactoryInterface;
-use DreamCommerce\Component\ShopAppstore\Factory\ShopDataFactoryInterface;
-use DreamCommerce\Component\ShopAppstore\Factory\ShopItemFactoryInterface;
-use DreamCommerce\Component\ShopAppstore\Factory\ShopItemListFactoryInterface;
-use DreamCommerce\Component\ShopAppstore\Factory\ShopItemPartListFactoryInterface;
 use DreamCommerce\Component\ShopAppstore\Model\ShopInterface;
 
 class BulkResource extends Resource implements BulkResourceInterface
@@ -43,24 +39,12 @@ class BulkResource extends Resource implements BulkResourceInterface
     /**
      * @param ShopClientInterface|null $shopClient
      * @param AuthenticatorInterface|null $authenticator
-     * @param ShopDataFactoryInterface|null $shopDataFactory
-     * @param ShopItemFactoryInterface|null $shopItemFactory
-     * @param ShopItemPartListFactoryInterface|null $shopItemPartListFactory
-     * @param ShopItemListFactoryInterface|null $shopItemListFactory
      * @param ShopBulkFactoryInterface|null $shopBulkFactory
      */
     public function __construct(ShopClientInterface $shopClient = null,
                                 AuthenticatorInterface $authenticator = null,
-                                ShopDataFactoryInterface $shopDataFactory = null,
-                                ShopItemFactoryInterface $shopItemFactory = null,
-                                ShopItemPartListFactoryInterface $shopItemPartListFactory = null,
-                                ShopItemListFactoryInterface $shopItemListFactory = null,
                                 ShopBulkFactoryInterface $shopBulkFactory = null
     ) {
-        $this->shopDataFactory = $shopDataFactory;
-        $this->shopItemFactory = $shopItemFactory;
-        $this->shopItemPartListFactory = $shopItemPartListFactory;
-        $this->shopItemListFactory = $shopItemListFactory;
         $this->shopBulkFactory = $shopBulkFactory;
 
         parent::__construct($shopClient, $authenticator);
