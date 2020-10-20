@@ -18,7 +18,7 @@ class ShopItem extends ShopData implements ShopItemInterface
     /**
      * @var int|null
      */
-    private $_externalId;
+    private $externalId;
 
     /**
      * @param ShopInterface|null $shop
@@ -29,7 +29,7 @@ class ShopItem extends ShopData implements ShopItemInterface
     {
         parent::__construct($shop, $data);
 
-        $this->_externalId = $externalId;
+        $this->externalId = $externalId;
     }
 
     /**
@@ -37,7 +37,7 @@ class ShopItem extends ShopData implements ShopItemInterface
      */
     public function getExternalId(): ?int
     {
-        return $this->_externalId;
+        return $this->externalId;
     }
 
     /**
@@ -45,7 +45,7 @@ class ShopItem extends ShopData implements ShopItemInterface
      */
     public function setExternalId(int $externalId): void
     {
-        $this->_externalId = $externalId;
+        $this->externalId = $externalId;
     }
 
     /**
@@ -53,7 +53,7 @@ class ShopItem extends ShopData implements ShopItemInterface
      */
     public function hasExternalId(): bool
     {
-        return ($this->_externalId !== null);
+        return ($this->externalId !== null);
     }
 
     /**
@@ -61,6 +61,6 @@ class ShopItem extends ShopData implements ShopItemInterface
      */
     public function flush(): void
     {
-        $this->_changedKeys = [];
+        $this->changedKeys = [];
     }
 }

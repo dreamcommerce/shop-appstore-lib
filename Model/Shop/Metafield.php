@@ -53,7 +53,7 @@ class Metafield extends ShopItem implements MetafieldInterface
     /**
      * @var Collection|MetafieldValueInterface[]
      */
-    private $_values;
+    private $values;
 
     /**
      * @param ShopInterface|null $shop
@@ -64,7 +64,7 @@ class Metafield extends ShopItem implements MetafieldInterface
     {
         parent::__construct($shop, $data);
 
-        $this->_values = new ArrayCollection();
+        $this->values = new ArrayCollection();
     }
 
     /**
@@ -161,7 +161,7 @@ class Metafield extends ShopItem implements MetafieldInterface
     public function addValue(MetafieldValueInterface $value): void
     {
         if (!$this->hasValue($value)) {
-            $this->_values->add($value);
+            $this->values->add($value);
             $value->setMetafield($this);
         }
     }
@@ -171,7 +171,7 @@ class Metafield extends ShopItem implements MetafieldInterface
      */
     public function hasValue(MetafieldValueInterface $value): bool
     {
-        return $this->_values->contains($value);
+        return $this->values->contains($value);
     }
 
     /**
@@ -180,7 +180,7 @@ class Metafield extends ShopItem implements MetafieldInterface
     public function removeValue(MetafieldValueInterface $value): void
     {
         if($this->hasValue($value)) {
-            $this->_values->removeElement($value);
+            $this->values->removeElement($value);
             $value->setMetafield(null);
         }
     }
@@ -190,6 +190,6 @@ class Metafield extends ShopItem implements MetafieldInterface
      */
     public function getValues(): iterable
     {
-        return $this->_values;
+        return $this->values;
     }
 }
