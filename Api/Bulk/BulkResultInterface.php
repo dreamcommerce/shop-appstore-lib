@@ -13,9 +13,10 @@ declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Api\Bulk;
 
+use ArrayAccess;
 use Iterator;
 
-interface BulkResultInterface extends Iterator
+interface BulkResultInterface extends ArrayAccess, Iterator
 {
     /**
      * @return Result\BaseResult[]

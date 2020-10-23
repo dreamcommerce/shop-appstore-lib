@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace DreamCommerce\Component\ShopAppstore\Api\Bulk;
 
 use DreamCommerce\Component\Common\Exception\DefinedException;
+use DreamCommerce\Component\Common\Exception\InvalidTypeException;
 use DreamCommerce\Component\ShopAppstore\Api\Criteria;
 use DreamCommerce\Component\ShopAppstore\Api\Resource\DataResourceInterface;
 use DreamCommerce\Component\ShopAppstore\Api\Resource\ItemResourceInterface;
@@ -31,7 +32,7 @@ class BulkContainer implements BulkContainerInterface
     private $keys = [];
 
     /**
-     * @var Result\BaseResult[]
+     * @var Operation\BaseOperation[]
      */
     private $list = [];
 
@@ -178,6 +179,10 @@ class BulkContainer implements BulkContainerInterface
      */
     public function __set(string $name, $value): void
     {
+        if(!($value instanceof Operation\BaseOperation)) {
+            throw InvalidTypeException::forUnexpectedType(is_object($value) ? get_class($value) : gettype($value), Operation\BaseOperation::class);
+        }
+
         $this->list[$name] = $value;
     }
 
@@ -197,6 +202,51 @@ class BulkContainer implements BulkContainerInterface
     {
         if(isset($this->list[$name])) {
             unset($this->list[$name]);
+        }
+    }
+
+    /**
+     * @param string $offset
+     * @return bool
+     */
+    public function offsetExists($offset)
+    {
+        return isset($this->list[$offset]);
+    }
+
+    /**
+     * @param string $offset
+     * @return Operation\BaseOperation|null
+     */
+    public function offsetGet($offset)
+    {
+        if(!isset($this->list[$offset])) {
+            return null;
+        }
+
+        return $this->list[$offset];
+    }
+
+    /**
+     * @param string $offset
+     * @param Operation\BaseOperation $value
+     */
+    public function offsetSet($offset, $value)
+    {
+        if(!($value instanceof Operation\BaseOperation)) {
+            throw InvalidTypeException::forUnexpectedType(is_object($value) ? get_class($value) : gettype($value), Operation\BaseOperation::class);
+        }
+
+        $this->list[$offset] = $value;
+    }
+
+    /**
+     * @param string $offset
+     */
+    public function offsetUnset($offset)
+    {
+        if(isset($this->list[$offset])) {
+            unset($this->list[$offset]);
         }
     }
 }

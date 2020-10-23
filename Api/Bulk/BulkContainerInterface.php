@@ -13,12 +13,13 @@ declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Api\Bulk;
 
+use ArrayAccess;
 use DreamCommerce\Component\ShopAppstore\Api\Criteria;
 use DreamCommerce\Component\ShopAppstore\Api\Resource\DataResourceInterface;
 use DreamCommerce\Component\ShopAppstore\Api\Resource\ItemResourceInterface;
 use Iterator;
 
-interface BulkContainerInterface extends Iterator
+interface BulkContainerInterface extends ArrayAccess, Iterator
 {
     /**
      * @param string $key
