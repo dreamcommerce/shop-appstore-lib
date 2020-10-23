@@ -35,6 +35,12 @@ interface BulkContainerInterface extends ArrayAccess, Iterator
 
     /**
      * @param string $key
+     * @param Operation\BaseOperation $operation
+     */
+    public function setOperation(string $key, Operation\BaseOperation $operation): void;
+
+    /**
+     * @param string $key
      * @return Operation\BaseOperation|null
      */
     public function getOperation(string $key): ?Operation\BaseOperation;

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Tests\Api;
 
-use DreamCommerce\Component\ShopAppstore\Api\ItemResourceInterface;
+use DreamCommerce\Component\ShopAppstore\Api\Resource\ItemResourceInterface;
 use DreamCommerce\Component\ShopAppstore\Factory\ShopItemFactoryInterface;
 use DreamCommerce\Component\ShopAppstore\Factory\ShopItemListFactoryInterface;
 use DreamCommerce\Component\ShopAppstore\Factory\ShopItemPartListFactoryInterface;

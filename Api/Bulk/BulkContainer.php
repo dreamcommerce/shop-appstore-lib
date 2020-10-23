@@ -14,10 +14,12 @@ declare(strict_types=1);
 namespace DreamCommerce\Component\ShopAppstore\Api\Bulk;
 
 use DreamCommerce\Component\Common\Exception\DefinedException;
-use DreamCommerce\Component\Common\Exception\InvalidTypeException;
+use DreamCommerce\Component\ShopAppstore\Api\Bulk\Operation\BaseOperation;
 use DreamCommerce\Component\ShopAppstore\Api\Criteria;
+use DreamCommerce\Component\ShopAppstore\Api\Exception\BulkException;
 use DreamCommerce\Component\ShopAppstore\Api\Resource\DataResourceInterface;
 use DreamCommerce\Component\ShopAppstore\Api\Resource\ItemResourceInterface;
+use DreamCommerce\Component\ShopAppstore\Info;
 
 class BulkContainer implements BulkContainerInterface
 {
@@ -52,6 +54,21 @@ class BulkContainer implements BulkContainerInterface
     {
         if(array_key_exists($key, $this->list)) {
             throw DefinedException::forParameter($key);
+        }
+        if(count($this->list) >= Info::MAX_BULK_API_ITEMS) {
+            throw BulkException::forExceedMaxNumberOfCalls($operation);
+        }
+
+        $this->list[$key] = $operation;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setOperation(string $key, Operation\BaseOperation $operation): void
+    {
+        if(!$this->hasOperation($key) && count($this->list) >= Info::MAX_BULK_API_ITEMS) {
+            throw BulkException::forExceedMaxNumberOfCalls($operation);
         }
         $this->list[$key] = $operation;
     }
@@ -162,15 +179,11 @@ class BulkContainer implements BulkContainerInterface
 
     /**
      * @param string $name
-     * @return mixed|null
+     * @return BaseOperation|null
      */
     public function __get(string $name)
     {
-        if(!isset($this->list[$name])) {
-            return null;
-        }
-
-        return $this->list[$name];
+        return $this->getOperation($name);
     }
 
     /**
@@ -179,11 +192,7 @@ class BulkContainer implements BulkContainerInterface
      */
     public function __set(string $name, $value): void
     {
-        if(!($value instanceof Operation\BaseOperation)) {
-            throw InvalidTypeException::forUnexpectedType(is_object($value) ? get_class($value) : gettype($value), Operation\BaseOperation::class);
-        }
-
-        $this->list[$name] = $value;
+        $this->setOperation($name, $value);
     }
 
     /**
@@ -192,7 +201,7 @@ class BulkContainer implements BulkContainerInterface
      */
     public function __isset(string $name): bool
     {
-        return isset($this->list[$name]);
+        return $this->hasOperation($name);
     }
 
     /**
@@ -211,7 +220,7 @@ class BulkContainer implements BulkContainerInterface
      */
     public function offsetExists($offset)
     {
-        return isset($this->list[$offset]);
+        return $this->hasOperation($offset);
     }
 
     /**
@@ -220,11 +229,7 @@ class BulkContainer implements BulkContainerInterface
      */
     public function offsetGet($offset)
     {
-        if(!isset($this->list[$offset])) {
-            return null;
-        }
-
-        return $this->list[$offset];
+        return $this->getOperation($offset);
     }
 
     /**
@@ -233,11 +238,7 @@ class BulkContainer implements BulkContainerInterface
      */
     public function offsetSet($offset, $value)
     {
-        if(!($value instanceof Operation\BaseOperation)) {
-            throw InvalidTypeException::forUnexpectedType(is_object($value) ? get_class($value) : gettype($value), Operation\BaseOperation::class);
-        }
-
-        $this->list[$offset] = $value;
+        $this->setOperation($offset, $value);
     }
 
     /**

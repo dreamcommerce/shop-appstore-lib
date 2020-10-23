@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Factory;
 
+use DreamCommerce\Component\Common\Exception\InvalidTypeException;
 use DreamCommerce\Component\ShopAppstore\Api\Exception\CommunicationException;
 use DreamCommerce\Component\ShopAppstore\Model\DataInterface;
 use Psr\Http\Message\RequestInterface;
@@ -76,7 +77,7 @@ abstract class AbstractFactory implements FactoryInterface
             } elseif(is_scalar($v) || is_null($v)) {
                 $vals[$k] = $v;
             } else {
-                throw new \Exception();
+                throw InvalidTypeException::forUnexpectedType(is_object($v) ? get_class($v) : gettype($v), 'array|scalar|null for key:' . $k);
             }
         }
         $container->setData($vals);

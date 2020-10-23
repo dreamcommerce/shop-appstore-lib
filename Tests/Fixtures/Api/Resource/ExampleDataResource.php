@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Tests\Fixtures\Api\Resource;
 
-use DreamCommerce\Component\ShopAppstore\Api\DataResource;
+use DreamCommerce\Component\ShopAppstore\Api\Resource\DataResource;
 
 final class ExampleDataResource extends DataResource
 {

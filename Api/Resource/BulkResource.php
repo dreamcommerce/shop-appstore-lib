@@ -15,6 +15,7 @@ namespace DreamCommerce\Component\ShopAppstore\Api\Resource;
 
 use DreamCommerce\Component\ShopAppstore\Api\Authenticator\AuthenticatorInterface;
 use DreamCommerce\Component\ShopAppstore\Api\Criteria;
+use DreamCommerce\Component\ShopAppstore\Api\Exception\BulkException;
 use DreamCommerce\Component\ShopAppstore\Api\Http\ShopClientInterface;
 use DreamCommerce\Component\ShopAppstore\Api\Bulk;
 use DreamCommerce\Component\ShopAppstore\Factory\ShopBulkFactory;
@@ -96,7 +97,7 @@ class BulkResource extends Resource implements BulkResourceInterface
                     $row['path'] = $this->getUri($shop, $operation->getId(), $resourceName)->getPath();
                     break;
                 default:
-                    throw new \Exception(); // TODO
+                    throw BulkException::forUnsupportedOperation($operation);
             }
 
             $rows[] = $row;

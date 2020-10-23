@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Api;
 
+use DreamCommerce\Component\ShopAppstore\Api\Exception\CriteriaException;
 use DreamCommerce\Component\ShopAppstore\Info;
 use InvalidArgumentException;
 use Psr\Http\Message\RequestInterface;
@@ -206,10 +207,13 @@ final class Criteria
         $this->page++;
     }
 
+    /**
+     * @throws CriteriaException
+     */
     public function prevPage(): void
     {
-        if($this->page === 0) {
-            // TODO throw
+        if($this->page <= 1) {
+            throw CriteriaException::forInvalidPageNumber($this);
         }
 
         $this->page--;
@@ -218,11 +222,12 @@ final class Criteria
     /**
      * @param int|null $limit
      * @return self
+     * @throws CriteriaException
      */
     public function setMaxResults(?int $limit): self
     {
         if($limit > Info::MAX_API_ITEMS) {
-            // TODO throw
+            throw CriteriaException::forExceedMaxNumberOfItems($this);
         }
 
         $this->limit = $limit;

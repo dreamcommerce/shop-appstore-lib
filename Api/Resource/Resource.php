@@ -129,7 +129,7 @@ abstract class Resource implements ResourceInterface
         }
 
         $uri = $shop->getUri();
-        $uri = $uri->withPath($uri->getPath() . '/webapi/rest/' . $name);
+        $uri = $uri->withPath(rtrim($uri->getPath(), '/') . '/webapi/rest/' . $name);
 
         if($id !== null) {
             $uri = $uri->withPath($uri->getPath() . '/' . $id);

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Tests\Fixtures\Api\Resource;
 
-use DreamCommerce\Component\ShopAppstore\Api\ItemResource;
+use DreamCommerce\Component\ShopAppstore\Api\Resource\ItemResource;
 
 final class ExampleItemResource extends ItemResource
 {

@@ -20,6 +20,7 @@ final class Info
     public const LOCALE             = 'en_US';
     public const HTTP_USER_AGENT    = 'DreamCommerce ShopAppStore Agent ' . self::VERSION;
     public const MAX_API_ITEMS      = 50;
+    public const MAX_BULK_API_ITEMS = 25;
 
     private function __construct()
     {
