@@ -20,11 +20,11 @@ use DreamCommerce\Component\ShopAppstore\Api\Http\ShopClientInterface;
 use DreamCommerce\Component\ShopAppstore\Factory\ShopItemFactoryInterface;
 use DreamCommerce\Component\ShopAppstore\Factory\ShopItemListFactoryInterface;
 use DreamCommerce\Component\ShopAppstore\Factory\ShopItemPartListFactoryInterface;
+use DreamCommerce\Component\ShopAppstore\Model\ShopInterface;
 use DreamCommerce\Component\ShopAppstore\Model\ShopItemInterface;
 use DreamCommerce\Component\ShopAppstore\Model\ShopItemListInterface;
 use DreamCommerce\Component\ShopAppstore\Model\ShopItemPartList;
 use DreamCommerce\Component\ShopAppstore\Model\ShopItemPartListInterface;
-use DreamCommerce\Component\ShopAppstore\Model\ShopInterface;
 use Psr\Http\Message\ResponseInterface;
 
 abstract class ItemResource extends Resource implements ItemResourceInterface
@@ -38,11 +38,12 @@ abstract class ItemResource extends Resource implements ItemResourceInterface
      * @param ShopItemPartListFactoryInterface|null $shopItemPartListFactory
      * @param ShopItemListFactoryInterface|null $shopItemListFactory
      */
-    public function __construct(ShopClientInterface $shopClient = null,
-                                AuthenticatorInterface $authenticator = null,
-                                ShopItemFactoryInterface $shopItemFactory = null,
-                                ShopItemPartListFactoryInterface $shopItemPartListFactory = null,
-                                ShopItemListFactoryInterface $shopItemListFactory = null
+    public function __construct(
+        ShopClientInterface $shopClient = null,
+        AuthenticatorInterface $authenticator = null,
+        ShopItemFactoryInterface $shopItemFactory = null,
+        ShopItemPartListFactoryInterface $shopItemPartListFactory = null,
+        ShopItemListFactoryInterface $shopItemListFactory = null
     ) {
         $this->shopItemFactory = $shopItemFactory;
         $this->shopItemPartListFactory = $shopItemPartListFactory;
@@ -56,7 +57,7 @@ abstract class ItemResource extends Resource implements ItemResourceInterface
      */
     public function find(ShopInterface $shop, int $id): ShopItemInterface
     {
-        list($request, $response) = $this->perform($shop, 'GET', $id);
+        [$request, $response] = $this->perform($shop, 'GET', $id);
 
         return $this->getShopItemFactory()->createByApiRequest($this, $shop, $request, $response);
     }
@@ -81,7 +82,7 @@ abstract class ItemResource extends Resource implements ItemResourceInterface
      */
     public function findByPartial(ShopInterface $shop, Criteria $criteria): ShopItemPartListInterface
     {
-        list($request, $response) = $this->perform($shop,'GET',null, null, $criteria);
+        [$request, $response] = $this->perform($shop, 'GET', null, null, $criteria);
 
         return $this->getShopItemPartListFactory()->createByApiRequest($this, $shop, $request, $response);
     }
@@ -99,7 +100,7 @@ abstract class ItemResource extends Resource implements ItemResourceInterface
      */
     public function resume(ShopItemListInterface $itemList, Criteria $criteria): void
     {
-        $this->fetchAll($itemList->getShop(), $criteria, function(ShopItemPartList $itemPartList) use($itemList) {
+        $this->fetchAll($itemList->getShop(), $criteria, function (ShopItemPartList $itemPartList) use ($itemList) {
             $itemList->addPart($itemPartList);
         });
     }
@@ -109,15 +110,15 @@ abstract class ItemResource extends Resource implements ItemResourceInterface
      */
     public function walk(ShopInterface $shop, callable $callback, Criteria $criteria = null): void
     {
-        if($criteria === null) {
+        if ($criteria === null) {
             $criteria = Criteria::create();
         } else {
             $criteria = clone $criteria;
             $criteria->rewind();
         }
 
-        $this->fetchAll($shop, $criteria, function(ShopItemPartList $itemPartList) use($callback) {
-            foreach($itemPartList as $item) {
+        $this->fetchAll($shop, $criteria, function (ShopItemPartList $itemPartList) use ($callback) {
+            foreach ($itemPartList as $item) {
                 call_user_func($callback, $item);
             }
         });
@@ -129,13 +130,13 @@ abstract class ItemResource extends Resource implements ItemResourceInterface
     public function insert(ShopInterface $shop, array $data): ShopItemInterface
     {
         /** @var ResponseInterface $response */
-        list(, $response) = $this->perform($shop, 'POST', null, $data);
+        [, $response] = $this->perform($shop, 'POST', null, $data);
         $stream = $response->getBody();
         $stream->rewind();
         $id = trim($stream->getContents(), '"');
 
         $item = $this->getShopItemFactory()->createByApiResource($this, $shop, $data);
-        $item->setExternalId((int)$id);
+        $item->setExternalId((int) $id);
 
         return $item;
     }
@@ -171,7 +172,7 @@ abstract class ItemResource extends Resource implements ItemResourceInterface
      */
     public function insertItem(ShopItemInterface $shopItem): void
     {
-        if($shopItem->hasExternalId()) {
+        if ($shopItem->hasExternalId()) {
             // TODO throw exception
         }
 
@@ -185,11 +186,11 @@ abstract class ItemResource extends Resource implements ItemResourceInterface
      */
     public function updateItem(ShopItemInterface $shopItem, array $data = null): void
     {
-        if(!$shopItem->hasExternalId()) {
+        if (!$shopItem->hasExternalId()) {
             // TODO throw exception
         }
 
-        if($data === null) {
+        if ($data === null) {
             $data = $shopItem->getDiffData();
         }
 
@@ -202,7 +203,7 @@ abstract class ItemResource extends Resource implements ItemResourceInterface
      */
     public function deleteItem(ShopItemInterface $shopItem): void
     {
-        if(!$shopItem->hasExternalId()) {
+        if (!$shopItem->hasExternalId()) {
             // TODO throw exception
         }
 
@@ -219,11 +220,11 @@ abstract class ItemResource extends Resource implements ItemResourceInterface
         do {
             try {
                 $itemPartList = $this->findByPartial($shop, $criteria);
-            } catch(LimitExceededException $exception) {
+            } catch (LimitExceededException $exception) {
                 // TODO throw
             }
             call_user_func($callback, $itemPartList);
             $criteria->nextPage();
-        } while($criteria->getPage() <= $itemPartList->getTotalPages());
+        } while ($criteria->getPage() <= $itemPartList->getTotalPages());
     }
 }

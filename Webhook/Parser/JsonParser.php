@@ -27,7 +27,7 @@ final class JsonParser implements ParserInterface
 
         $body = $stream->getContents();
         $body = @json_decode($body, true);
-        if($body === false) {
+        if ($body === false) {
             // TODO throw exception
         }
 

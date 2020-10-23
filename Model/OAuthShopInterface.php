@@ -105,12 +105,12 @@ interface OAuthShopInterface extends ShopInterface, ApplicationDependInterface
     public function setVersion(?int $version): void;
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getAuthCode(): ?string;
 
     /**
-     * @param null|string $authCode
+     * @param string|null $authCode
      */
     public function setAuthCode(?string $authCode): void;
 }

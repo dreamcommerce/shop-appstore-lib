@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the DreamCommerce Shop AppStore package.
+ *
+ * (c) DreamCommerce
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Doctrine\DBAL\Types;
@@ -19,11 +28,11 @@ final class ShopStateEnumType extends EnumType
     /**
      * @var array
      */
-    protected $values = array(
+    protected $values = [
         OAuthShopInterface::STATE_NEW,
         OAuthShopInterface::STATE_UNINSTALLED,
         OAuthShopInterface::STATE_PREFETCH_TOKENS,
         OAuthShopInterface::STATE_REJECTED_AUTH_CODE,
         OAuthShopInterface::STATE_INSTALLED,
-    );
+    ];
 }

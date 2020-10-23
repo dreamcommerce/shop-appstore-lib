@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the DreamCommerce Shop AppStore package.
+ *
+ * (c) DreamCommerce
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Doctrine\ORM\Subscriber;
@@ -30,9 +39,9 @@ class ApplicationSubscriber implements EventSubscriber
      */
     public function getSubscribedEvents()
     {
-        return array(
-            Events::postLoad
-        );
+        return [
+            Events::postLoad,
+        ];
     }
 
     /**
@@ -43,7 +52,7 @@ class ApplicationSubscriber implements EventSubscriber
         $entity = $eventArgs->getEntity();
         if ($entity instanceof ApplicationDependInterface) {
             $appName = $entity->getApplicationName();
-            if($appName === null) {
+            if ($appName === null) {
                 return;
             }
 

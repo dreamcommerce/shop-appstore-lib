@@ -45,6 +45,7 @@ interface ShopRepositoryInterface extends RepositoryInterface
 
     /**
      * @param string|UriInterface $uri
+     *
      * @return ShopInterface|null
      */
     public function findOneByUri($uri): ?ShopInterface;
@@ -52,6 +53,7 @@ interface ShopRepositoryInterface extends RepositoryInterface
     /**
      * @param string|UriInterface $uri
      * @param ApplicationInterface $application
+     *
      * @return OAuthShopInterface|null
      */
     public function findOneByUriAndApplication($uri, ApplicationInterface $application): ?OAuthShopInterface;

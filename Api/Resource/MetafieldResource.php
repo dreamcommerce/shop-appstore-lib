@@ -56,6 +56,7 @@ class MetafieldResource extends ItemResource implements ObjectAwareInterface
      * @param ObjectAwareInterface $resource
      * @param ShopInterface $shop
      * @param array $data
+     *
      * @return MetafieldInterface
      */
     public function insertByResource(ObjectAwareInterface $resource, ShopInterface $shop, array $data): MetafieldInterface
@@ -70,11 +71,12 @@ class MetafieldResource extends ItemResource implements ObjectAwareInterface
      * @param ObjectAwareInterface $resource
      * @param ShopInterface $shop
      * @param Criteria|null $criteria
+     *
      * @return ShopItemListInterface|MetafieldInterface[]
      */
     public function findByResource(ObjectAwareInterface $resource, ShopInterface $shop, Criteria $criteria = null): ShopItemListInterface
     {
-        if($criteria === null) {
+        if ($criteria === null) {
             $criteria = Criteria::create();
         } else {
             $criteria = clone $criteria;
@@ -90,7 +92,7 @@ class MetafieldResource extends ItemResource implements ObjectAwareInterface
     public function findByPartial(ShopInterface $shop, Criteria $criteria): ShopItemPartListInterface
     {
         $where = $criteria->getWhereExpression();
-        if(isset($where['object']) && isset($where['object']['='])) {
+        if (isset($where['object'], $where['object']['='])) {
             $this->urlPart = $where['object']['='];
         }
 
@@ -102,7 +104,7 @@ class MetafieldResource extends ItemResource implements ObjectAwareInterface
      */
     public function insert(ShopInterface $shop, array $data): ShopItemInterface
     {
-        if(!isset($data['object'])) {
+        if (!isset($data['object'])) {
             $data['object'] = $this->getObjectName();
         }
         $this->urlPart = $data['object'];
@@ -118,7 +120,7 @@ class MetafieldResource extends ItemResource implements ObjectAwareInterface
      */
     public function update(ShopInterface $shop, int $id, array $data): void
     {
-        if(isset($data['object'])) {
+        if (isset($data['object'])) {
             $this->urlPart = $data['object'];
         }
 
@@ -130,7 +132,7 @@ class MetafieldResource extends ItemResource implements ObjectAwareInterface
      */
     public function updateItem(ShopItemInterface $shopItem, array $data = null): void
     {
-        if($shopItem instanceof MetafieldInterface) {
+        if ($shopItem instanceof MetafieldInterface) {
             $data['object'] = $shopItem->getObject();
         }
 

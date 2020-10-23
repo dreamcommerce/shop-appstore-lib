@@ -20,6 +20,7 @@ interface DataResourceInterface extends ResourceInterface
 {
     /**
      * @param ShopInterface $shop
+     *
      * @return ShopDataInterface
      */
     public function fetch(ShopInterface $shop): ShopDataInterface;

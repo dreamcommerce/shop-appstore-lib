@@ -47,7 +47,7 @@ class InstallResolverTest extends TestCase
     {
         $this->shopStateMachineFactory = $this->getMockBuilder(FactoryInterface::class)->getMock();
         $this->authenticator = $this->getMockBuilder(AuthenticatorInterface::class)->getMock();
-        $this->resolver = new InstallResolver($this->shopStateMachineFactory,$this->authenticator);
+        $this->resolver = new InstallResolver($this->shopStateMachineFactory, $this->authenticator);
     }
 
     public function testShouldImplements(): void

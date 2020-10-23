@@ -55,9 +55,12 @@ abstract class BearerAuthenticator implements AuthenticatorInterface
      * @param ObjectManager|null $tokenObjectManager
      * @param FactoryInterface|null $tokenFactory
      */
-    public function __construct(ShopClientInterface $shopClient, DateTimeFactoryInterface $dateTimeFactory = null,
-                                ObjectManager $tokenObjectManager = null, FactoryInterface $tokenFactory = null)
-    {
+    public function __construct(
+        ShopClientInterface $shopClient,
+        DateTimeFactoryInterface $dateTimeFactory = null,
+        ObjectManager $tokenObjectManager = null,
+        FactoryInterface $tokenFactory = null
+    ) {
         $this->shopClient = $shopClient;
         $this->dateTimeFactory = $dateTimeFactory;
         $this->tokenObjectManager = $tokenObjectManager;
@@ -68,6 +71,7 @@ abstract class BearerAuthenticator implements AuthenticatorInterface
      * @param RequestInterface $request
      * @param ShopInterface $shop
      * @param string $exceptionClass
+     *
      * @throws Exception\AuthenticationException
      * @throws Exception\CommunicationException
      */
@@ -77,7 +81,7 @@ abstract class BearerAuthenticator implements AuthenticatorInterface
 
         try {
             $response = $this->shopClient->send($request);
-        } catch(Exception\PermissionsException $exception) {
+        } catch (Exception\PermissionsException $exception) {
             $response = $exception->getHttpResponse();
         }
 
@@ -85,19 +89,20 @@ abstract class BearerAuthenticator implements AuthenticatorInterface
         $stream->rewind();
 
         $body = $stream->getContents();
-        if(strlen($body) === 0) {
+        if (strlen($body) === 0) {
             throw Exception\CommunicationException::forEmptyResponseBody($request, $response, $exception);
         }
         $body = @json_decode($body, true);
 
-        if(!$body || !is_array($body)) {
+        if (!$body || !is_array($body)) {
             throw Exception\CommunicationException::forInvalidResponseBody($request, $response, $exception);
-        } elseif(isset($body['error'])) {
+        }
+        if (isset($body['error'])) {
             throw $exceptionClass::forErrorMessage($body, $shop, $request, $response, $exception);
         }
 
         $token = $shop->getToken();
-        if($token === null) {
+        if ($token === null) {
             $token = $this->createToken();
             $shop->setToken($token);
         }
@@ -105,20 +110,20 @@ abstract class BearerAuthenticator implements AuthenticatorInterface
         $token->setAccessToken($body['access_token']);
 
         $refreshToken = null;
-        if(isset($body['refresh_token'])) {
+        if (isset($body['refresh_token'])) {
             $refreshToken = $body['refresh_token'];
         }
         $token->setRefreshToken($refreshToken);
 
         $expiresAt = null;
-        if(isset($body['expires_in'])) {
+        if (isset($body['expires_in'])) {
             $dateTimeFactory = $this->getDateTimeFactory();
             $expiresAt = $dateTimeFactory->createNewWithTimezone(new DateTimeZone(Info::TIMEZONE));
             $expiresAt->add(DateInterval::createFromDateString($body['expires_in'] . ' seconds'));
         }
         $token->setExpiresAt($expiresAt);
 
-        if($this->tokenObjectManager !== null) {
+        if ($this->tokenObjectManager !== null) {
             $this->tokenObjectManager->persist($token);
             $this->tokenObjectManager->flush();
         }
@@ -129,7 +134,7 @@ abstract class BearerAuthenticator implements AuthenticatorInterface
      */
     private function getDateTimeFactory(): DateTimeFactoryInterface
     {
-        if($this->dateTimeFactory === null) {
+        if ($this->dateTimeFactory === null) {
             $this->dateTimeFactory = new DateTimeFactory();
         }
 
@@ -141,7 +146,7 @@ abstract class BearerAuthenticator implements AuthenticatorInterface
      */
     private function createToken(): TokenInterface
     {
-        if($this->tokenFactory !== null) {
+        if ($this->tokenFactory !== null) {
             return $this->tokenFactory->createNew();
         }
 

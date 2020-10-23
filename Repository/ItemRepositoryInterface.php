@@ -20,6 +20,7 @@ interface ItemRepositoryInterface extends RepositoryInterface
 {
     /**
      * @param ShopInterface $shop
+     *
      * @return iterable
      */
     public function findByShop(ShopInterface $shop): iterable;
@@ -27,6 +28,7 @@ interface ItemRepositoryInterface extends RepositoryInterface
     /**
      * @param ShopInterface $shop
      * @param int $externalId
+     *
      * @return iterable
      */
     public function findByShopAndExternalId(ShopInterface $shop, int $externalId): iterable;

@@ -23,18 +23,18 @@ use Psr\Http\Message\ServerRequestInterface;
 
 interface DispatcherInterface
 {
-    public const ACTION_BILLING_INSTALL         = 'billing_install';
-    public const ACTION_BILLING_SUBSCRIPTION    = 'billing_subscription';
-    public const ACTION_INSTALL                 = 'install';
-    public const ACTION_UPGRADE                 = 'upgrade';
-    public const ACTION_UNINSTALL               = 'uninstall';
+    public const ACTION_BILLING_INSTALL = 'billing_install';
+    public const ACTION_BILLING_SUBSCRIPTION = 'billing_subscription';
+    public const ACTION_INSTALL = 'install';
+    public const ACTION_UPGRADE = 'upgrade';
+    public const ACTION_UNINSTALL = 'uninstall';
 
     public const ACTION_PAYLOAD_MAP = [
-        self::ACTION_BILLING_INSTALL        => BillingInstall::class,
-        self::ACTION_BILLING_SUBSCRIPTION   => BillingSubscription::class,
-        self::ACTION_INSTALL                => Install::class,
-        self::ACTION_UPGRADE                => Upgrade::class,
-        self::ACTION_UNINSTALL              => Uninstall::class,
+        self::ACTION_BILLING_INSTALL => BillingInstall::class,
+        self::ACTION_BILLING_SUBSCRIPTION => BillingSubscription::class,
+        self::ACTION_INSTALL => Install::class,
+        self::ACTION_UPGRADE => Upgrade::class,
+        self::ACTION_UNINSTALL => Uninstall::class,
     ];
 
     /**

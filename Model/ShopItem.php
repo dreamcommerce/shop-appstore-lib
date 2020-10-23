@@ -53,7 +53,7 @@ class ShopItem extends ShopData implements ShopItemInterface
      */
     public function hasExternalId(): bool
     {
-        return ($this->externalId !== null);
+        return $this->externalId !== null;
     }
 
     /**

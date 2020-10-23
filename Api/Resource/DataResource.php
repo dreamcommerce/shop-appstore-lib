@@ -28,9 +28,10 @@ abstract class DataResource extends Resource implements DataResourceInterface
      * @param AuthenticatorInterface|null $authenticator
      * @param ShopDataFactoryInterface $shopDataFactory
      */
-    public function __construct(ShopClientInterface $shopClient = null,
-                                AuthenticatorInterface $authenticator = null,
-                                ShopDataFactoryInterface $shopDataFactory = null
+    public function __construct(
+        ShopClientInterface $shopClient = null,
+        AuthenticatorInterface $authenticator = null,
+        ShopDataFactoryInterface $shopDataFactory = null
     ) {
         $this->shopDataFactory = $shopDataFactory;
 
@@ -42,7 +43,7 @@ abstract class DataResource extends Resource implements DataResourceInterface
      */
     public function fetch(ShopInterface $shop): ShopDataInterface
     {
-        list($request, $response) = $this->perform($shop, 'GET');
+        [$request, $response] = $this->perform($shop, 'GET');
 
         return $this->getShopDataFactory()->createByApiRequest($this, $shop, $request, $response);
     }

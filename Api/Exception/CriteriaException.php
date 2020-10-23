@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the DreamCommerce Shop AppStore package.
+ *
+ * (c) DreamCommerce
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Api\Exception;
@@ -10,8 +19,8 @@ use Throwable;
 
 class CriteriaException extends ShopAppstoreException
 {
-    const CODE_INVALID_PAGE_NUMBER              = 1;
-    const CODE_MAX_NUMBER_OF_ITEMS_EXCEEDED     = 2;
+    const CODE_INVALID_PAGE_NUMBER = 1;
+    const CODE_MAX_NUMBER_OF_ITEMS_EXCEEDED = 2;
 
     /**
      * @var Criteria|null
@@ -21,6 +30,7 @@ class CriteriaException extends ShopAppstoreException
     /**
      * @param Criteria $criteria
      * @param Throwable|null $previous
+     *
      * @return CriteriaException
      */
     public static function forInvalidPageNumber(Criteria $criteria, Throwable $previous = null): self
@@ -34,6 +44,7 @@ class CriteriaException extends ShopAppstoreException
     /**
      * @param Criteria $criteria
      * @param Throwable|null $previous
+     *
      * @return CriteriaException
      */
     public static function forExceedMaxNumberOfItems(Criteria $criteria, Throwable $previous = null): self

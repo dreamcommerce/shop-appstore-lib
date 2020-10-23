@@ -43,11 +43,12 @@ final class OAuthAuthenticator extends BearerAuthenticator
      * @param ObjectManager|null $shopObjectManager
      * @param FactoryInterface|null $shopStateMachineFactory
      */
-    public function __construct(ShopClientInterface $shopClient,
-                                DateTimeFactoryInterface $dateTimeFactory = null,
-                                ObjectManager $tokenObjectManager = null,
-                                ObjectManager $shopObjectManager = null,
-                                FactoryInterface $shopStateMachineFactory = null
+    public function __construct(
+        ShopClientInterface $shopClient,
+        DateTimeFactoryInterface $dateTimeFactory = null,
+        ObjectManager $tokenObjectManager = null,
+        ObjectManager $shopObjectManager = null,
+        FactoryInterface $shopStateMachineFactory = null
     ) {
         $this->shopObjectManager = $shopObjectManager;
         $this->shopStateMachineFactory = $shopStateMachineFactory;
@@ -67,11 +68,11 @@ final class OAuthAuthenticator extends BearerAuthenticator
         $shopUri = $shop->getUri();
 
         $query = [
-            'grant_type' => 'authorization_code'
+            'grant_type' => 'authorization_code',
         ];
 
         $params = [
-            'code' => $shop->getAuthCode()
+            'code' => $shop->getAuthCode(),
         ];
 
         $authUri = $shopUri
@@ -83,7 +84,7 @@ final class OAuthAuthenticator extends BearerAuthenticator
             $authUri,
             [
                 'Content-Type' => 'application/x-www-form-urlencoded',
-                'Authorization' => 'Basic ' . base64_encode($application->getAppId() . ':' . $application->getAppSecret())
+                'Authorization' => 'Basic ' . base64_encode($application->getAppId() . ':' . $application->getAppSecret()),
             ],
             http_build_query($params, '', '&')
         );
@@ -91,12 +92,12 @@ final class OAuthAuthenticator extends BearerAuthenticator
         $this->handleRequest($request, $shop, AuthenticationException::class);
         $shop->setAuthCode(null);
 
-        if($this->shopStateMachineFactory !== null) {
+        if ($this->shopStateMachineFactory !== null) {
             $stateMachine = $this->shopStateMachineFactory->get($shop, ShopTransitions::GRAPH);
             $stateMachine->apply(ShopTransitions::TRANSITION_INSTALL);
         }
 
-        if($this->shopObjectManager !== null) {
+        if ($this->shopObjectManager !== null) {
             $this->shopObjectManager->persist($shop);
             $this->shopObjectManager->flush();
         }
@@ -114,12 +115,12 @@ final class OAuthAuthenticator extends BearerAuthenticator
         $shopUri = $shop->getUri();
 
         $query = [
-            'grant_type' => 'refresh_token'
+            'grant_type' => 'refresh_token',
         ];
 
         $params = [
             'client_id' => $application->getAppId(),
-            'client_secret' => $application->getAppSecret()
+            'client_secret' => $application->getAppSecret(),
         ];
 
         $refreshUri = $shopUri
@@ -130,7 +131,7 @@ final class OAuthAuthenticator extends BearerAuthenticator
             'post',
             $refreshUri,
             [
-                'Content-Type' => 'application/x-www-form-urlencoded'
+                'Content-Type' => 'application/x-www-form-urlencoded',
             ],
             http_build_query($params, '', '&')
         );

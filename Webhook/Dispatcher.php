@@ -55,17 +55,17 @@ final class Dispatcher implements DispatcherInterface
     {
         $headers = $this->checkRequest($serverRequest);
 
-        if($application === null) {
+        if ($application === null) {
             $shop = $this->shopRepository->findOneByUri($headers['X-Shop-Domain']);
         } else {
             $shop = $this->shopRepository->findOneByUriAndApplication($headers['X-Shop-Domain'], $application);
         }
 
-        if($shop === null) {
+        if ($shop === null) {
             // TODO throw exception
         }
 
-        if(!$this->parserRegistry->has($headers['Content-Type'])) {
+        if (!$this->parserRegistry->has($headers['Content-Type'])) {
             // TODO throw exception
         }
 
@@ -81,15 +81,15 @@ final class Dispatcher implements DispatcherInterface
      */
     public function registerListener(ListenerInterface $listener, $actions): void
     {
-        if(!is_array($actions)) {
-            $actions = [ $actions ];
+        if (!is_array($actions)) {
+            $actions = [$actions];
         }
 
-        foreach($actions as $action) {
+        foreach ($actions as $action) {
             Assert::string($action);
             Assert::oneOf($action, DispatcherInterface::ALL_ACTIONS);
 
-            if(!isset($this->listeners[$action])) {
+            if (!isset($this->listeners[$action])) {
                 $this->listeners[$action] = [];
             }
 
@@ -101,12 +101,12 @@ final class Dispatcher implements DispatcherInterface
     {
         $names = [
             'X-Shop-Version', 'X-Shop-Domain', 'X-Shop-License', 'X-Webhook-Id', 'X-Webhook-Name',
-            'X-Webhook-SHA1', 'Content-Type'
+            'X-Webhook-SHA1', 'Content-Type',
         ];
         $headers = [];
 
-        foreach($names as $name) {
-            if(!$serverRequest->hasHeader($name)) {
+        foreach ($names as $name) {
+            if (!$serverRequest->hasHeader($name)) {
                 throw NotDefinedException::forParameter($name);
             }
 

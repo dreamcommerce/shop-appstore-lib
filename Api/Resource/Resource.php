@@ -55,8 +55,8 @@ abstract class Resource implements ResourceInterface
      * @var array
      */
     protected static $globalAuthMap = [
-        BasicAuthShopInterface::class   => BasicAuthAuthenticator::class,
-        OAuthShopInterface::class       => OAuthAuthenticator::class
+        BasicAuthShopInterface::class => BasicAuthAuthenticator::class,
+        OAuthShopInterface::class => OAuthAuthenticator::class,
     ];
 
     /**
@@ -80,12 +80,14 @@ abstract class Resource implements ResourceInterface
      * @param int|null $id
      * @param array|null $data
      * @param Criteria|null $criteria
+     *
      * @return array
+     *
      * @throws CommunicationException
      */
     protected function perform(ShopInterface $shop, string $method, int $id = null, array $data = null, Criteria $criteria = null): array
     {
-        if(!$shop->isAuthenticated()) {
+        if (!$shop->isAuthenticated()) {
             $authenticator = $this->getAuthByShop($shop);
             $authenticator->authenticate($shop);
         }
@@ -93,7 +95,7 @@ abstract class Resource implements ResourceInterface
         $shopClient = $this->getShopClient();
 
         $body = null;
-        if($data !== null && in_array($method, [ 'POST', 'PUT' ])) {
+        if ($data !== null && in_array($method, ['POST', 'PUT'])) {
             $body = @json_encode($data);
             if ($body === false) {
                 throw CommunicationException::forInvalidRequestBody($data);
@@ -105,33 +107,34 @@ abstract class Resource implements ResourceInterface
             $this->getUri($shop, $id),
             [
                 'Authorization' => 'Bearer ' . $shop->getToken()->getAccessToken(),
-                'Content-Type' => 'application/json'
+                'Content-Type' => 'application/json',
             ],
             $body
         );
-        if($criteria !== null) {
+        if ($criteria !== null) {
             $request = $criteria->fillRequest($request);
         }
 
-        return [ $request, $shopClient->send($request) ];
+        return [$request, $shopClient->send($request)];
     }
 
     /**
      * @param ShopInterface $shop
      * @param int|null $id
      * @param string|null $name
+     *
      * @return UriInterface
      */
     protected function getUri(ShopInterface $shop, int $id = null, string $name = null): UriInterface
     {
-        if($name === null) {
+        if ($name === null) {
             $name = $this->getName();
         }
 
         $uri = $shop->getUri();
         $uri = $uri->withPath(rtrim($uri->getPath(), '/') . '/webapi/rest/' . $name);
 
-        if($id !== null) {
+        if ($id !== null) {
             $uri = $uri->withPath($uri->getPath() . '/' . $id);
         }
 
@@ -140,16 +143,17 @@ abstract class Resource implements ResourceInterface
 
     /**
      * @param ShopInterface $shop
+     *
      * @return AuthenticatorInterface
      */
     protected function getAuthByShop(ShopInterface $shop): AuthenticatorInterface
     {
-        if($this->authenticator !== null) {
+        if ($this->authenticator !== null) {
             return $this->authenticator;
         }
 
-        foreach(self::$globalAuthMap as $shopClass => $authClass) {
-            if($shop instanceof $shopClass) {
+        foreach (self::$globalAuthMap as $shopClass => $authClass) {
+            if ($shop instanceof $shopClass) {
                 return $this->getAuthInstance($authClass);
             }
         }
@@ -159,11 +163,12 @@ abstract class Resource implements ResourceInterface
 
     /**
      * @param string $authClass
+     *
      * @return AuthenticatorInterface
      */
     protected function getAuthInstance(string $authClass): AuthenticatorInterface
     {
-        if(!isset(self::$globalAuthInstances[$authClass])) {
+        if (!isset(self::$globalAuthInstances[$authClass])) {
             self::$globalAuthInstances[$authClass] = new $authClass($this->getShopClient());
         }
 
@@ -175,11 +180,11 @@ abstract class Resource implements ResourceInterface
      */
     protected function getShopClient(): ShopClientInterface
     {
-        if($this->shopClient !== null) {
+        if ($this->shopClient !== null) {
             return $this->shopClient;
         }
 
-        if(self::$globalShopClient === null) {
+        if (self::$globalShopClient === null) {
             self::$globalShopClient = new ShopClient();
             self::$globalShopClient->register(new Middleware\Locale());
             self::$globalShopClient->register(new Middleware\UserAgent());
@@ -194,7 +199,7 @@ abstract class Resource implements ResourceInterface
      */
     protected function getGlobalDataFactory(): DataFactoryInterface
     {
-        if(self::$globalDataFactory === null) {
+        if (self::$globalDataFactory === null) {
             self::$globalDataFactory = new DataFactory();
         }
 

@@ -60,7 +60,7 @@ class OAuthShop extends Shop implements OAuthShopInterface
      * @param array $params
      * @param DateTimeFactoryInterface|null $dateTimeFactory
      */
-    public function __construct(array $params = array(), ?DateTimeFactoryInterface $dateTimeFactory)
+    public function __construct(array $params = [], ?DateTimeFactoryInterface $dateTimeFactory)
     {
         $this->subscriptions = new ArrayCollection();
 
@@ -186,7 +186,7 @@ class OAuthShop extends Shop implements OAuthShopInterface
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getAuthCode(): ?string
     {
@@ -194,7 +194,7 @@ class OAuthShop extends Shop implements OAuthShopInterface
     }
 
     /**
-     * @param null|string $authCode
+     * @param string|null $authCode
      */
     public function setAuthCode(?string $authCode): void
     {

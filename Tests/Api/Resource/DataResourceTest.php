@@ -58,11 +58,11 @@ class DataResourceTest extends ResourceTest
 
     private function fetchData($shop)
     {
-        list($request, $response) = $this->prepareRequest();
+        [$request, $response] = $this->prepareRequest();
 
         $this->shopDataFactory->expects($this->once())
             ->method('createByApiRequest')
-            ->willReturnCallback(function($fResource, $fShop, $fRequest, $fResponse) use($shop, $request, $response) {
+            ->willReturnCallback(function ($fResource, $fShop, $fRequest, $fResponse) use ($shop, $request, $response) {
                 $this->assertEquals($shop, $fShop);
                 $this->assertEquals($request, $fRequest);
                 $this->assertEquals($response, $fResponse);

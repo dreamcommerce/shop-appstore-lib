@@ -44,7 +44,6 @@ final class Payload
         $this->webhookName = $webhookName;
     }
 
-
     /**
      * @return ItemInterface
      */

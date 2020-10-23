@@ -58,11 +58,11 @@ trait ShopItemTrait
      */
     protected function getShopItemFactory(): ShopItemFactoryInterface
     {
-        if($this->shopItemFactory !== null) {
+        if ($this->shopItemFactory !== null) {
             return $this->shopItemFactory;
         }
 
-        if(self::$globalItemFactory === null) {
+        if (self::$globalItemFactory === null) {
             self::$globalItemFactory = new ShopItemFactory($this->getGlobalDataFactory());
         }
 
@@ -74,11 +74,11 @@ trait ShopItemTrait
      */
     protected function getShopItemListFactory(): ShopItemListFactoryInterface
     {
-        if($this->shopItemListFactory !== null) {
+        if ($this->shopItemListFactory !== null) {
             return $this->shopItemListFactory;
         }
 
-        if(self::$globalItemListFactory === null) {
+        if (self::$globalItemListFactory === null) {
             self::$globalItemListFactory = new ShopItemListFactory();
         }
 
@@ -90,11 +90,11 @@ trait ShopItemTrait
      */
     protected function getShopItemPartListFactory(): ShopItemPartListFactoryInterface
     {
-        if($this->shopItemPartListFactory !== null) {
+        if ($this->shopItemPartListFactory !== null) {
             return $this->shopItemPartListFactory;
         }
 
-        if(self::$globalItemPartListFactory === null) {
+        if (self::$globalItemPartListFactory === null) {
             self::$globalItemPartListFactory = new ShopItemPartListFactory($this->getShopItemFactory());
         }
 

@@ -19,6 +19,7 @@ interface ApplicationRepositoryInterface
 {
     /**
      * @param string $name
+     *
      * @return ApplicationInterface|null
      */
     public function getApplicationByName(string $name): ?ApplicationInterface;

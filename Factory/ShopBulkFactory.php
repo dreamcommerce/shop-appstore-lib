@@ -14,11 +14,11 @@ declare(strict_types=1);
 namespace DreamCommerce\Component\ShopAppstore\Factory;
 
 use DreamCommerce\Component\ShopAppstore\Api\Bulk\BulkContainerInterface;
+use DreamCommerce\Component\ShopAppstore\Api\Bulk\BulkResult;
+use DreamCommerce\Component\ShopAppstore\Api\Bulk\BulkResultInterface;
 use DreamCommerce\Component\ShopAppstore\Api\Bulk\Operation;
 use DreamCommerce\Component\ShopAppstore\Api\Bulk\Result;
 use DreamCommerce\Component\ShopAppstore\Api\Resource\BulkResourceInterface;
-use DreamCommerce\Component\ShopAppstore\Api\Bulk\BulkResult;
-use DreamCommerce\Component\ShopAppstore\Api\Bulk\BulkResultInterface;
 use DreamCommerce\Component\ShopAppstore\Model\ShopInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -46,20 +46,21 @@ class ShopBulkFactory extends AbstractFactory implements ShopBulkFactoryInterfac
      * @param ShopItemFactoryInterface $shopItemFactory
      * @param ShopItemPartListFactoryInterface $shopItemPartListFactory
      */
-    public function __construct(DataFactoryInterface $dataFactory,
-                                ShopDataFactoryInterface $shopDataFactory,
-                                ShopItemFactoryInterface $shopItemFactory,
-                                ShopItemPartListFactoryInterface $shopItemPartListFactory
+    public function __construct(
+        DataFactoryInterface $dataFactory,
+        ShopDataFactoryInterface $shopDataFactory,
+        ShopItemFactoryInterface $shopItemFactory,
+        ShopItemPartListFactoryInterface $shopItemPartListFactory
     ) {
         $this->shopDataFactory = $shopDataFactory;
         $this->shopItemFactory = $shopItemFactory;
         $this->shopItemPartListFactory = $shopItemPartListFactory;
 
-        parent::__construct($dataFactory, array());
+        parent::__construct($dataFactory, []);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function createNew()
     {
@@ -67,22 +68,24 @@ class ShopBulkFactory extends AbstractFactory implements ShopBulkFactoryInterfac
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function createByApiResource(BulkResourceInterface $resource, BulkContainerInterface $container, ShopInterface $shop, array $data): BulkResultInterface
     {
-        if(isset($data['errors']) && $data['errors'] && isset($data['message']) && is_array($data['message'])) {
+        if (isset($data['errors']) && $data['errors'] && isset($data['message']) && is_array($data['message'])) {
             throw new \Exception(); // TODO
         }
 
-        if(!isset($data['items']) || !is_array($data['items'])) {
+        if (!isset($data['items']) || !is_array($data['items'])) {
             throw new \Exception(); // TODO
         }
 
-        $results = array();
-        foreach($data['items'] as $item) {
+        $results = [];
+        foreach ($data['items'] as $item) {
             $results[$item['id']] = $this->getResult(
-                $container->getOperation($item['id']), $shop, $item
+                $container->getOperation($item['id']),
+                $shop,
+                $item
             );
         }
 
@@ -90,7 +93,7 @@ class ShopBulkFactory extends AbstractFactory implements ShopBulkFactoryInterfac
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function createByApiRequest(BulkResourceInterface $resource, BulkContainerInterface $container, ShopInterface $shop, RequestInterface $request, ResponseInterface $response): BulkResultInterface
     {
@@ -101,16 +104,17 @@ class ShopBulkFactory extends AbstractFactory implements ShopBulkFactoryInterfac
      * @param Operation\BaseOperation $operation
      * @param ShopInterface $shop
      * @param array $item
+     *
      * @return Result\BaseResult
      */
     protected function getResult(Operation\BaseOperation $operation, ShopInterface $shop, array $item): Result\BaseResult
     {
         $code = (int) $item['code'];
 
-        if($code === 200) {
+        if ($code === 200) {
             $resource = $operation->getResource();
 
-            switch(get_class($operation)) {
+            switch (get_class($operation)) {
                 case Operation\DeleteOperation::class:
                     return new Result\DeleteResult($operation, $shop);
                 case Operation\FetchOperation::class:
@@ -122,6 +126,7 @@ class ShopBulkFactory extends AbstractFactory implements ShopBulkFactoryInterfac
                 case Operation\InsertOperation::class:
                     $shopItem = $this->shopItemFactory->createByApiResource($resource, $shop, $operation->getData());
                     $shopItem->setExternalId((int) $item['body']);
+
                     return new Result\InsertResult($operation, $shop, $shopItem);
                 case Operation\UpdateOperation::class:
                     return new Result\UpdateResult($operation, $shop);
@@ -133,16 +138,17 @@ class ShopBulkFactory extends AbstractFactory implements ShopBulkFactoryInterfac
         $error = null;
         $errorDescription = null;
 
-        if(isset($item['body']['error'])) {
+        if (isset($item['body']['error'])) {
             $error = $item['body']['error'];
         }
-        if(isset($item['body']['error_description'])) {
+        if (isset($item['body']['error_description'])) {
             $errorDescription = $item['body']['error_description'];
         }
 
-        if($code === 404) {
+        if ($code === 404) {
             return new Result\NotFoundResult($operation, $shop, $error, $errorDescription);
-        } elseif($code === 400) {
+        }
+        if ($code === 400) {
             return new Result\NotValidResult($operation, $shop, $error, $errorDescription);
         }
 

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the DreamCommerce Shop AppStore package.
+ *
+ * (c) DreamCommerce
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Api\Exception;
@@ -10,7 +19,7 @@ use Throwable;
 
 class BulkException extends ShopAppstoreException
 {
-    const CODE_UNSUPPORTED_OPERATION        = 1;
+    const CODE_UNSUPPORTED_OPERATION = 1;
     const CODE_MAX_NUMBER_OF_CALLS_EXCEEDED = 2;
 
     /**
@@ -21,6 +30,7 @@ class BulkException extends ShopAppstoreException
     /**
      * @param BaseOperation $operation
      * @param Throwable|null $previous
+     *
      * @return BulkException
      */
     public static function forUnsupportedOperation(BaseOperation $operation, Throwable $previous = null): self
@@ -34,6 +44,7 @@ class BulkException extends ShopAppstoreException
     /**
      * @param BaseOperation $operation
      * @param Throwable|null $previous
+     *
      * @return BulkException
      */
     public static function forExceedMaxNumberOfCalls(BaseOperation $operation, Throwable $previous = null): self

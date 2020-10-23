@@ -24,10 +24,11 @@ final class NotValidResult extends ErrorResult
      * @param string|null $error
      * @param string|null $errorDescription
      */
-    public function __construct(BaseOperation $operation,
-                                ShopInterface $shop,
-                                string $error = null,
-                                string $errorDescription = null
+    public function __construct(
+        BaseOperation $operation,
+        ShopInterface $shop,
+        string $error = null,
+        string $errorDescription = null
     ) {
         parent::__construct($operation, $shop, 400, $error, $errorDescription);
     }

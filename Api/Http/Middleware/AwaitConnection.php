@@ -36,7 +36,7 @@ class AwaitConnection implements MiddlewareInterface
      */
     public function __construct(Sleeper $sleeper = null)
     {
-        if($sleeper === null) {
+        if ($sleeper === null) {
             $sleeper = new Sleeper();
         }
         $this->sleeper = $sleeper;
@@ -52,7 +52,6 @@ class AwaitConnection implements MiddlewareInterface
 
     /**
      * @param int $retryLimit
-     * @return void
      */
     public function setRetryLimit(int $retryLimit): void
     {
@@ -66,9 +65,10 @@ class AwaitConnection implements MiddlewareInterface
     {
         $counter = $this->retryLimit;
 
-        while($counter--) {
+        while ($counter--) {
             try {
                 $next($request, $response);
+
                 break;
             } catch (LimitExceededException $exception) {
                 if ($exception->getCode() === LimitExceededException::CODE_EXCEEDED_API_CALLS) {

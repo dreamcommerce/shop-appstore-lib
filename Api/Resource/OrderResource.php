@@ -18,7 +18,7 @@ class OrderResource extends ItemResource implements ObjectAwareInterface
     /**
      * Combined order has been detected
      */
-    const HTTP_ERROR_ORDER_COMBINED = "order_combined";
+    const HTTP_ERROR_ORDER_COMBINED = 'order_combined';
 
     /**
      * order comes from shop

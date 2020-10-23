@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the DreamCommerce Shop AppStore package.
+ *
+ * (c) DreamCommerce
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Api\Exception;
@@ -10,11 +19,11 @@ use Throwable;
 
 class CommunicationException extends ApiException
 {
-    const BROKEN_CONNECTION         = 10;
-    const INVALID_RESPONSE_CODE     = 11;
-    const EMPTY_RESPONSE_BODY       = 12;
-    const INVALID_RESPONSE_BODY     = 13;
-    const INVALID_REQUEST_BODY      = 14;
+    const BROKEN_CONNECTION = 10;
+    const INVALID_RESPONSE_CODE = 11;
+    const EMPTY_RESPONSE_BODY = 12;
+    const INVALID_RESPONSE_BODY = 13;
+    const INVALID_REQUEST_BODY = 14;
 
     /**
      * @var array
@@ -24,6 +33,7 @@ class CommunicationException extends ApiException
     /**
      * @param RequestInterface $httpRequest
      * @param Throwable|null $previous
+     *
      * @return CommunicationException
      */
     public static function forBrokenConnection(RequestInterface $httpRequest, Throwable $previous = null): self
@@ -38,6 +48,7 @@ class CommunicationException extends ApiException
      * @param RequestInterface $httpRequest
      * @param ResponseInterface $httpResponse
      * @param Throwable|null $previous
+     *
      * @return CommunicationException
      */
     public static function forInvalidResponseCode(RequestInterface $httpRequest, ResponseInterface $httpResponse, Throwable $previous = null): self
@@ -53,6 +64,7 @@ class CommunicationException extends ApiException
      * @param RequestInterface $httpRequest
      * @param ResponseInterface $httpResponse
      * @param Throwable|null $previous
+     *
      * @return CommunicationException
      */
     public static function forEmptyResponseBody(RequestInterface $httpRequest, ResponseInterface $httpResponse, Throwable $previous = null): self
@@ -68,6 +80,7 @@ class CommunicationException extends ApiException
      * @param RequestInterface $httpRequest
      * @param ResponseInterface $httpResponse
      * @param Throwable|null $previous
+     *
      * @return CommunicationException
      */
     public static function forInvalidResponseBody(RequestInterface $httpRequest, ResponseInterface $httpResponse, Throwable $previous = null): self
@@ -82,6 +95,7 @@ class CommunicationException extends ApiException
     /**
      * @param array $requestBody
      * @param Throwable|null $previous
+     *
      * @return CommunicationException
      */
     public static function forInvalidRequestBody(array $requestBody, Throwable $previous = null): self

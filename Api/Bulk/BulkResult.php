@@ -35,14 +35,14 @@ class BulkResult implements BulkResultInterface
     /**
      * @param Result\BaseResult[] $list
      */
-    public function __construct(array $list = array())
+    public function __construct(array $list = [])
     {
         $this->list = $list;
         $this->keys = array_keys($list);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getList(): array
     {
@@ -56,7 +56,7 @@ class BulkResult implements BulkResultInterface
 
     public function next()
     {
-        $this->pos++;
+        ++$this->pos;
     }
 
     public function key()
@@ -66,9 +66,10 @@ class BulkResult implements BulkResultInterface
 
     public function valid()
     {
-        if(!isset($this->keys[$this->pos])) {
+        if (!isset($this->keys[$this->pos])) {
             return false;
         }
+
         return isset($this->list[$this->keys[$this->pos]]);
     }
 
@@ -79,11 +80,12 @@ class BulkResult implements BulkResultInterface
 
     /**
      * @param string $name
+     *
      * @return mixed|null
      */
     public function __get(string $name)
     {
-        if(!isset($this->list[$name])) {
+        if (!isset($this->list[$name])) {
             return null;
         }
 
@@ -96,7 +98,7 @@ class BulkResult implements BulkResultInterface
      */
     public function __set(string $name, $value): void
     {
-        if(!($value instanceof Result\BaseResult)) {
+        if (!($value instanceof Result\BaseResult)) {
             throw InvalidTypeException::forUnexpectedType(is_object($value) ? get_class($value) : gettype($value), Result\BaseResult::class);
         }
 
@@ -105,6 +107,7 @@ class BulkResult implements BulkResultInterface
 
     /**
      * @param string $name
+     *
      * @return bool
      */
     public function __isset(string $name): bool
@@ -117,14 +120,14 @@ class BulkResult implements BulkResultInterface
      */
     public function __unset(string $name): void
     {
-        if(isset($this->list[$name])) {
+        if (isset($this->list[$name])) {
             unset($this->list[$name]);
         }
     }
 
-
     /**
      * @param string $offset
+     *
      * @return bool
      */
     public function offsetExists($offset)
@@ -134,11 +137,12 @@ class BulkResult implements BulkResultInterface
 
     /**
      * @param string $offset
+     *
      * @return Operation\BaseOperation|null
      */
     public function offsetGet($offset)
     {
-        if(!isset($this->list[$offset])) {
+        if (!isset($this->list[$offset])) {
             return null;
         }
 
@@ -151,7 +155,7 @@ class BulkResult implements BulkResultInterface
      */
     public function offsetSet($offset, $value)
     {
-        if(!($value instanceof Result\BaseResult)) {
+        if (!($value instanceof Result\BaseResult)) {
             throw InvalidTypeException::forUnexpectedType(is_object($value) ? get_class($value) : gettype($value), Result\BaseResult::class);
         }
 
@@ -163,7 +167,7 @@ class BulkResult implements BulkResultInterface
      */
     public function offsetUnset($offset)
     {
-        if(isset($this->list[$offset])) {
+        if (isset($this->list[$offset])) {
             unset($this->list[$offset]);
         }
     }

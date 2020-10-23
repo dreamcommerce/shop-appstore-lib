@@ -15,8 +15,8 @@ namespace DreamCommerce\Component\ShopAppstore\Tests\Billing\Resolver;
 
 use DreamCommerce\Component\ShopAppstore\Billing\Payload\Message;
 use DreamCommerce\Component\ShopAppstore\Billing\Payload\Upgrade;
-use DreamCommerce\Component\ShopAppstore\Billing\Resolver\UpgradeResolver;
 use DreamCommerce\Component\ShopAppstore\Billing\Resolver\ResolverInterface;
+use DreamCommerce\Component\ShopAppstore\Billing\Resolver\UpgradeResolver;
 use DreamCommerce\Component\ShopAppstore\Model\ApplicationInterface;
 use DreamCommerce\Component\ShopAppstore\Model\OAuthShopInterface;
 use PHPUnit\Framework\TestCase;

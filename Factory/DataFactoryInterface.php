@@ -17,5 +17,4 @@ use Sylius\Component\Resource\Factory\FactoryInterface;
 
 interface DataFactoryInterface extends FactoryInterface
 {
-
 }

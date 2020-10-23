@@ -51,8 +51,11 @@ class ItemResourceTest extends ResourceTest
         $this->shopItemListFactory = $this->getMockBuilder(ShopItemListFactoryInterface::class)->getMock();
 
         $this->resource = new ExampleItemResource(
-            $this->shopClient, $this->authenticator, $this->shopItemFactory,
-            $this->shopItemPartListFactory, $this->shopItemListFactory
+            $this->shopClient,
+            $this->authenticator,
+            $this->shopItemFactory,
+            $this->shopItemPartListFactory,
+            $this->shopItemListFactory
         );
     }
 
@@ -60,6 +63,4 @@ class ItemResourceTest extends ResourceTest
     {
         $this->assertInstanceOf(ItemResourceInterface::class, $this->resource);
     }
-
-
 }

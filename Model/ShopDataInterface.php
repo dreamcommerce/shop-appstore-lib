@@ -15,5 +15,4 @@ namespace DreamCommerce\Component\ShopAppstore\Model;
 
 interface ShopDataInterface extends ShopDependInterface, DataInterface
 {
-
 }

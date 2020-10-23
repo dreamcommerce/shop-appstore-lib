@@ -66,7 +66,7 @@ abstract class ResourceTest extends TestCase
             ->method('isAuthenticated')
             ->willReturn($isAuthenticated);
 
-        if($isAuthenticated) {
+        if ($isAuthenticated) {
             $test = $this->never();
         } else {
             $test = $this->once();
@@ -96,6 +96,6 @@ abstract class ResourceTest extends TestCase
             ->method('send')
             ->willReturn($response);
 
-        return [ $request, $response ];
+        return [$request, $response];
     }
 }

@@ -29,6 +29,7 @@ interface BulkContainerInterface extends ArrayAccess, Iterator
 
     /**
      * @param string $key
+     *
      * @return bool
      */
     public function hasOperation(string $key): bool;
@@ -41,6 +42,7 @@ interface BulkContainerInterface extends ArrayAccess, Iterator
 
     /**
      * @param string $key
+     *
      * @return Operation\BaseOperation|null
      */
     public function getOperation(string $key): ?Operation\BaseOperation;

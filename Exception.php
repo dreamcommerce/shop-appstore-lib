@@ -6,5 +6,4 @@ namespace DreamCommerce\Component\ShopAppstore;
 
 class Exception extends \Exception
 {
-
 }

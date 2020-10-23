@@ -16,24 +16,22 @@ namespace DreamCommerce\Component\ShopAppstore\Model;
 interface BasicAuthShopInterface extends ShopInterface
 {
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getUsername(): ?string;
 
     /**
-     * @param null|string $username
-     * @return void
+     * @param string|null $username
      */
     public function setUsername(?string $username): void;
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getPassword(): ?string;
 
     /**
-     * @param null|string $password
-     * @return void
+     * @param string|null $password
      */
     public function setPassword(?string $password): void;
 }

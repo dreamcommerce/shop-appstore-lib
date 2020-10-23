@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the DreamCommerce Shop AppStore package.
+ *
+ * (c) DreamCommerce
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Api\Exception;
@@ -34,6 +43,7 @@ class AuthenticationException extends ApiException
      * @param RequestInterface $httpRequest
      * @param ResponseInterface $httpResponse
      * @param Throwable|null $previous
+     *
      * @return AuthenticationException
      */
     public static function forErrorMessage(array $body, ShopInterface $shop, RequestInterface $httpRequest, ResponseInterface $httpResponse, Throwable $previous = null): self
@@ -43,10 +53,10 @@ class AuthenticationException extends ApiException
         $exception->httpRequest = $httpRequest;
         $exception->httpResponse = $httpResponse;
 
-        if(isset($body['error'])) {
+        if (isset($body['error'])) {
             $exception->errorCode = $body['error'];
         }
-        if(isset($body['error_description'])) {
+        if (isset($body['error_description'])) {
             $exception->errorDescription = $body['error_description'];
         }
 

@@ -41,21 +41,21 @@ class BulkContainer implements BulkContainerInterface
     /**
      * @param Operation\BaseOperation[] $list
      */
-    public function __construct(array $list = array())
+    public function __construct(array $list = [])
     {
         $this->list = $list;
         $this->keys = array_keys($list);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function addOperation(string $key, Operation\BaseOperation $operation): void
     {
-        if(array_key_exists($key, $this->list)) {
+        if (array_key_exists($key, $this->list)) {
             throw DefinedException::forParameter($key);
         }
-        if(count($this->list) >= Info::MAX_BULK_API_ITEMS) {
+        if (count($this->list) >= Info::MAX_BULK_API_ITEMS) {
             throw BulkException::forExceedMaxNumberOfCalls($operation);
         }
 
@@ -63,18 +63,18 @@ class BulkContainer implements BulkContainerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setOperation(string $key, Operation\BaseOperation $operation): void
     {
-        if(!$this->hasOperation($key) && count($this->list) >= Info::MAX_BULK_API_ITEMS) {
+        if (!$this->hasOperation($key) && count($this->list) >= Info::MAX_BULK_API_ITEMS) {
             throw BulkException::forExceedMaxNumberOfCalls($operation);
         }
         $this->list[$key] = $operation;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function hasOperation(string $key): bool
     {
@@ -82,11 +82,11 @@ class BulkContainer implements BulkContainerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getOperation(string $key): ?Operation\BaseOperation
     {
-        if(!$this->hasOperation($key)) {
+        if (!$this->hasOperation($key)) {
             return null;
         }
 
@@ -94,7 +94,7 @@ class BulkContainer implements BulkContainerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getOperations(): array
     {
@@ -102,7 +102,7 @@ class BulkContainer implements BulkContainerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function fetch(string $key, DataResourceInterface $resource): void
     {
@@ -110,7 +110,7 @@ class BulkContainer implements BulkContainerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function find(string $key, ItemResourceInterface $resource, int $id): void
     {
@@ -118,7 +118,7 @@ class BulkContainer implements BulkContainerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function findBy(string $key, ItemResourceInterface $resource, Criteria $criteria): void
     {
@@ -126,7 +126,7 @@ class BulkContainer implements BulkContainerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function insert(string $key, ItemResourceInterface $resource, array $data): void
     {
@@ -134,7 +134,7 @@ class BulkContainer implements BulkContainerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function update(string $key, ItemResourceInterface $resource, int $id, array $data): void
     {
@@ -142,7 +142,7 @@ class BulkContainer implements BulkContainerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function delete(string $key, ItemResourceInterface $resource, int $id): void
     {
@@ -156,7 +156,7 @@ class BulkContainer implements BulkContainerInterface
 
     public function next()
     {
-        $this->pos++;
+        ++$this->pos;
     }
 
     public function key()
@@ -166,9 +166,10 @@ class BulkContainer implements BulkContainerInterface
 
     public function valid()
     {
-        if(!isset($this->keys[$this->pos])) {
+        if (!isset($this->keys[$this->pos])) {
             return false;
         }
+
         return isset($this->list[$this->keys[$this->pos]]);
     }
 
@@ -179,6 +180,7 @@ class BulkContainer implements BulkContainerInterface
 
     /**
      * @param string $name
+     *
      * @return BaseOperation|null
      */
     public function __get(string $name)
@@ -197,6 +199,7 @@ class BulkContainer implements BulkContainerInterface
 
     /**
      * @param string $name
+     *
      * @return bool
      */
     public function __isset(string $name): bool
@@ -209,13 +212,14 @@ class BulkContainer implements BulkContainerInterface
      */
     public function __unset(string $name): void
     {
-        if(isset($this->list[$name])) {
+        if (isset($this->list[$name])) {
             unset($this->list[$name]);
         }
     }
 
     /**
      * @param string $offset
+     *
      * @return bool
      */
     public function offsetExists($offset)
@@ -225,6 +229,7 @@ class BulkContainer implements BulkContainerInterface
 
     /**
      * @param string $offset
+     *
      * @return Operation\BaseOperation|null
      */
     public function offsetGet($offset)
@@ -246,7 +251,7 @@ class BulkContainer implements BulkContainerInterface
      */
     public function offsetUnset($offset)
     {
-        if(isset($this->list[$offset])) {
+        if (isset($this->list[$offset])) {
             unset($this->list[$offset]);
         }
     }

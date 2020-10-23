@@ -24,7 +24,7 @@ final class BasicAuthAuthenticator extends BearerAuthenticator
     /**
      * Authentication failure
      */
-    const HTTP_ERROR_AUTH_FAILURE = "auth_failure";
+    const HTTP_ERROR_AUTH_FAILURE = 'auth_failure';
 
     /**
      * Failure due to invalid IP being used
@@ -48,7 +48,7 @@ final class BasicAuthAuthenticator extends BearerAuthenticator
 
         $query = [
             'client_id' => $shop->getUsername(),
-            'client_secret' => $shop->getPassword()
+            'client_secret' => $shop->getPassword(),
         ];
 
         $authUri = $shopUri
@@ -59,7 +59,7 @@ final class BasicAuthAuthenticator extends BearerAuthenticator
             'post',
             $authUri,
             [
-                'Content-Type' => 'application/x-www-form-urlencoded'
+                'Content-Type' => 'application/x-www-form-urlencoded',
             ]
         );
 

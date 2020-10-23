@@ -36,8 +36,8 @@ class ShopDataFactory extends AbstractFactory implements ShopDataFactoryInterfac
     public function createByApiResource(DataResourceInterface $resource, ShopInterface $shop, array $data): ShopDataInterface
     {
         $class = get_class($resource);
-        if(isset($this->resourceMap[$class])) {
-            $item = new $this->resourceMap[$class];
+        if (isset($this->resourceMap[$class])) {
+            $item = new $this->resourceMap[$class]();
         } else {
             $item = $this->createNew();
         }

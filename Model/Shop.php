@@ -45,7 +45,7 @@ class Shop implements ShopInterface, ArrayableInterface
      * @param array $params
      * @param DateTimeFactoryInterface|null $dateTimeFactory
      */
-    public function __construct(array $params = array(), DateTimeFactoryInterface $dateTimeFactory = null)
+    public function __construct(array $params = [], DateTimeFactoryInterface $dateTimeFactory = null)
     {
         $this->fromArray($params);
 
@@ -77,7 +77,7 @@ class Shop implements ShopInterface, ArrayableInterface
      */
     public function setUri($uri): void
     {
-        if(is_string($uri) && class_exists('\\GuzzleHttp\\Psr7\\Uri')) {
+        if (is_string($uri) && class_exists('\\GuzzleHttp\\Psr7\\Uri')) {
             $uri = new \GuzzleHttp\Psr7\Uri($uri);
         } else {
             Assert::isInstanceOf($uri, UriInterface::class);
@@ -115,6 +115,6 @@ class Shop implements ShopInterface, ArrayableInterface
      */
     public function isAuthenticated(): bool
     {
-        return ($this->token !== null && $this->token->getAccessToken() !== null);
+        return $this->token !== null && $this->token->getAccessToken() !== null;
     }
 }

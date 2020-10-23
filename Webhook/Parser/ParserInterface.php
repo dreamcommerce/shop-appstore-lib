@@ -17,16 +17,17 @@ use Psr\Http\Message\ServerRequestInterface;
 
 interface ParserInterface
 {
-    public const TYPE_XML   = 'text/xml';
-    public const TYPE_JSON  = 'application/json';
+    public const TYPE_XML = 'text/xml';
+    public const TYPE_JSON = 'application/json';
 
     public const ALL_TYPES = [
         self::TYPE_XML,
-        self::TYPE_JSON
+        self::TYPE_JSON,
     ];
 
     /**
      * @param ServerRequestInterface $serverRequest
+     *
      * @return array
      */
     public function parse(ServerRequestInterface $serverRequest): array;

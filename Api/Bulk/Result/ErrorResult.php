@@ -44,11 +44,12 @@ class ErrorResult extends BaseResult
      * @param string|null $error
      * @param string|null $errorDescription
      */
-    public function __construct(BaseOperation $operation,
-                                ShopInterface $shop,
-                                int $code,
-                                string $error = null,
-                                string $errorDescription = null
+    public function __construct(
+        BaseOperation $operation,
+        ShopInterface $shop,
+        int $code,
+        string $error = null,
+        string $errorDescription = null
     ) {
         $this->code = $code;
         $this->error = $error;

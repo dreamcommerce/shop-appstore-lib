@@ -15,9 +15,9 @@ namespace DreamCommerce\Component\ShopAppstore\Factory;
 
 use DreamCommerce\Component\ShopAppstore\Api\Exception\CommunicationException;
 use DreamCommerce\Component\ShopAppstore\Api\Resource\ItemResourceInterface;
+use DreamCommerce\Component\ShopAppstore\Model\ShopInterface;
 use DreamCommerce\Component\ShopAppstore\Model\ShopItemPartList;
 use DreamCommerce\Component\ShopAppstore\Model\ShopItemPartListInterface;
-use DreamCommerce\Component\ShopAppstore\Model\ShopInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -47,24 +47,26 @@ class ShopItemPartListFactory implements ShopItemPartListFactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function createByApiResource(ItemResourceInterface $resource, ShopInterface $shop,
-                                        array $data): ShopItemPartListInterface
-    {
+    public function createByApiResource(
+        ItemResourceInterface $resource,
+        ShopInterface $shop,
+        array $data
+    ): ShopItemPartListInterface {
         $list = $this->createNew();
         $list->setShop($shop);
 
-        if(isset($data['page'])) {
-            $list->setPage((int)$data['page']);
+        if (isset($data['page'])) {
+            $list->setPage((int) $data['page']);
         }
-        if(isset($data['count'])) {
-            $list->setTotal((int)$data['count']);
+        if (isset($data['count'])) {
+            $list->setTotal((int) $data['count']);
         }
-        if(isset($data['pages'])) {
-            $list->setTotalPages((int)$data['pages']);
+        if (isset($data['pages'])) {
+            $list->setTotalPages((int) $data['pages']);
         }
 
         $items = [];
-        foreach($data['list'] as $partData) {
+        foreach ($data['list'] as $partData) {
             $items[] = $this->shopItemFactory->createByApiResource($resource, $shop, $partData);
         }
         $list->setItems($items);
@@ -75,19 +77,22 @@ class ShopItemPartListFactory implements ShopItemPartListFactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function createByApiRequest(ItemResourceInterface $resource, ShopInterface $shop,
-                                       RequestInterface $request, ResponseInterface $response): ShopItemPartListInterface
-    {
+    public function createByApiRequest(
+        ItemResourceInterface $resource,
+        ShopInterface $shop,
+        RequestInterface $request,
+        ResponseInterface $response
+    ): ShopItemPartListInterface {
         $stream = $response->getBody();
         $stream->rewind();
 
         $body = $stream->getContents();
-        if(strlen($body) === 0) {
+        if (strlen($body) === 0) {
             throw CommunicationException::forEmptyResponseBody($request, $response);
         }
         $body = @json_decode($body, true);
 
-        if(!$body || !is_array($body)) {
+        if (!$body || !is_array($body)) {
             throw CommunicationException::forInvalidResponseBody($request, $response);
         }
 

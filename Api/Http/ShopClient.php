@@ -43,7 +43,7 @@ class ShopClient implements ShopClientInterface
     /**
      * @var MiddlewareInterface[]|\SplPriorityQueue
      */
-    private $middlewares = array();
+    private $middlewares = [];
 
     /**
      * @var HttpClientInterface
@@ -70,13 +70,13 @@ class ShopClient implements ShopClientInterface
         $this->lastRequest = $request;
         $this->lastResponse = null;
 
-        $next = function(RequestInterface $request, ResponseInterface $response = null) {
+        $next = function (RequestInterface $request, ResponseInterface $response = null) {
             $this->lastRequest = $request;
             $this->lastResponse = $response;
         };
 
-        foreach(clone $this->middlewares as $middleware) {
-            $func = function(RequestInterface $request, ResponseInterface $response = null) use($middleware, $next) {
+        foreach (clone $this->middlewares as $middleware) {
+            $func = function (RequestInterface $request, ResponseInterface $response = null) use ($middleware, $next) {
                 $this->lastRequest = $request;
                 $this->lastResponse = $response;
                 $middleware->handle($next, $this->lastRequest, $this->lastResponse);
@@ -89,15 +89,14 @@ class ShopClient implements ShopClientInterface
 
         try {
             $next($this->lastRequest);
-        } catch(Throwable $exception) {
+        } catch (Throwable $exception) {
             // nothing
         }
 
         if ($this->lastResponse === null) {
             throw Exception\CommunicationException::forBrokenConnection($request, $exception);
-        } else {
-            $this->checkResponse($exception);
         }
+        $this->checkResponse($exception);
 
         return $this->lastResponse;
     }
@@ -131,11 +130,11 @@ class ShopClient implements ShopClientInterface
      */
     public function getHttpClient(): HttpClientInterface
     {
-        if($this->httpClient !== null) {
+        if ($this->httpClient !== null) {
             return $this->httpClient;
         }
 
-        if(self::$globalHttpClient === null) {
+        if (self::$globalHttpClient === null) {
             if (class_exists('\\GuzzleHttp\\Client')) {
                 self::$globalHttpClient = new GuzzlePsrClient(new \GuzzleHttp\Client());
             } else {
@@ -148,6 +147,7 @@ class ShopClient implements ShopClientInterface
 
     /**
      * @param Throwable|null $exception
+     *
      * @throws Exception\CommunicationException
      * @throws Exception\MethodUnsupportedException
      * @throws Exception\NotFoundException
@@ -178,7 +178,7 @@ class ShopClient implements ShopClientInterface
                 throw Exception\NotImplementedException::forResponse($this->lastRequest, $this->lastResponse, $exception);
         }
 
-        if($responseCode !== 200) {
+        if ($responseCode !== 200) {
             throw Exception\CommunicationException::forInvalidResponseCode($this->lastRequest, $this->lastResponse, $exception);
         }
     }

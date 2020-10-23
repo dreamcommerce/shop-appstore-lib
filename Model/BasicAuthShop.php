@@ -26,7 +26,7 @@ class BasicAuthShop extends Shop implements BasicAuthShopInterface
     private $password;
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getUsername(): ?string
     {
@@ -34,7 +34,7 @@ class BasicAuthShop extends Shop implements BasicAuthShopInterface
     }
 
     /**
-     * @param null|string $username
+     * @param string|null $username
      */
     public function setUsername(?string $username): void
     {
@@ -42,7 +42,7 @@ class BasicAuthShop extends Shop implements BasicAuthShopInterface
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getPassword(): ?string
     {
@@ -50,7 +50,7 @@ class BasicAuthShop extends Shop implements BasicAuthShopInterface
     }
 
     /**
-     * @param null|string $password
+     * @param string|null $password
      */
     public function setPassword(?string $password): void
     {

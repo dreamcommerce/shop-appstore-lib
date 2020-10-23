@@ -18,8 +18,8 @@ use DreamCommerce\Component\ShopAppstore\Api\Resource\MetafieldResource as Metaf
 use DreamCommerce\Component\ShopAppstore\Api\Resource\MetafieldValueResource as MetafieldValueResource;
 use DreamCommerce\Component\ShopAppstore\Model\Shop\Metafield;
 use DreamCommerce\Component\ShopAppstore\Model\Shop\MetafieldValue;
-use DreamCommerce\Component\ShopAppstore\Model\ShopItem;
 use DreamCommerce\Component\ShopAppstore\Model\ShopInterface;
+use DreamCommerce\Component\ShopAppstore\Model\ShopItem;
 use DreamCommerce\Component\ShopAppstore\Model\ShopItemInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -30,16 +30,16 @@ class ShopItemFactory extends AbstractFactory implements ShopItemFactoryInterfac
      * @var array
      */
     protected $discriminatorMap = [
-        MetafieldValueResource::class => MetafieldValue::class
+        MetafieldValueResource::class => MetafieldValue::class,
     ];
 
     /**
      * @param DataFactoryInterface $dataFactory
      * @param array $resourceMap
      */
-    public function __construct(DataFactoryInterface $dataFactory, array $resourceMap = array())
+    public function __construct(DataFactoryInterface $dataFactory, array $resourceMap = [])
     {
-        if(!isset($resourceMap[MetafieldResource::class])) {
+        if (!isset($resourceMap[MetafieldResource::class])) {
             $resourceMap[MetafieldResource::class] = Metafield::class;
         }
         parent::__construct($dataFactory, $resourceMap);
@@ -59,24 +59,24 @@ class ShopItemFactory extends AbstractFactory implements ShopItemFactoryInterfac
     public function createByApiResource(ItemResourceInterface $resource, ShopInterface $shop, array $data): ShopItemInterface
     {
         $class = get_class($resource);
-        if(isset($this->resourceMap[$class])) {
-            $item = new $this->resourceMap[$class];
-        } elseif(isset($this->discriminatorMap[$class])) {
+        if (isset($this->resourceMap[$class])) {
+            $item = new $this->resourceMap[$class]();
+        } elseif (isset($this->discriminatorMap[$class])) {
             $itemClass = $this->discriminatorMap[$class];
 
             $mapClass = $itemClass::getMapClass();
             $mapField = $itemClass::getMapField();
 
-            if(!isset($data[$mapField])) {
+            if (!isset($data[$mapField])) {
                 throw new \RuntimeException(); // TODO
             }
             $field = (int) $data[$mapField];
 
-            if(!isset($mapClass[$field])) {
+            if (!isset($mapClass[$field])) {
                 throw new \RuntimeException(); // TODO
             }
 
-            $item = new $mapClass[$field];
+            $item = new $mapClass[$field]();
         } else {
             $item = $this->createNew();
         }
@@ -85,7 +85,7 @@ class ShopItemFactory extends AbstractFactory implements ShopItemFactoryInterfac
         $this->createFromArray($data, $item);
 
         $fieldName = $resource->getExternalIdName();
-        $item->setExternalId((int)$item->getFieldValue($fieldName));
+        $item->setExternalId((int) $item->getFieldValue($fieldName));
 
         return $item;
     }
@@ -93,9 +93,12 @@ class ShopItemFactory extends AbstractFactory implements ShopItemFactoryInterfac
     /**
      * {@inheritdoc}
      */
-    public function createByApiRequest(ItemResourceInterface $resource, ShopInterface $shop,
-                                       RequestInterface $request, ResponseInterface $response): ShopItemInterface
-    {
+    public function createByApiRequest(
+        ItemResourceInterface $resource,
+        ShopInterface $shop,
+        RequestInterface $request,
+        ResponseInterface $response
+    ): ShopItemInterface {
         return $this->createByApiResource($resource, $shop, $this->handleApiRequest($request, $response));
     }
 }

@@ -31,7 +31,6 @@ interface MetafieldInterface extends ShopItemInterface, ResourceInterface
     /**
      * type of string
      */
-
     const TYPE_STRING = 3;
 
     /**
@@ -96,6 +95,7 @@ interface MetafieldInterface extends ShopItemInterface, ResourceInterface
 
     /**
      * @param MetafieldValueInterface $value
+     *
      * @return bool
      */
     public function hasValue(MetafieldValueInterface $value): bool;

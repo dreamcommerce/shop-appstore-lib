@@ -41,11 +41,12 @@ class MetafieldValueResource extends ItemResource
     /**
      * @param MetafieldInterface $resource
      * @param Criteria|null $criteria
+     *
      * @return ShopItemListInterface|MetafieldValueInterface[]
      */
     public function findByMetafield(MetafieldInterface $resource, Criteria $criteria = null): ShopItemListInterface
     {
-        if($criteria === null) {
+        if ($criteria === null) {
             $criteria = Criteria::create();
         } else {
             $criteria = clone $criteria;
@@ -59,6 +60,7 @@ class MetafieldValueResource extends ItemResource
      * @param MetafieldInterface $metafield
      * @param ShopItemInterface $item
      * @param mixed $value
+     *
      * @return MetafieldValueInterface
      */
     public function insertByMetafield(MetafieldInterface $metafield, ShopItemInterface $item, $value): MetafieldValueInterface
@@ -67,7 +69,7 @@ class MetafieldValueResource extends ItemResource
             'metafield_id' => $metafield->getExternalId(),
             'object_id' => $item->getExternalId(),
             'value' => $value,
-            'type' => $metafield->getType()
+            'type' => $metafield->getType(),
         ];
 
         $value = $this->insert($metafield->getShop(), $data);

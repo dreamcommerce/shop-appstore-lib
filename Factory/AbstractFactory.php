@@ -36,7 +36,7 @@ abstract class AbstractFactory implements FactoryInterface
      * @param DataFactoryInterface $dataFactory
      * @param array $resourceMap
      */
-    public function __construct(DataFactoryInterface $dataFactory, array $resourceMap = array())
+    public function __construct(DataFactoryInterface $dataFactory, array $resourceMap = [])
     {
         $this->dataFactory = $dataFactory;
         $this->resourceMap = $resourceMap;
@@ -62,19 +62,20 @@ abstract class AbstractFactory implements FactoryInterface
     /**
      * @param array $data
      * @param DataInterface|null $container
+     *
      * @return DataInterface
      */
     public function createFromArray(array $data, DataInterface $container = null): DataInterface
     {
-        if($container === null) {
+        if ($container === null) {
             $container = $this->dataFactory->createNew();
         }
 
         $vals = [];
-        foreach($data as $k => $v) {
-            if(is_array($v)) {
+        foreach ($data as $k => $v) {
+            if (is_array($v)) {
                 $vals[$k] = $this->createFromArray($v);
-            } elseif(is_scalar($v) || is_null($v)) {
+            } elseif (is_scalar($v) || null === $v) {
                 $vals[$k] = $v;
             } else {
                 throw InvalidTypeException::forUnexpectedType(is_object($v) ? get_class($v) : gettype($v), 'array|scalar|null for key:' . $k);
@@ -88,7 +89,9 @@ abstract class AbstractFactory implements FactoryInterface
     /**
      * @param RequestInterface $request
      * @param ResponseInterface $response
+     *
      * @return array
+     *
      * @throws CommunicationException
      */
     protected function handleApiRequest(RequestInterface $request, ResponseInterface $response): array
@@ -97,12 +100,12 @@ abstract class AbstractFactory implements FactoryInterface
         $stream->rewind();
 
         $body = $stream->getContents();
-        if(strlen($body) === 0) {
+        if (strlen($body) === 0) {
             throw CommunicationException::forEmptyResponseBody($request, $response);
         }
         $body = @json_decode($body, true);
 
-        if(!$body || !is_array($body)) {
+        if (!$body || !is_array($body)) {
             throw CommunicationException::forInvalidResponseBody($request, $response);
         }
 

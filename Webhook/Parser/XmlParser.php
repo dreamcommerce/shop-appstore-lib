@@ -28,7 +28,7 @@ final class XmlParser implements ParserInterface
 
         $body = $stream->getContents();
         $object = @simplexml_load_string($body);
-        if($object === false) {
+        if ($object === false) {
             // TODO throw exception
         }
 
@@ -37,12 +37,13 @@ final class XmlParser implements ParserInterface
 
     /**
      * @param SimpleXMLElement $object
+     *
      * @return array
      */
     private function xml2array(SimpleXMLElement $object): array
     {
         $result = [];
-        foreach((array)$object as $index => $node) {
+        foreach ((array) $object as $index => $node) {
             $result[$index] = (is_object($node)) ? $this->xml2array($node) : $node;
         }
 

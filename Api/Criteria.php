@@ -21,21 +21,21 @@ use Webmozart\Assert\Assert;
 
 final class Criteria
 {
-    const PART_EXPRESSIONS          = 'expressions';
-    const PART_ORDERING             = 'ordering';
-    const PART_LIMIT                = 'limit';
-    const PART_PAGE                 = 'page';
+    const PART_EXPRESSIONS = 'expressions';
+    const PART_ORDERING = 'ordering';
+    const PART_LIMIT = 'limit';
+    const PART_PAGE = 'page';
 
-    const OPERATOR_EQUAL            = '=';
-    const OPERATOR_NOT_EQUAL        = '!=';
-    const OPERATOR_GREATER          = '>';
-    const OPERATOR_GREATER_EQUAL    = '>=';
-    const OPERATOR_LESS             = '<';
-    const OPERATOR_LESS_EQUAL       = '<=';
-    const OPERATOR_LIKE             = 'like';
-    const OPERATOR_NOT_LIKE         = 'not like';
-    const OPERATOR_IN               = 'in';
-    const OPERATOR_NOT_IN           = 'not in';
+    const OPERATOR_EQUAL = '=';
+    const OPERATOR_NOT_EQUAL = '!=';
+    const OPERATOR_GREATER = '>';
+    const OPERATOR_GREATER_EQUAL = '>=';
+    const OPERATOR_LESS = '<';
+    const OPERATOR_LESS_EQUAL = '<=';
+    const OPERATOR_LIKE = 'like';
+    const OPERATOR_NOT_LIKE = 'not like';
+    const OPERATOR_IN = 'in';
+    const OPERATOR_NOT_IN = 'not in';
 
     const ALL_OPERATORS = [
         self::OPERATOR_EQUAL,
@@ -47,7 +47,7 @@ final class Criteria
         self::OPERATOR_LIKE,
         self::OPERATOR_NOT_LIKE,
         self::OPERATOR_IN,
-        self::OPERATOR_NOT_IN
+        self::OPERATOR_NOT_IN,
     ];
 
     /**
@@ -89,6 +89,7 @@ final class Criteria
      * @param string $field
      * @param array|string|null $value
      * @param string $operator
+     *
      * @return self
      */
     public function where(string $field, $value = null, $operator = self::OPERATOR_EQUAL): self
@@ -103,19 +104,20 @@ final class Criteria
      * @param string $field
      * @param array|string|null $value
      * @param string $operator
+     *
      * @return Criteria
      */
     public function andWhere(string $field, $value = null, $operator = self::OPERATOR_EQUAL): self
     {
-        if(preg_match('/^([a-z0-9\._]+)[ ]?(>|>=|<=|<|=|!=|like|not like|is null|is not null)(.*)$/i', $field, $matches)) {
+        if (preg_match('/^([a-z0-9\._]+)[ ]?(>|>=|<=|<|=|!=|like|not like|is null|is not null)(.*)$/i', $field, $matches)) {
             $field = trim($matches[1]);
             $operator = trim($matches[2]);
             $value = trim($matches[3], " \"'");
 
-            if($operator === 'is null') {
+            if ($operator === 'is null') {
                 $operator = self::OPERATOR_EQUAL;
                 $value = null;
-            } elseif($operator === 'is not null') {
+            } elseif ($operator === 'is not null') {
                 $operator = self::OPERATOR_NOT_EQUAL;
                 $value = null;
             }
@@ -123,19 +125,19 @@ final class Criteria
 
         Assert::oneOf($operator, self::ALL_OPERATORS);
 
-        if(!isset($this->expressions[$field])) {
+        if (!isset($this->expressions[$field])) {
             $this->expressions[$field] = [];
         }
 
-        if(is_array($value)) {
-            if($operator === self::OPERATOR_EQUAL) {
+        if (is_array($value)) {
+            if ($operator === self::OPERATOR_EQUAL) {
                 $operator = self::OPERATOR_IN;
-            } elseif($operator === self::OPERATOR_NOT_EQUAL) {
+            } elseif ($operator === self::OPERATOR_NOT_EQUAL) {
                 $operator = self::OPERATOR_NOT_IN;
-            } elseif(!in_array($operator, [ self::OPERATOR_IN, self::OPERATOR_NOT_IN ])) {
+            } elseif (!in_array($operator, [self::OPERATOR_IN, self::OPERATOR_NOT_IN])) {
                 throw new InvalidArgumentException('Unsupported operator "' . $operator . '"');
             }
-        } elseif(is_scalar($value) || is_null($value)) {
+        } elseif (is_scalar($value) || null === $value) {
             if ($operator === self::OPERATOR_IN) {
                 $operator = self::OPERATOR_EQUAL;
             } elseif ($operator === self::OPERATOR_NOT_IN) {
@@ -155,18 +157,20 @@ final class Criteria
      * <field> (asc|desc)
      * or
      * (+|-)<field>
+     *
      * @return self
+     *
      * @throws \RuntimeException
      */
     public function orderBy($expr): self
     {
-        $expr = (array)$expr;
+        $expr = (array) $expr;
 
-        foreach($expr as $e) {
+        foreach ($expr as $e) {
             // basic syntax, with asc/desc suffix
             if (preg_match('/([a-z0-9\._]+) (asc|desc)$/i', $e)) {
                 $this->orderings[] = $e;
-            } else if (preg_match('/([\+\-]?)([a-z_0-9.]+)/i', $e, $matches)) {
+            } elseif (preg_match('/([\+\-]?)([a-z_0-9.]+)/i', $e, $matches)) {
                 // alternative syntax - with +/- prefix
                 $subResult = $matches[2];
                 if ($matches[1] == '' || $matches[1] == '+') {
@@ -185,6 +189,7 @@ final class Criteria
 
     /**
      * @param int|null $page
+     *
      * @return self
      */
     public function setPage(?int $page): self
@@ -204,7 +209,7 @@ final class Criteria
 
     public function nextPage(): void
     {
-        $this->page++;
+        ++$this->page;
     }
 
     /**
@@ -212,21 +217,23 @@ final class Criteria
      */
     public function prevPage(): void
     {
-        if($this->page <= 1) {
+        if ($this->page <= 1) {
             throw CriteriaException::forInvalidPageNumber($this);
         }
 
-        $this->page--;
+        --$this->page;
     }
 
     /**
      * @param int|null $limit
+     *
      * @return self
+     *
      * @throws CriteriaException
      */
     public function setMaxResults(?int $limit): self
     {
-        if($limit > Info::MAX_API_ITEMS) {
+        if ($limit > Info::MAX_API_ITEMS) {
             throw CriteriaException::forExceedMaxNumberOfItems($this);
         }
 
@@ -265,20 +272,19 @@ final class Criteria
 
     /**
      * @param string $part
-     * @return void
      */
     public function reset(string $part = null): void
     {
-        if($part === self::PART_LIMIT || $part === null) {
+        if ($part === self::PART_LIMIT || $part === null) {
             $this->limit = Info::MAX_API_ITEMS;
         }
-        if($part === self::PART_PAGE || $part === null) {
+        if ($part === self::PART_PAGE || $part === null) {
             $this->page = 1;
         }
-        if($part === self::PART_EXPRESSIONS || $part === null) {
+        if ($part === self::PART_EXPRESSIONS || $part === null) {
             $this->expressions = [];
         }
-        if($part === self::PART_ORDERING || $part === null) {
+        if ($part === self::PART_ORDERING || $part === null) {
             $this->orderings = [];
         }
     }
@@ -294,16 +300,16 @@ final class Criteria
     public function getQueryParams(): array
     {
         $query = [];
-        if(count($this->expressions) > 0) {
+        if (count($this->expressions) > 0) {
             $query['filters'] = json_encode($this->expressions);
         }
-        if(count($this->orderings) > 0) {
+        if (count($this->orderings) > 0) {
             $query['order'] = $this->orderings;
         }
-        if($this->limit !== null) {
+        if ($this->limit !== null) {
             $query['limit'] = $this->limit;
         }
-        if($this->page !== null) {
+        if ($this->page !== null) {
             $query['page'] = $this->page;
         }
 
@@ -312,13 +318,14 @@ final class Criteria
 
     /**
      * @param RequestInterface $request
+     *
      * @return RequestInterface
      */
     public function fillRequest(RequestInterface $request): RequestInterface
     {
         $query = $this->getQueryParams();
 
-        if(count($query) > 0) {
+        if (count($query) > 0) {
             $uri = $request->getUri();
             parse_str($uri->getQuery(), $params);
             $query = array_merge($params, $query);

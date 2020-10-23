@@ -34,6 +34,7 @@ interface DataInterface extends Iterator
 
     /**
      * @param string $field
+     *
      * @return mixed
      */
     public function getFieldValue(string $field);

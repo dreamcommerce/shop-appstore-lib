@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the DreamCommerce Shop AppStore package.
+ *
+ * (c) DreamCommerce
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Api\Exception;
@@ -11,7 +20,7 @@ use Psr\Http\Message\ResponseInterface;
 
 class ApiException extends ShopAppstoreException
 {
-    const CODE_INVALID_RESPONSE     = 1;
+    const CODE_INVALID_RESPONSE = 1;
 
     /**
      * @var RequestInterface|null
@@ -26,7 +35,7 @@ class ApiException extends ShopAppstoreException
     /**
      * @var Error[]
      */
-    protected $errors = array();
+    protected $errors = [];
 
     /**
      * @return RequestInterface|null
@@ -49,7 +58,7 @@ class ApiException extends ShopAppstoreException
      */
     public function getErrors(): array
     {
-        if($this->httpResponse !== null) {
+        if ($this->httpResponse !== null) {
             $stream = $this->httpResponse->getBody();
             $stream->rewind();
 
@@ -57,7 +66,7 @@ class ApiException extends ShopAppstoreException
             if (strlen($body) > 0) {
                 $message = @json_decode($body, true);
                 if (is_array($message)) {
-                    $error = isset($message['error']) ? $message['error'] : null;
+                    $error = $message['error'] ?? null;
                     $errorDescriptions = explode('; ', $message['error_description']);
                     foreach ($errorDescriptions as $errorDescription) {
                         $this->errors[] = new Error($error, $errorDescription);

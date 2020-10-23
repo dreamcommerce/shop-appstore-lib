@@ -14,10 +14,10 @@ declare(strict_types=1);
 namespace DreamCommerce\Component\ShopAppstore\Api\Resource;
 
 use DreamCommerce\Component\ShopAppstore\Api\Criteria;
+use DreamCommerce\Component\ShopAppstore\Model\ShopInterface;
 use DreamCommerce\Component\ShopAppstore\Model\ShopItemInterface;
 use DreamCommerce\Component\ShopAppstore\Model\ShopItemListInterface;
 use DreamCommerce\Component\ShopAppstore\Model\ShopItemPartListInterface;
-use DreamCommerce\Component\ShopAppstore\Model\ShopInterface;
 
 interface ItemResourceInterface extends ResourceInterface
 {
@@ -29,6 +29,7 @@ interface ItemResourceInterface extends ResourceInterface
     /**
      * @param ShopInterface $shop
      * @param int $id
+     *
      * @return ShopItemInterface
      */
     public function find(ShopInterface $shop, int $id): ShopItemInterface;
@@ -36,6 +37,7 @@ interface ItemResourceInterface extends ResourceInterface
     /**
      * @param ShopInterface $shop
      * @param Criteria $criteria
+     *
      * @return ShopItemListInterface|ShopItemInterface[]
      */
     public function findBy(ShopInterface $shop, Criteria $criteria): ShopItemListInterface;
@@ -43,12 +45,14 @@ interface ItemResourceInterface extends ResourceInterface
     /**
      * @param ShopInterface $shop
      * @param Criteria $criteria
+     *
      * @return ShopItemPartListInterface|ShopItemInterface[]
      */
     public function findByPartial(ShopInterface $shop, Criteria $criteria): ShopItemPartListInterface;
 
     /**
      * @param ShopInterface $shop
+     *
      * @return ShopItemListInterface|ShopItemInterface[]
      */
     public function findAll(ShopInterface $shop): ShopItemListInterface;
@@ -69,6 +73,7 @@ interface ItemResourceInterface extends ResourceInterface
     /**
      * @param ShopInterface $shop
      * @param array $data
+     *
      * @return ShopItemInterface
      */
     public function insert(ShopInterface $shop, array $data): ShopItemInterface;

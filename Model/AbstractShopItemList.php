@@ -58,7 +58,7 @@ abstract class AbstractShopItemList implements Iterator, Countable, ArrayAccess
     public function getExternalIds(): array
     {
         $array = [];
-        foreach($this->items as $item) {
+        foreach ($this->items as $item) {
             $array[] = $item->getExternalId();
         }
 
@@ -113,21 +113,21 @@ abstract class AbstractShopItemList implements Iterator, Countable, ArrayAccess
 
     public function offsetSet($offset, $value): void
     {
-        if(null === $offset) {
+        if (null === $offset) {
             $this->items[] = $value;
-            $this->count++;
+            ++$this->count;
         }
     }
 
     public function offsetUnset($offset): void
     {
-        if(isset($this->items[(int) $offset])) {
+        if (isset($this->items[(int) $offset])) {
             unset($this->items[(int) $offset]);
             $this->items = array_values($this->items);
 
-            $this->count--;
-            if($this->pointer > 0) {
-                $this->pointer--;
+            --$this->count;
+            if ($this->pointer > 0) {
+                --$this->pointer;
             }
         }
     }

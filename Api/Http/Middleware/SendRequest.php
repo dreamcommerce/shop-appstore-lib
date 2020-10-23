@@ -50,7 +50,7 @@ class SendRequest implements MiddlewareInterface
                 $response = $exception->getResponse();
             }
 
-            if($response === null) {
+            if ($response === null) {
                 throw $exception;
             }
         }

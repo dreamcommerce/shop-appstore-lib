@@ -40,7 +40,7 @@ class BasicAuthAuthenticatorTest extends BearerAuthenticatorTest
     {
         /** @var ShopInterface|MockObject $shop */
         $shop = $this->getMockBuilder(BasicAuthShopInterface::class)->getMock();
-        if(!$isRefresh) {
+        if (!$isRefresh) {
             $shop->expects($this->once())
                 ->method('getUsername')
                 ->willReturn('test');

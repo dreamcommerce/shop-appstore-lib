@@ -22,6 +22,7 @@ interface BulkResourceInterface extends ResourceInterface
     /**
      * @param ShopInterface $shop
      * @param BulkContainerInterface $container
+     *
      * @return BulkResultInterface
      */
     public function execute(ShopInterface $shop, BulkContainerInterface $container): BulkResultInterface;

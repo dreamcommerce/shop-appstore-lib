@@ -28,6 +28,7 @@ interface ShopClientInterface
 
     /**
      * @param RequestInterface $request
+     *
      * @return ResponseInterface
      */
     public function send(RequestInterface $request): ResponseInterface;

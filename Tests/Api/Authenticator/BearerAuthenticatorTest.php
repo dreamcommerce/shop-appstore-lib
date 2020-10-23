@@ -84,8 +84,8 @@ abstract class BearerAuthenticatorTest extends TestCase
             'refresh_token' => $refreshToken,
             'expires_in' => $expiresIn,
             'scopes' => [
-                'A', 'B', 'C'
-            ]
+                'A', 'B', 'C',
+            ],
         ]);
 
         $shop = $this->getShop();
@@ -125,13 +125,14 @@ abstract class BearerAuthenticatorTest extends TestCase
 
         $this->prepareRequest([
             'error' => $code,
-            'error_description' => $description
+            'error_description' => $description,
         ]);
 
         $shop = $this->getShop();
+
         try {
             $this->authenticator->authenticate($shop);
-        } catch(AuthenticationException $e) {
+        } catch (AuthenticationException $e) {
             $this->assertEquals(AuthenticationException::CODE_ERROR_MESSAGE, $e->getCode());
             $this->assertEquals($code, $e->getErrorCode());
             $this->assertEquals($description, $e->getErrorDescription());
@@ -155,9 +156,9 @@ abstract class BearerAuthenticatorTest extends TestCase
             ->method('createRequest')
             ->willReturn($request);
 
-        if($body === null) {
+        if ($body === null) {
             $body = '';
-        } elseif(is_array($body)) {
+        } elseif (is_array($body)) {
             $body = json_encode($body);
         }
 
@@ -190,13 +191,13 @@ abstract class BearerAuthenticatorTest extends TestCase
 
         $token->expects($this->once())
             ->method('setAccessToken')
-            ->willReturnCallback(function($fAccessToken) use($accessToken) {
+            ->willReturnCallback(function ($fAccessToken) use ($accessToken) {
                 $this->assertEquals($accessToken, $fAccessToken);
             });
 
         $token->expects($this->once())
             ->method('setRefreshToken')
-            ->willReturnCallback(function($fRefreshToken) use($refreshToken) {
+            ->willReturnCallback(function ($fRefreshToken) use ($refreshToken) {
                 $this->assertEquals($refreshToken, $fRefreshToken);
             });
 
@@ -206,7 +207,7 @@ abstract class BearerAuthenticatorTest extends TestCase
 
         $token->expects($this->once())
             ->method('setExpiresAt')
-            ->willReturnCallback(function(DateTime $fDateTime) use($dateTime, $expiresIn) {
+            ->willReturnCallback(function (DateTime $fDateTime) use ($dateTime, $expiresIn) {
                 $this->assertEquals($expiresIn, $fDateTime->getTimestamp() - $dateTime->getTimestamp());
             });
     }
@@ -231,6 +232,7 @@ abstract class BearerAuthenticatorTest extends TestCase
 
     /**
      * @param bool $isRefresh
+     *
      * @return ShopInterface|MockObject
      */
     abstract protected function getShop(bool $isRefresh = false): ShopInterface;

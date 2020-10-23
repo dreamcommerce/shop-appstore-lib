@@ -33,11 +33,11 @@ trait ShopDataTrait
      */
     protected function getShopDataFactory(): ShopDataFactoryInterface
     {
-        if($this->shopDataFactory !== null) {
+        if ($this->shopDataFactory !== null) {
             return $this->shopDataFactory;
         }
 
-        if(self::$globalShopDataFactory === null) {
+        if (self::$globalShopDataFactory === null) {
             self::$globalShopDataFactory = new ShopDataFactory($this->getGlobalDataFactory());
         }
 

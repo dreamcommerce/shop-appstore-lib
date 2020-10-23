@@ -32,7 +32,7 @@ class CriteriaTest extends TestCase
         $this->criteria = new Criteria();
     }
 
-    public function testCreate() : void
+    public function testCreate(): void
     {
         $this->criteria = Criteria::create();
         self::assertInstanceOf(Criteria::class, $this->criteria);
@@ -46,7 +46,7 @@ class CriteriaTest extends TestCase
 
         $expr = $this->criteria->getWhereExpression();
         $this->assertCount(1, $expr);
-        $this->assertEquals(['field_1' => [ Criteria::OPERATOR_EQUAL => 'value_1' ]], $expr);
+        $this->assertEquals(['field_1' => [Criteria::OPERATOR_EQUAL => 'value_1']], $expr);
     }
 
     public function testWhereOperator(): void
@@ -55,7 +55,7 @@ class CriteriaTest extends TestCase
 
         $expr = $this->criteria->getWhereExpression();
         $this->assertCount(1, $expr);
-        $this->assertEquals(['field_1' => [ Criteria::OPERATOR_NOT_EQUAL => 'value_1' ]], $expr);
+        $this->assertEquals(['field_1' => [Criteria::OPERATOR_NOT_EQUAL => 'value_1']], $expr);
     }
 
     public function testWhereSameField(): void
@@ -67,7 +67,7 @@ class CriteriaTest extends TestCase
 
         $expr = $this->criteria->getWhereExpression();
         $this->assertCount(1, $expr);
-        $this->assertEquals(['field_1' => [ Criteria::OPERATOR_EQUAL => 'value_2' ]], $expr);
+        $this->assertEquals(['field_1' => [Criteria::OPERATOR_EQUAL => 'value_2']], $expr);
     }
 
     public function testWhereReset(): void
@@ -81,20 +81,20 @@ class CriteriaTest extends TestCase
 
     public function testWhereArrayWithEqualOperator(): void
     {
-        $this->criteria->where('field_1', [ 5, 10, 15 ]);
+        $this->criteria->where('field_1', [5, 10, 15]);
 
         $expr = $this->criteria->getWhereExpression();
         $this->assertCount(1, $expr);
-        $this->assertEquals(['field_1' => [ Criteria::OPERATOR_IN => [ 5, 10, 15 ] ]], $expr);
+        $this->assertEquals(['field_1' => [Criteria::OPERATOR_IN => [5, 10, 15]]], $expr);
     }
 
     public function testWhereArrayWithNotEqualOperator(): void
     {
-        $this->criteria->where('field_1', [ 15, 20, 25 ], Criteria::OPERATOR_NOT_EQUAL);
+        $this->criteria->where('field_1', [15, 20, 25], Criteria::OPERATOR_NOT_EQUAL);
 
         $expr = $this->criteria->getWhereExpression();
         $this->assertCount(1, $expr);
-        $this->assertEquals(['field_1' => [ Criteria::OPERATOR_NOT_IN => [ 15, 20, 25 ] ]], $expr);
+        $this->assertEquals(['field_1' => [Criteria::OPERATOR_NOT_IN => [15, 20, 25]]], $expr);
     }
 
     public function testWhereScalarWithInOperator(): void
@@ -103,7 +103,7 @@ class CriteriaTest extends TestCase
 
         $expr = $this->criteria->getWhereExpression();
         $this->assertCount(1, $expr);
-        $this->assertEquals(['field_1' => [ Criteria::OPERATOR_EQUAL => 5 ]], $expr);
+        $this->assertEquals(['field_1' => [Criteria::OPERATOR_EQUAL => 5]], $expr);
     }
 
     public function testWhereScalarWithNotInOperator(): void
@@ -112,7 +112,7 @@ class CriteriaTest extends TestCase
 
         $expr = $this->criteria->getWhereExpression();
         $this->assertCount(1, $expr);
-        $this->assertEquals(['field_1' => [ Criteria::OPERATOR_NOT_EQUAL => 15 ]], $expr);
+        $this->assertEquals(['field_1' => [Criteria::OPERATOR_NOT_EQUAL => 15]], $expr);
     }
 
     public function testWhereSimplifiedSyntax(): void
@@ -122,63 +122,63 @@ class CriteriaTest extends TestCase
         $this->criteria->where('field_1 = 1.5');
         $expr = $this->criteria->getWhereExpression();
         $this->assertCount(1, $expr);
-        $this->assertEquals(['field_1' => [ Criteria::OPERATOR_EQUAL => 1.5 ]], $expr);
+        $this->assertEquals(['field_1' => [Criteria::OPERATOR_EQUAL => 1.5]], $expr);
 
         // without whitespaces
 
         $this->criteria->where('field_1=2.5');
         $expr = $this->criteria->getWhereExpression();
         $this->assertCount(1, $expr);
-        $this->assertEquals(['field_1' => [ Criteria::OPERATOR_EQUAL => 2.5 ]], $expr);
+        $this->assertEquals(['field_1' => [Criteria::OPERATOR_EQUAL => 2.5]], $expr);
 
         // not equal operator
 
         $this->criteria->where('field_1 != 3.5');
         $expr = $this->criteria->getWhereExpression();
         $this->assertCount(1, $expr);
-        $this->assertEquals(['field_1' => [ Criteria::OPERATOR_NOT_EQUAL => 3.5 ]], $expr);
+        $this->assertEquals(['field_1' => [Criteria::OPERATOR_NOT_EQUAL => 3.5]], $expr);
 
         // like operator
 
         $this->criteria->where('field_1 like 4.5');
         $expr = $this->criteria->getWhereExpression();
         $this->assertCount(1, $expr);
-        $this->assertEquals(['field_1' => [ Criteria::OPERATOR_LIKE => 4.5 ]], $expr);
+        $this->assertEquals(['field_1' => [Criteria::OPERATOR_LIKE => 4.5]], $expr);
 
         // not like operator
 
         $this->criteria->where('field_1 not like 5.5');
         $expr = $this->criteria->getWhereExpression();
         $this->assertCount(1, $expr);
-        $this->assertEquals(['field_1' => [ Criteria::OPERATOR_NOT_LIKE => 5.5 ]], $expr);
+        $this->assertEquals(['field_1' => [Criteria::OPERATOR_NOT_LIKE => 5.5]], $expr);
 
         // single quoted value
 
         $this->criteria->where('field_1 = \'test\'');
         $expr = $this->criteria->getWhereExpression();
         $this->assertCount(1, $expr);
-        $this->assertEquals(['field_1' => [ Criteria::OPERATOR_EQUAL => 'test' ]], $expr);
+        $this->assertEquals(['field_1' => [Criteria::OPERATOR_EQUAL => 'test']], $expr);
 
         // double quoted value
 
         $this->criteria->where('field_1 = "test2"');
         $expr = $this->criteria->getWhereExpression();
         $this->assertCount(1, $expr);
-        $this->assertEquals(['field_1' => [ Criteria::OPERATOR_EQUAL => 'test2' ]], $expr);
+        $this->assertEquals(['field_1' => [Criteria::OPERATOR_EQUAL => 'test2']], $expr);
 
         // null value
 
         $this->criteria->where('field_1 is null');
         $expr = $this->criteria->getWhereExpression();
         $this->assertCount(1, $expr);
-        $this->assertEquals(['field_1' => [ Criteria::OPERATOR_EQUAL => null ]], $expr);
+        $this->assertEquals(['field_1' => [Criteria::OPERATOR_EQUAL => null]], $expr);
 
         // not null value
 
         $this->criteria->where('field_1 is not null');
         $expr = $this->criteria->getWhereExpression();
         $this->assertCount(1, $expr);
-        $this->assertEquals(['field_1' => [ Criteria::OPERATOR_NOT_EQUAL => null ]], $expr);
+        $this->assertEquals(['field_1' => [Criteria::OPERATOR_NOT_EQUAL => null]], $expr);
     }
 
     public function testAndWhere(): void
@@ -313,10 +313,10 @@ class CriteriaTest extends TestCase
     public function resetParts(): array
     {
         return [
-            [ Criteria::PART_EXPRESSIONS ],
-            [ Criteria::PART_ORDERING ],
-            [ Criteria::PART_LIMIT ],
-            [ Criteria::PART_PAGE ]
+            [Criteria::PART_EXPRESSIONS],
+            [Criteria::PART_ORDERING],
+            [Criteria::PART_LIMIT],
+            [Criteria::PART_PAGE],
         ];
     }
 
@@ -333,20 +333,20 @@ class CriteriaTest extends TestCase
 
         $uri->expects($this->once())
             ->method('withQuery')
-            ->will($this->returnCallback(function($query) use($uri) {
+            ->will($this->returnCallback(function ($query) use ($uri) {
                 parse_str($query, $params);
 
                 $this->assertEquals(
                     [
                         'filters' => [
                             'field_1' => ['=' => '5'],
-                            'field_2' => ['>' => '10']
+                            'field_2' => ['>' => '10'],
                         ],
                         'order' => [
-                            'field_3 desc'
+                            'field_3 desc',
                         ],
                         'limit' => '30',
-                        'page' => '5'
+                        'page' => '5',
                     ],
                     $params
                 );
@@ -359,7 +359,7 @@ class CriteriaTest extends TestCase
         $request->expects($this->once())
             ->method('withUri');
 
-        $reqs[] = [ $request ];
+        $reqs[] = [$request];
 
         // with query string
 
@@ -370,27 +370,27 @@ class CriteriaTest extends TestCase
 
         $uri->expects($this->once())
             ->method('withQuery')
-            ->will($this->returnCallback(function($query) use($uri) {
+            ->will($this->returnCallback(function ($query) use ($uri) {
                 parse_str($query, $params);
 
                 $this->assertEquals(
                     [
                         'filters' => [
                             'field_1' => ['=' => '5'],
-                            'field_2' => ['>' => '10']
+                            'field_2' => ['>' => '10'],
                         ],
                         'order' => [
-                            'field_3 desc'
+                            'field_3 desc',
                         ],
                         'limit' => '30',
                         'page' => '5',
                         'a' => '1',
                         'b' => [
-                            '2'
+                            '2',
                         ],
                         'c' => [
-                            'abc' => '3'
-                        ]
+                            'abc' => '3',
+                        ],
                     ],
                     $params
                 );
@@ -403,7 +403,7 @@ class CriteriaTest extends TestCase
         $request->expects($this->once())
             ->method('withUri');
 
-        $reqs[] = [ $request ];
+        $reqs[] = [$request];
 
         return $reqs;
     }

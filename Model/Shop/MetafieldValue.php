@@ -40,14 +40,14 @@ abstract class MetafieldValue extends ShopItem implements MetafieldValueInterfac
     /**
      * {@inheritdoc}
      */
-    public static function getMapClass() : array
+    public static function getMapClass(): array
     {
         return [
-            0                                  => MetafieldValueString::class, // default, backward compatibility
-            MetafieldInterface::TYPE_INT       => MetafieldValueInt::class,
-            MetafieldInterface::TYPE_FLOAT     => MetafieldValueFloat::class,
-            MetafieldInterface::TYPE_STRING    => MetafieldValueString::class,
-            MetafieldInterface::TYPE_BLOB      => MetafieldValueBlob::class
+            0 => MetafieldValueString::class, // default, backward compatibility
+            MetafieldInterface::TYPE_INT => MetafieldValueInt::class,
+            MetafieldInterface::TYPE_FLOAT => MetafieldValueFloat::class,
+            MetafieldInterface::TYPE_STRING => MetafieldValueString::class,
+            MetafieldInterface::TYPE_BLOB => MetafieldValueBlob::class,
         ];
     }
 
@@ -105,7 +105,7 @@ abstract class MetafieldValue extends ShopItem implements MetafieldValueInterfac
     public function setMetafield(MetafieldInterface $metafield): void
     {
         $metafieldType = $metafield->getType();
-        $mapClass      = self::getMapClass()[$metafieldType];
+        $mapClass = self::getMapClass()[$metafieldType];
 
         if (static::class !== $mapClass) {
             // TODO

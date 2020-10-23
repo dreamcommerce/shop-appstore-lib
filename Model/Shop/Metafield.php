@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Model\Shop;
 
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use DreamCommerce\Component\ShopAppstore\Model\ShopInterface;
 use DreamCommerce\Component\ShopAppstore\Model\ShopItem;
 
@@ -179,7 +179,7 @@ class Metafield extends ShopItem implements MetafieldInterface
      */
     public function removeValue(MetafieldValueInterface $value): void
     {
-        if($this->hasValue($value)) {
+        if ($this->hasValue($value)) {
             $this->values->removeElement($value);
             $value->setMetafield(null);
         }

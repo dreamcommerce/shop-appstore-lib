@@ -19,7 +19,6 @@ interface AuthenticatorInterface
 {
     /**
      * @param ShopInterface $shop
-     * @return void
      */
     public function authenticate(ShopInterface $shop): void;
 

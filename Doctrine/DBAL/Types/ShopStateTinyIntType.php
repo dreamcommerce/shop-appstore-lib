@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the DreamCommerce Shop AppStore package.
+ *
+ * (c) DreamCommerce
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Doctrine\DBAL\Types;
@@ -24,11 +33,11 @@ final class ShopStateTinyIntType extends MapEnumType
     /**
      * @var array
      */
-    protected $values = array(
+    protected $values = [
         OAuthShopInterface::STATE_NEW => 1,
         OAuthShopInterface::STATE_UNINSTALLED => 2,
         OAuthShopInterface::STATE_PREFETCH_TOKENS => 3,
         OAuthShopInterface::STATE_REJECTED_AUTH_CODE => 4,
         OAuthShopInterface::STATE_INSTALLED => 5,
-    );
+    ];
 }

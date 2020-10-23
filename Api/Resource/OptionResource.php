@@ -18,7 +18,7 @@ class OptionResource extends ItemResource implements ObjectAwareInterface
     /**
      * It's not possible to change required flag for option with warehouse support
      */
-    const HTTP_ERROR_OPTION_CAN_NOT_MODIFY_REQUIRE = "option_cannot_modify_require";
+    const HTTP_ERROR_OPTION_CAN_NOT_MODIFY_REQUIRE = 'option_cannot_modify_require';
 
     /**
      * It's not possible to change type of an existing option

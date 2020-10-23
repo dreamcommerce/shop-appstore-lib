@@ -41,8 +41,8 @@ class OAuthAuthenticatorTest extends BearerAuthenticatorTest
             'refresh_token' => $refreshToken,
             'expires_in' => $expiresIn,
             'scopes' => [
-                'A', 'B', 'C'
-            ]
+                'A', 'B', 'C',
+            ],
         ]);
 
         $shop = $this->getShop(true);
@@ -82,13 +82,14 @@ class OAuthAuthenticatorTest extends BearerAuthenticatorTest
 
         $this->prepareRequest([
             'error' => $code,
-            'error_description' => $description
+            'error_description' => $description,
         ]);
 
         $shop = $this->getShop(true);
+
         try {
             $this->authenticator->refresh($shop);
-        } catch(RefreshTokenException $e) {
+        } catch (RefreshTokenException $e) {
             $this->assertEquals(RefreshTokenException::CODE_ERROR_MESSAGE, $e->getCode());
             $this->assertEquals($code, $e->getErrorCode());
             $this->assertEquals($description, $e->getErrorDescription());
@@ -100,10 +101,9 @@ class OAuthAuthenticatorTest extends BearerAuthenticatorTest
         $this->fail('Never happen !');
     }
 
-
     protected function prepareValidResponse(ShopInterface $shop, string $accessToken, ?string $refreshToken, int $expiresIn, DateTime $dateTime, bool $isRefresh = false)
     {
-        if(!$isRefresh) {
+        if (!$isRefresh) {
             /** @var ShopInterface|MockObject $shop */
             $shop->expects($this->once())
                 ->method('setAuthCode')
@@ -128,7 +128,7 @@ class OAuthAuthenticatorTest extends BearerAuthenticatorTest
 
         /** @var ShopInterface|MockObject $shop */
         $shop = $this->getMockBuilder(OAuthShopInterface::class)->getMock();
-        if(!$isRefresh) {
+        if (!$isRefresh) {
             $shop->expects($this->once())
                 ->method('getAuthCode')
                 ->willReturn('test');

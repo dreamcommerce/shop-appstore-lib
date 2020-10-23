@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the DreamCommerce Shop AppStore package.
+ *
+ * (c) DreamCommerce
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Doctrine\DBAL\Types;
@@ -24,10 +33,10 @@ final class ShopBillingStateTinyIntType extends MapEnumType
     /**
      * @var array
      */
-    protected $values = array(
+    protected $values = [
         OAuthShopInterface::STATE_BILLING_UNPAID => 1,
         OAuthShopInterface::STATE_BILLING_PAID => 2,
         OAuthShopInterface::STATE_BILLING_REFUNDED => 3,
         OAuthShopInterface::STATE_BILLING_CANCELLED => 4,
-    );
+    ];
 }
