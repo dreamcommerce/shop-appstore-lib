@@ -110,6 +110,14 @@ class ShopClient implements ShopClientInterface
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function unregisterAll(): void
+    {
+        $this->middlewares = new SplPriorityQueue();
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getLastRequest(): ?RequestInterface

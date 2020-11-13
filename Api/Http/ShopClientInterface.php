@@ -39,6 +39,8 @@ interface ShopClientInterface
      */
     public function register(MiddlewareInterface $middleware, int $priority = self::PRIORITY_NORMAL): void;
 
+    public function unregisterAll(): void;
+
     /**
      * @return RequestInterface|null
      */
