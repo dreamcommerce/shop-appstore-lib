@@ -20,7 +20,7 @@ use DreamCommerce\Component\ShopAppstore\Model\ShopItemInterface;
 use DreamCommerce\Component\ShopAppstore\Model\ShopItemListInterface;
 use Webmozart\Assert\Assert;
 
-class MetafieldValueResource extends ItemResource
+class MetafieldValueResource extends ItemResource implements MetafieldValueResourceInterface
 {
     /**
      * {@inheritdoc}
@@ -39,10 +39,7 @@ class MetafieldValueResource extends ItemResource
     }
 
     /**
-     * @param MetafieldInterface $resource
-     * @param Criteria|null $criteria
-     *
-     * @return ShopItemListInterface|MetafieldValueInterface[]
+     * {@inheritdoc}
      */
     public function findByMetafield(MetafieldInterface $resource, Criteria $criteria = null): ShopItemListInterface
     {
@@ -57,11 +54,7 @@ class MetafieldValueResource extends ItemResource
     }
 
     /**
-     * @param MetafieldInterface $metafield
-     * @param ShopItemInterface $item
-     * @param mixed $value
-     *
-     * @return MetafieldValueInterface
+     * {@inheritdoc}
      */
     public function insertByMetafield(MetafieldInterface $metafield, ShopItemInterface $item, $value): MetafieldValueInterface
     {

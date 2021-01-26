@@ -21,7 +21,7 @@ use DreamCommerce\Component\ShopAppstore\Model\ShopItemListInterface;
 use DreamCommerce\Component\ShopAppstore\Model\ShopItemPartListInterface;
 use Psr\Http\Message\UriInterface;
 
-class MetafieldResource extends ItemResource implements ObjectAwareInterface
+class MetafieldResource extends ItemResource implements ObjectAwareInterface, MetafieldResourceInterface
 {
     /**
      * @var string|null
@@ -53,11 +53,7 @@ class MetafieldResource extends ItemResource implements ObjectAwareInterface
     }
 
     /**
-     * @param ObjectAwareInterface $resource
-     * @param ShopInterface $shop
-     * @param array $data
-     *
-     * @return MetafieldInterface
+     * {@inheritdoc}
      */
     public function insertByResource(ObjectAwareInterface $resource, ShopInterface $shop, array $data): MetafieldInterface
     {
@@ -68,11 +64,7 @@ class MetafieldResource extends ItemResource implements ObjectAwareInterface
     }
 
     /**
-     * @param ObjectAwareInterface $resource
-     * @param ShopInterface $shop
-     * @param Criteria|null $criteria
-     *
-     * @return ShopItemListInterface|MetafieldInterface[]
+     * {@inheritdoc}
      */
     public function findByResource(ObjectAwareInterface $resource, ShopInterface $shop, Criteria $criteria = null): ShopItemListInterface
     {
