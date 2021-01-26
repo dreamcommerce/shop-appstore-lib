@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Api\Resource;
 
-class UserGroupResource extends ItemResource implements ObjectAwareInterface
+class UserGroupResource extends ItemResource implements ObjectAwareResourceInterface
 {
     /**
      * {@inheritdoc}

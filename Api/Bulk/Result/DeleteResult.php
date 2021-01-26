@@ -16,7 +16,7 @@ namespace DreamCommerce\Component\ShopAppstore\Api\Bulk\Result;
 use DreamCommerce\Component\ShopAppstore\Api\Bulk\Operation\DeleteOperation;
 use DreamCommerce\Component\ShopAppstore\Model\ShopInterface;
 
-final class DeleteResult extends BaseResult
+class DeleteResult extends BaseResult
 {
     /**
      * @param DeleteOperation $operation

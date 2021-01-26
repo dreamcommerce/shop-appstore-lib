@@ -17,7 +17,7 @@ use DreamCommerce\Component\ShopAppstore\Api\Bulk\Operation\InsertOperation;
 use DreamCommerce\Component\ShopAppstore\Model\ShopInterface;
 use DreamCommerce\Component\ShopAppstore\Model\ShopItemInterface;
 
-final class InsertResult extends BaseResult
+class InsertResult extends BaseResult
 {
     /**
      * @var ShopItemInterface

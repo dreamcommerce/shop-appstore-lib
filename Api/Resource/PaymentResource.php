@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Api\Resource;
 
-class PaymentResource extends ItemResource implements ObjectAwareInterface
+class PaymentResource extends ItemResource implements ObjectAwareResourceInterface
 {
     /**
      * {@inheritdoc}

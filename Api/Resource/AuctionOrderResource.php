@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Api\Resource;
 
-class AuctionOrderResource extends ItemResource implements ObjectAwareInterface
+class AuctionOrderResource extends ItemResource implements ObjectAwareResourceInterface
 {
     /**
      * The order has already been connected to the auction

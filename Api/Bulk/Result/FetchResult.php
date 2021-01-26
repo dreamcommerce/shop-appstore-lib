@@ -17,7 +17,7 @@ use DreamCommerce\Component\ShopAppstore\Api\Bulk\Operation\FetchOperation;
 use DreamCommerce\Component\ShopAppstore\Model\ShopDataInterface;
 use DreamCommerce\Component\ShopAppstore\Model\ShopInterface;
 
-final class FetchResult extends BaseResult
+class FetchResult extends BaseResult
 {
     /**
      * @var ShopDataInterface

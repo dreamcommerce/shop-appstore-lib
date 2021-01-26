@@ -13,15 +13,9 @@ declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Api\Bulk\Operation;
 
-use DreamCommerce\Component\ShopAppstore\Api\Resource\DataResourceInterface;
+use DreamCommerce\Component\ShopAppstore\Api\Resource\ObjectAwareResourceInterface;
 
-class FetchOperation extends BaseOperation
+interface ObjectOperationInterface
 {
-    /**
-     * @param DataResourceInterface $resource
-     */
-    public function __construct(DataResourceInterface $resource)
-    {
-        parent::__construct($resource);
-    }
+    public function getObjectResource(): ObjectAwareResourceInterface;
 }

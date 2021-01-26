@@ -16,7 +16,7 @@ namespace DreamCommerce\Component\ShopAppstore\Api\Bulk\Result;
 use DreamCommerce\Component\ShopAppstore\Api\Bulk\Operation\BaseOperation;
 use DreamCommerce\Component\ShopAppstore\Model\ShopInterface;
 
-final class NotValidResult extends ErrorResult
+class NotValidResult extends ErrorResult
 {
     /**
      * @param BaseOperation $operation

@@ -17,7 +17,7 @@ use DreamCommerce\Component\ShopAppstore\Api\Bulk\Operation\FindByOperation;
 use DreamCommerce\Component\ShopAppstore\Model\ShopInterface;
 use DreamCommerce\Component\ShopAppstore\Model\ShopItemPartListInterface;
 
-final class FindByResult extends BaseResult
+class FindByResult extends BaseResult
 {
     /**
      * @var ShopItemPartListInterface

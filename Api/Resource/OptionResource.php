@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Api\Resource;
 
-class OptionResource extends ItemResource implements ObjectAwareInterface
+class OptionResource extends ItemResource implements ObjectAwareResourceInterface
 {
     /**
      * It's not possible to change required flag for option with warehouse support

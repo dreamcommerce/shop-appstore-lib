@@ -15,7 +15,7 @@ namespace DreamCommerce\Component\ShopAppstore\Api\Bulk\Operation;
 
 use DreamCommerce\Component\ShopAppstore\Api\Resource\ItemResourceInterface;
 
-final class UpdateOperation extends BaseOperation
+class UpdateOperation extends BaseOperation
 {
     /**
      * @var int

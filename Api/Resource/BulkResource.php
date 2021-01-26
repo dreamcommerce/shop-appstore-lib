@@ -65,42 +65,58 @@ class BulkResource extends Resource implements BulkResourceInterface
             ];
             $resourceName = $operation->getResource()->getName();
 
+            $objectName = null;
+            if($operation instanceof Bulk\Operation\ObjectOperationInterface) {
+                $objectName = $operation->getObjectResource()->getObjectName();
+            }
+
             switch (get_class($operation)) {
                 case Bulk\Operation\FetchOperation::class:
+                    /** @var Bulk\Operation\FetchOperation $operation */
                     $row['method'] = 'GET';
                     $row['path'] = $this->getUri($shop, null, $resourceName)->getPath();
 
                     break;
                 case Bulk\Operation\FindOperation::class:
+                case Bulk\Operation\FindWithObjectOperation::class:
+                    /** @var Bulk\Operation\FindOperation $operation */
                     $row['method'] = 'GET';
-                    $row['path'] = $this->getUri($shop, $operation->getId(), $resourceName)->getPath();
+                    $row['path'] = $this->getUri($shop, $operation->getId(), $resourceName, $objectName)->getPath();
 
                     break;
                 case Bulk\Operation\FindByOperation::class:
+                case Bulk\Operation\FindByWithObjectOperation::class:
+                    /** @var Bulk\Operation\FindByOperation $operation */
                     /** @var Criteria $criteria */
                     $criteria = clone $operation->getCriteria();
                     $criteria->rewind();
 
                     $row['method'] = 'GET';
-                    $row['path'] = $this->getUri($shop, null, $resourceName)->getPath();
+                    $row['path'] = $this->getUri($shop, null, $resourceName, $objectName)->getPath();
                     $row['params'] = $criteria->getQueryParams();
 
                     break;
                 case Bulk\Operation\InsertOperation::class:
+                case Bulk\Operation\InsertWithObjectOperation::class:
+                    /** @var Bulk\Operation\InsertOperation $operation */
                     $row['method'] = 'POST';
-                    $row['path'] = $this->getUri($shop, null, $resourceName)->getPath();
+                    $row['path'] = $this->getUri($shop, null, $resourceName, $objectName)->getPath();
                     $row['body'] = $operation->getData();
 
                     break;
                 case Bulk\Operation\UpdateOperation::class:
+                case Bulk\Operation\UpdateWithObjectOperation::class:
+                    /** @var Bulk\Operation\UpdateOperation $operation */
                     $row['method'] = 'PUT';
-                    $row['path'] = $this->getUri($shop, $operation->getId(), $resourceName)->getPath();
+                    $row['path'] = $this->getUri($shop, $operation->getId(), $resourceName, $objectName)->getPath();
                     $row['body'] = $operation->getData();
 
                     break;
                 case Bulk\Operation\DeleteOperation::class:
+                case Bulk\Operation\DeleteWithObjectOperation::class:
+                    /** @var Bulk\Operation\DeleteOperation $operation */
                     $row['method'] = 'DELETE';
-                    $row['path'] = $this->getUri($shop, $operation->getId(), $resourceName)->getPath();
+                    $row['path'] = $this->getUri($shop, $operation->getId(), $resourceName, $objectName)->getPath();
 
                     break;
                 default:

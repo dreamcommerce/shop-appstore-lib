@@ -16,7 +16,7 @@ namespace DreamCommerce\Component\ShopAppstore\Api\Bulk\Operation;
 use DreamCommerce\Component\ShopAppstore\Api\Criteria;
 use DreamCommerce\Component\ShopAppstore\Api\Resource\ItemResourceInterface;
 
-final class FindByOperation extends BaseOperation
+class FindByOperation extends BaseOperation
 {
     /**
      * @var Criteria

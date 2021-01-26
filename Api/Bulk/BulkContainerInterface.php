@@ -17,6 +17,7 @@ use ArrayAccess;
 use DreamCommerce\Component\ShopAppstore\Api\Criteria;
 use DreamCommerce\Component\ShopAppstore\Api\Resource\DataResourceInterface;
 use DreamCommerce\Component\ShopAppstore\Api\Resource\ItemResourceInterface;
+use DreamCommerce\Component\ShopAppstore\Api\Resource\ObjectAwareResourceInterface;
 use Iterator;
 
 interface BulkContainerInterface extends ArrayAccess, Iterator
@@ -68,6 +69,14 @@ interface BulkContainerInterface extends ArrayAccess, Iterator
     /**
      * @param string $key
      * @param ItemResourceInterface $resource
+     * @param int $id
+     * @param ObjectAwareResourceInterface $objectResource
+     */
+    public function findWithObject(string $key, ItemResourceInterface $resource, int $id, ObjectAwareResourceInterface $objectResource): void;
+
+    /**
+     * @param string $key
+     * @param ItemResourceInterface $resource
      * @param Criteria $criteria
      */
     public function findBy(string $key, ItemResourceInterface $resource, Criteria $criteria): void;
@@ -75,9 +84,25 @@ interface BulkContainerInterface extends ArrayAccess, Iterator
     /**
      * @param string $key
      * @param ItemResourceInterface $resource
+     * @param Criteria $criteria
+     * @param ObjectAwareResourceInterface $objectResource
+     */
+    public function findByWithObject(string $key, ItemResourceInterface $resource, Criteria $criteria, ObjectAwareResourceInterface $objectResource): void;
+
+    /**
+     * @param string $key
+     * @param ItemResourceInterface $resource
      * @param array $data
      */
     public function insert(string $key, ItemResourceInterface $resource, array $data): void;
+
+    /**
+     * @param string $key
+     * @param ItemResourceInterface $resource
+     * @param array $data
+     * @param ObjectAwareResourceInterface $objectResource
+     */
+    public function insertWithObject(string $key, ItemResourceInterface $resource, array $data, ObjectAwareResourceInterface $objectResource): void;
 
     /**
      * @param string $key
@@ -91,6 +116,23 @@ interface BulkContainerInterface extends ArrayAccess, Iterator
      * @param string $key
      * @param ItemResourceInterface $resource
      * @param int $id
+     * @param array $data
+     * @param ObjectAwareResourceInterface $objectResource
+     */
+    public function updateWithObject(string $key, ItemResourceInterface $resource, int $id, array $data, ObjectAwareResourceInterface $objectResource): void;
+
+    /**
+     * @param string $key
+     * @param ItemResourceInterface $resource
+     * @param int $id
      */
     public function delete(string $key, ItemResourceInterface $resource, int $id): void;
+
+    /**
+     * @param string $key
+     * @param ItemResourceInterface $resource
+     * @param int $id
+     * @param ObjectAwareResourceInterface $objectResource
+     */
+    public function deleteWithObject(string $key, ItemResourceInterface $resource, int $id, ObjectAwareResourceInterface $objectResource): void;
 }

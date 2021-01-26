@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Api\Resource;
 
-class UserResource extends ItemResource implements ObjectAwareInterface
+class UserResource extends ItemResource implements ObjectAwareResourceInterface
 {
     /**
      * user created via shop

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Api\Resource;
 
-class PromotionCodeResource extends ItemResource implements ObjectAwareInterface
+class PromotionCodeResource extends ItemResource implements ObjectAwareResourceInterface
 {
     const DISCOUNT_TYPE_PERCENT = 1;
     const DISCOUNT_TYPE_AMOUNT = 2;

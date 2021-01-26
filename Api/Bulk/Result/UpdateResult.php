@@ -16,7 +16,7 @@ namespace DreamCommerce\Component\ShopAppstore\Api\Bulk\Result;
 use DreamCommerce\Component\ShopAppstore\Api\Bulk\Operation\UpdateOperation;
 use DreamCommerce\Component\ShopAppstore\Model\ShopInterface;
 
-final class UpdateResult extends BaseResult
+class UpdateResult extends BaseResult
 {
     /**
      * @param UpdateOperation $operation

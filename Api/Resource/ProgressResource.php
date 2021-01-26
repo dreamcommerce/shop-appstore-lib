@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Api\Resource;
 
-class ProgressResource extends ItemResource implements ObjectAwareInterface
+class ProgressResource extends ItemResource implements ObjectAwareResourceInterface
 {
     const STATUS_PENDING = 0;
     const STATUS_IN_PROGRESS = 1;

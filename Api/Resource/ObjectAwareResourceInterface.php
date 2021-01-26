@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Api\Resource;
 
-interface ObjectAwareInterface
+interface ObjectAwareResourceInterface extends ItemResourceInterface
 {
     /**
      * @return string

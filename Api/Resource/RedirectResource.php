@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Api\Resource;
 
-class RedirectResource extends ItemResource implements ObjectAwareInterface
+class RedirectResource extends ItemResource implements ObjectAwareResourceInterface
 {
     const TYPE_OWN = 0;
     const TYPE_PRODUCT = 1;

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Api\Resource;
 
-class AttributeResource extends ItemResource implements ObjectAwareInterface
+class AttributeResource extends ItemResource implements ObjectAwareResourceInterface
 {
     /**
      * field type text

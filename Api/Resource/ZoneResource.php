@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Api\Resource;
 
-class ZoneResource extends ItemResource implements ObjectAwareInterface
+class ZoneResource extends ItemResource implements ObjectAwareResourceInterface
 {
     /**
      * zone division by countries

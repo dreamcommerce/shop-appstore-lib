@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Api\Resource;
 
-class AvailabilityResource extends ItemResource implements ObjectAwareInterface
+class AvailabilityResource extends ItemResource implements ObjectAwareResourceInterface
 {
     /**
      * {@inheritdoc}

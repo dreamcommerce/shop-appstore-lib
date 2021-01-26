@@ -19,6 +19,7 @@ use DreamCommerce\Component\ShopAppstore\Api\Criteria;
 use DreamCommerce\Component\ShopAppstore\Api\Exception\BulkException;
 use DreamCommerce\Component\ShopAppstore\Api\Resource\DataResourceInterface;
 use DreamCommerce\Component\ShopAppstore\Api\Resource\ItemResourceInterface;
+use DreamCommerce\Component\ShopAppstore\Api\Resource\ObjectAwareResourceInterface;
 use DreamCommerce\Component\ShopAppstore\Info;
 
 class BulkContainer implements BulkContainerInterface
@@ -120,9 +121,25 @@ class BulkContainer implements BulkContainerInterface
     /**
      * {@inheritdoc}
      */
+    public function findWithObject(string $key, ItemResourceInterface $resource, int $id, ObjectAwareResourceInterface $objectResource): void
+    {
+        $this->addOperation($key, new Operation\FindWithObjectOperation($resource, $id, $objectResource));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function findBy(string $key, ItemResourceInterface $resource, Criteria $criteria): void
     {
         $this->addOperation($key, new Operation\FindByOperation($resource, $criteria));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findByWithObject(string $key, ItemResourceInterface $resource, Criteria $criteria, ObjectAwareResourceInterface $objectResource): void
+    {
+        $this->addOperation($key, new Operation\FindByWithObjectOperation($resource, $criteria, $objectResource));
     }
 
     /**
@@ -136,6 +153,14 @@ class BulkContainer implements BulkContainerInterface
     /**
      * {@inheritdoc}
      */
+    public function insertWithObject(string $key, ItemResourceInterface $resource, array $data, ObjectAwareResourceInterface $objectResource): void
+    {
+        $this->addOperation($key, new Operation\InsertWithObjectOperation($resource, $data, $objectResource));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function update(string $key, ItemResourceInterface $resource, int $id, array $data): void
     {
         $this->addOperation($key, new Operation\UpdateOperation($resource, $id, $data));
@@ -144,9 +169,25 @@ class BulkContainer implements BulkContainerInterface
     /**
      * {@inheritdoc}
      */
+    public function updateWithObject(string $key, ItemResourceInterface $resource, int $id, array $data, ObjectAwareResourceInterface $objectResource): void
+    {
+        $this->addOperation($key, new Operation\UpdateWithObjectOperation($resource, $id, $data, $objectResource));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function delete(string $key, ItemResourceInterface $resource, int $id): void
     {
         $this->addOperation($key, new Operation\DeleteOperation($resource, $id));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function deleteWithObject(string $key, ItemResourceInterface $resource, int $id, ObjectAwareResourceInterface $objectResource): void
+    {
+        $this->addOperation($key, new Operation\DeleteWithObjectOperation($resource, $id, $objectResource));
     }
 
     public function current()
