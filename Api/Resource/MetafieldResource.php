@@ -134,9 +134,9 @@ class MetafieldResource extends ItemResource implements ObjectAwareInterface, Me
     /**
      * {@inheritdoc}
      */
-    protected function getUri(ShopInterface $shop, int $id = null): UriInterface
+    protected function getUri(ShopInterface $shop, int $id = null, string $name = null): UriInterface
     {
-        $uri = parent::getUri($shop, $id);
+        $uri = parent::getUri($shop, $id, $name);
         $uri = $uri->withPath($uri->getPath() . '/' . (($this->urlPart === null) ? $this->getObjectName() : $this->urlPart));
         $this->urlPart = null;
 
