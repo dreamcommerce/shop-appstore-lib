@@ -18,7 +18,7 @@ use DreamCommerce\Component\ShopAppstore\Model\ShopInterface;
 use DreamCommerce\Component\ShopAppstore\Model\ShopItemInterface;
 use DreamCommerce\Component\ShopAppstore\Model\ShopItemListInterface;
 
-interface ObjectHandleResourceInterface extends ResourceInterface
+interface ObjectHandleResourceInterface extends ItemResourceInterface
 {
     /**
      * @param ShopInterface $shop
