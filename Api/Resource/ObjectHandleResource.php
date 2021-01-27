@@ -31,9 +31,13 @@ abstract class ObjectHandleResource extends ItemResource implements ObjectHandle
     /**
      * {@inheritdoc}
      */
-    public function findWithObject(ShopInterface $shop, int $id, ObjectAwareResourceInterface $resource = null): ShopItemListInterface
+    public function findWithObject(ShopInterface $shop, int $id, ObjectAwareResourceInterface $resource = null): ShopItemInterface
     {
-        // TODO: Implement findWithObject() method.
+        $this->currentObjectName = $this->getObjectNameByResource($resource);
+        $result = $this->find($shop, $id);
+        $this->currentObjectName = $this->getDefaultObjectName();
+
+        return $result;
     }
 
     /**
@@ -41,18 +45,26 @@ abstract class ObjectHandleResource extends ItemResource implements ObjectHandle
      */
     public function findByWithObject(ShopInterface $shop, Criteria $criteria, ObjectAwareResourceInterface $resource = null): ShopItemListInterface
     {
-        $criteria = clone $criteria;
-        $criteria->andWhere('object', $resource->getObjectName());
+        $currentObjectName = $this->getObjectNameByResource($resource);
 
-        return $this->findBy($shop, $criteria);
+        if($currentObjectName) {
+            $criteria = clone $criteria;
+            $criteria->andWhere('object', $currentObjectName);
+        }
+
+        $this->currentObjectName = $currentObjectName;
+        $result = $this->findBy($shop, $criteria);
+        $this->currentObjectName = $this->getDefaultObjectName();
+
+        return $result;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function insertWithObject(ShopInterface $shop, array $data, ObjectAwareResourceInterface $resource = null): MetafieldInterface
+    public function insertWithObject(ShopInterface $shop, array $data, ObjectAwareResourceInterface $resource = null): ShopItemInterface
     {
-        $data['object'] = $resource->getObjectName();
+        $data['object'] = $this->getObjectNameByResource($resource);
         $this->currentObjectName = $data['object'];
 
         $result = $this->insert($shop, $data);
@@ -64,17 +76,23 @@ abstract class ObjectHandleResource extends ItemResource implements ObjectHandle
     /**
      * {@inheritdoc}
      */
-    public function updateWithObject(ShopInterface $shop, int $id, array $data, ObjectAwareResourceInterface $resource = null): ShopItemListInterface
+    public function updateWithObject(ShopInterface $shop, int $id, array $data, ObjectAwareResourceInterface $resource = null): void
     {
-        // TODO: Implement updateWithObject() method.
+        $data['object'] = $this->getObjectNameByResource($resource);
+        $this->currentObjectName = $data['object'];
+
+        $this->update($shop, $id, $data);
+        $this->currentObjectName = $this->getDefaultObjectName();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function deleteWithObject(ShopInterface $shop, int $id, ObjectAwareResourceInterface $resource = null): ShopItemListInterface
+    public function deleteWithObject(ShopInterface $shop, int $id, ObjectAwareResourceInterface $resource = null): void
     {
-        // TODO: Implement deleteWithObject() method.
+        $this->currentObjectName = $this->getObjectNameByResource($resource);
+        $this->delete($shop, $id);
+        $this->currentObjectName = $this->getDefaultObjectName();
     }
 
     /**
@@ -145,6 +163,18 @@ abstract class ObjectHandleResource extends ItemResource implements ObjectHandle
 
         parent::deleteItem($shopItem);
         $this->currentObjectName = $this->getDefaultObjectName();
+    }
+
+    /**
+     * @param ObjectAwareResourceInterface|null $resource
+     * @return string|null
+     */
+    private function getObjectNameByResource(ObjectAwareResourceInterface $resource = null): ?string
+    {
+        if($resource === null) {
+            return $this->getDefaultObjectName();
+        }
+        return $resource->getObjectName();
     }
 
     /**
