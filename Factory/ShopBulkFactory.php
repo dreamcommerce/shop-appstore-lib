@@ -22,6 +22,7 @@ use DreamCommerce\Component\ShopAppstore\Api\Resource\BulkResourceInterface;
 use DreamCommerce\Component\ShopAppstore\Model\ShopInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use RuntimeException;
 
 class ShopBulkFactory extends AbstractFactory implements ShopBulkFactoryInterface
 {
@@ -116,22 +117,27 @@ class ShopBulkFactory extends AbstractFactory implements ShopBulkFactoryInterfac
 
             switch (get_class($operation)) {
                 case Operation\DeleteOperation::class:
+                case Operation\DeleteWithObjectOperation::class:
                     return new Result\DeleteResult($operation, $shop);
                 case Operation\FetchOperation::class:
                     return new Result\FetchResult($operation, $shop, $this->shopDataFactory->createByApiResource($resource, $shop, (array) $item['body']));
                 case Operation\FindByOperation::class:
+                case Operation\FindByWithObjectOperation::class:
                     return new Result\FindByResult($operation, $shop, $this->shopItemPartListFactory->createByApiResource($resource, $shop, (array) $item['body']));
                 case Operation\FindOperation::class:
+                case Operation\FindWithObjectOperation::class:
                     return new Result\FindResult($operation, $shop, $this->shopItemFactory->createByApiResource($resource, $shop, (array) $item['body']));
                 case Operation\InsertOperation::class:
+                case Operation\InsertWithObjectOperation::class:
                     $shopItem = $this->shopItemFactory->createByApiResource($resource, $shop, $operation->getData());
                     $shopItem->setExternalId((int) $item['body']);
 
                     return new Result\InsertResult($operation, $shop, $shopItem);
                 case Operation\UpdateOperation::class:
+                case Operation\UpdateWithObjectOperation::class:
                     return new Result\UpdateResult($operation, $shop);
                 default:
-                    throw new \Exception(); // TODO
+                    throw new RuntimeException('Unsupported type of operation "' . get_class($operation) . '"');
             }
         }
 
