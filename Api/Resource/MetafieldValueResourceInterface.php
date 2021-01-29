@@ -36,5 +36,13 @@ interface MetafieldValueResourceInterface extends ResourceInterface
      *
      * @return MetafieldValueInterface
      */
-    public function insertByMetafield(MetafieldInterface $metafield, ShopItemInterface $item, $value): MetafieldValueInterface;
+    public function insertWithObjectValue(MetafieldInterface $metafield, ShopItemInterface $item, $value): MetafieldValueInterface;
+
+    /**
+     * @param MetafieldInterface $metafield
+     * @param mixed $value
+     *
+     * @return MetafieldValueInterface
+     */
+    public function insertWithValue(MetafieldInterface $metafield, $value): MetafieldValueInterface;
 }

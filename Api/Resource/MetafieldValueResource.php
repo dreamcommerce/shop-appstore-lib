@@ -56,13 +56,28 @@ class MetafieldValueResource extends ItemResource implements MetafieldValueResou
     /**
      * {@inheritdoc}
      */
-    public function insertByMetafield(MetafieldInterface $metafield, ShopItemInterface $item, $value): MetafieldValueInterface
+    public function insertWithObjectValue(MetafieldInterface $metafield, ShopItemInterface $item, $value): MetafieldValueInterface
     {
         $data = [
             'metafield_id' => $metafield->getExternalId(),
             'object_id' => $item->getExternalId(),
             'value' => $value,
-            'type' => $metafield->getType(),
+        ];
+
+        $value = $this->insert($metafield->getShop(), $data);
+        $metafield->addValue($value);
+
+        return $value;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function insertWithValue(MetafieldInterface $metafield, $value): MetafieldValueInterface
+    {
+        $data = [
+            'metafield_id' => $metafield->getExternalId(),
+            'value' => $value
         ];
 
         $value = $this->insert($metafield->getShop(), $data);
