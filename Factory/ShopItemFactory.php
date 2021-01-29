@@ -68,12 +68,12 @@ class ShopItemFactory extends AbstractFactory implements ShopItemFactoryInterfac
             $mapField = $itemClass::getMapField();
 
             if (!isset($data[$mapField])) {
-                throw new \RuntimeException(); // TODO
+                throw new \RuntimeException('Unable determine field name by map field "' . $mapField . '"');
             }
             $field = (int) $data[$mapField];
 
             if (!isset($mapClass[$field])) {
-                throw new \RuntimeException(); // TODO
+                throw new \RuntimeException('Unable determine class name by field value');
             }
 
             $item = new $mapClass[$field]();

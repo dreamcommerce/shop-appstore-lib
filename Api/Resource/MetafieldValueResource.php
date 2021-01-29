@@ -62,6 +62,7 @@ class MetafieldValueResource extends ItemResource implements MetafieldValueResou
             'metafield_id' => $metafield->getExternalId(),
             'object_id' => $item->getExternalId(),
             'value' => $value,
+            'type' => $metafield->getType()
         ];
 
         $value = $this->insert($metafield->getShop(), $data);
@@ -77,7 +78,8 @@ class MetafieldValueResource extends ItemResource implements MetafieldValueResou
     {
         $data = [
             'metafield_id' => $metafield->getExternalId(),
-            'value' => $value
+            'value' => $value,
+            'type' => $metafield->getType()
         ];
 
         $value = $this->insert($metafield->getShop(), $data);
