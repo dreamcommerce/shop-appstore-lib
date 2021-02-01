@@ -48,7 +48,8 @@ class InsertWithObjectValueOperation extends InsertOperation
         $data = array(
             'metafield_id' => $metafield->getExternalId(),
             'object_id' => $item->getExternalId(),
-            'value' => $value
+            'value' => $value,
+            'type' => $metafield->getType()
         );
 
         $this->metafield = $metafield;
