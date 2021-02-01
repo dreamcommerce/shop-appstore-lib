@@ -19,8 +19,12 @@ use DreamCommerce\Component\ShopAppstore\Api\Criteria;
 use DreamCommerce\Component\ShopAppstore\Api\Exception\BulkException;
 use DreamCommerce\Component\ShopAppstore\Api\Resource\DataResourceInterface;
 use DreamCommerce\Component\ShopAppstore\Api\Resource\ItemResourceInterface;
+use DreamCommerce\Component\ShopAppstore\Api\Resource\MetafieldValueResourceInterface;
 use DreamCommerce\Component\ShopAppstore\Api\Resource\ObjectAwareResourceInterface;
 use DreamCommerce\Component\ShopAppstore\Info;
+use DreamCommerce\Component\ShopAppstore\Model\Shop\MetafieldInterface;
+use DreamCommerce\Component\ShopAppstore\Model\Shop\MetafieldValueInterface;
+use DreamCommerce\Component\ShopAppstore\Model\ShopItemInterface;
 
 class BulkContainer implements BulkContainerInterface
 {
@@ -156,6 +160,22 @@ class BulkContainer implements BulkContainerInterface
     public function insertWithObject(string $key, ItemResourceInterface $resource, array $data, ObjectAwareResourceInterface $objectResource): void
     {
         $this->addOperation($key, new Operation\InsertWithObjectOperation($resource, $data, $objectResource));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function insertWithObjectValue(string $key, MetafieldValueResourceInterface $metafieldValueResource, MetafieldInterface $metafield, ShopItemInterface $item, $value): void
+    {
+        $this->addOperation($key, new Operation\InsertWithObjectValueOperation($metafieldValueResource, $metafield, $item, $value));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function insertWithValue(string $key, MetafieldValueResourceInterface $metafieldValueResource, MetafieldInterface $metafield, $value): void
+    {
+        $this->addOperation($key, new Operation\InsertWithValueOperation($metafieldValueResource, $metafield, $value));
     }
 
     /**

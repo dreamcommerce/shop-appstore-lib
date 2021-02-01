@@ -98,6 +98,8 @@ class BulkResource extends Resource implements BulkResourceInterface
                     break;
                 case Bulk\Operation\InsertOperation::class:
                 case Bulk\Operation\InsertWithObjectOperation::class:
+                case Bulk\Operation\InsertWithObjectValueOperation::class:
+                case Bulk\Operation\InsertWithValueOperation::class:
                     /** @var Bulk\Operation\InsertOperation $operation */
                     $row['method'] = 'POST';
                     $row['path'] = $this->getUri($shop, null, $resourceName, $objectName)->getPath();

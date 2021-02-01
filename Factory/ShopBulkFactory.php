@@ -129,6 +129,8 @@ class ShopBulkFactory extends AbstractFactory implements ShopBulkFactoryInterfac
                     return new Result\FindResult($operation, $shop, $this->shopItemFactory->createByApiResource($resource, $shop, (array) $item['body']));
                 case Operation\InsertOperation::class:
                 case Operation\InsertWithObjectOperation::class:
+                case Operation\InsertWithObjectValueOperation::class:
+                case Operation\InsertWithValueOperation::class:
                     $shopItem = $this->shopItemFactory->createByApiResource($resource, $shop, $operation->getData());
                     $shopItem->setExternalId((int) $item['body']);
 

@@ -19,7 +19,7 @@ use DreamCommerce\Component\ShopAppstore\Model\Shop\MetafieldValueInterface;
 use DreamCommerce\Component\ShopAppstore\Model\ShopItemInterface;
 use DreamCommerce\Component\ShopAppstore\Model\ShopItemListInterface;
 
-interface MetafieldValueResourceInterface extends ResourceInterface
+interface MetafieldValueResourceInterface extends ItemResourceInterface
 {
     /**
      * @param MetafieldInterface $resource

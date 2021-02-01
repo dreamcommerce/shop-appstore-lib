@@ -17,7 +17,11 @@ use ArrayAccess;
 use DreamCommerce\Component\ShopAppstore\Api\Criteria;
 use DreamCommerce\Component\ShopAppstore\Api\Resource\DataResourceInterface;
 use DreamCommerce\Component\ShopAppstore\Api\Resource\ItemResourceInterface;
+use DreamCommerce\Component\ShopAppstore\Api\Resource\MetafieldValueResourceInterface;
 use DreamCommerce\Component\ShopAppstore\Api\Resource\ObjectAwareResourceInterface;
+use DreamCommerce\Component\ShopAppstore\Model\Shop\MetafieldInterface;
+use DreamCommerce\Component\ShopAppstore\Model\Shop\MetafieldValueInterface;
+use DreamCommerce\Component\ShopAppstore\Model\ShopItemInterface;
 use Iterator;
 
 interface BulkContainerInterface extends ArrayAccess, Iterator
@@ -103,6 +107,23 @@ interface BulkContainerInterface extends ArrayAccess, Iterator
      * @param ObjectAwareResourceInterface $objectResource
      */
     public function insertWithObject(string $key, ItemResourceInterface $resource, array $data, ObjectAwareResourceInterface $objectResource): void;
+
+    /**
+     * @param string $key
+     * @param MetafieldInterface $metafield
+     * @param ShopItemInterface $item
+     * @param mixed $value
+     */
+    public function insertWithObjectValue(string $key, MetafieldValueResourceInterface $metafieldValueResource, MetafieldInterface $metafield, ShopItemInterface $item, $value): void;
+
+    /**
+     * @param string $key
+     * @param MetafieldInterface $metafield
+     * @param mixed $value
+     *
+     * @return MetafieldValueInterface
+     */
+    public function insertWithValue(string $key, MetafieldValueResourceInterface $metafieldValueResource, MetafieldInterface $metafield, $value): void;
 
     /**
      * @param string $key
