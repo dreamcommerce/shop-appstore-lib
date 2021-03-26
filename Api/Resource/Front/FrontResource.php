@@ -107,13 +107,8 @@ abstract class FrontResource implements FrontResourceInterface
             }
         }
 
-        $headers = [
-            'Content-Type' => 'application/json',
-        ];
-
-        if ($shop->isAuthenticated()) {
-            $headers['Cookie'] = ['Shop5=' . $shop->getToken()->getAccessToken()];
-        }
+        $headers = $shop->getRequestBasicHeaders();
+        $headers['Content-Type'] = 'application/json';
 
         $uri = $this->getUri($shop, $uriData);
         $uri = $uri->withQuery(http_build_query($queryParameters, '', '&'));
@@ -126,9 +121,19 @@ abstract class FrontResource implements FrontResourceInterface
         );
 
         $response = $shopClient->send($request);
-        $shopDataFactory = $this->getShopDataFactory();
 
-        return $shopDataFactory->createByApiRequest($this, $shop, $request, $response);
+        $shopDataFactory = $this->getShopDataFactory();
+        $shopData = $shopDataFactory->createByApiRequest($this, $shop, $request, $response);
+
+        $session = $response->getHeaderLine('x-shop-session');
+        if ('' == $session) {
+            $session = $shopData->getFieldValue('session');
+        }
+        if ($session) {
+            $shop->setSession($session);
+        }
+
+        return $shopData;
     }
 
     /**

@@ -70,13 +70,14 @@ final class FrontBasicAuthAuthenticator implements AuthenticatorInterface
         $authUri = $shopUri
             ->withPath($shopUri->getPath() . '/webapi/front/' . $shop->getLanguage() . '/auth/login');
 
+        $headers = $shop->getRequestBasicHeaders();
+        $headers['Content-Type'] = 'application/x-www-form-urlencoded';
+        $headers['Authorization'] = 'Basic ' . base64_encode($shop->getUsername() . ':' . $shop->getPassword());
+
         $request = $this->shopClient->getHttpClient()->createRequest(
             'post',
             $authUri,
-            [
-                'Content-Type' => 'application/x-www-form-urlencoded',
-                'Authorization' => 'Basic ' . base64_encode($shop->getUsername() . ':' . $shop->getPassword())
-            ]
+            $headers
         );
 
         $exception = null;

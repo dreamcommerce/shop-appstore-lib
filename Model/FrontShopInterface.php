@@ -24,4 +24,12 @@ interface FrontShopInterface extends BasicAuthShopInterface
      * @param string $language
      */
     public function setLanguage(string $language): void;
+
+    public function getRequestBasicHeaders(): array;
+
+    public function hasSession(): bool;
+
+    public function getSession(): string;
+
+    public function setSession(string $session): void;
 }

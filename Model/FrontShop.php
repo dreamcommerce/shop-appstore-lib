@@ -21,6 +21,11 @@ class FrontShop extends BasicAuthShop implements FrontShopInterface
     private $language = 'en_US';
 
     /**
+     * @var string|null
+     */
+    private $session = '';
+
+    /**
      * {@inheritDoc}
      */
     public function getLanguage(): string
@@ -34,5 +39,40 @@ class FrontShop extends BasicAuthShop implements FrontShopInterface
     public function setLanguage(string $language): void
     {
         $this->language = $language;
+    }
+
+    public function getRequestBasicHeaders(): array
+    {
+        $headers = [];
+        if ($this->isAuthenticated()) {
+            $headers['Cookie'] = 'Shop5=' . $this->getToken()->getAccessToken();
+        } elseif ($this->hasSession()) {
+            $headers['Cookie'] = 'Shop5=' . $this->getSession();
+        }
+        return $headers;
+    }
+
+    public function hasSession(): bool
+    {
+        return (bool) strlen($this->session);
+    }
+
+    public function getSession(): string
+    {
+        return $this->session;
+    }
+
+    public function setSession(string $session): void
+    {
+        $this->session = $session;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setToken(?TokenInterface $token): void
+    {
+        parent::setToken($token);
+        $this->session = '';
     }
 }
