@@ -118,6 +118,57 @@ final class FrontBasicAuthAuthenticator implements AuthenticatorInterface
         }
     }
 
+    public function logout(ShopInterface $shop): void
+    {
+        /** @var FrontShopInterface|BasicAuthShopInterface $shop */
+        Assert::isInstanceOf($shop, FrontShopInterface::class);
+        Assert::isInstanceOf($shop, BasicAuthShopInterface::class);
+
+        $shopUri = $shop->getUri();
+
+        $authUri = $shopUri
+            ->withPath($shopUri->getPath() . '/webapi/front/' . $shop->getLanguage() . '/auth/logout');
+
+        $headers = $shop->getRequestBasicHeaders();
+        $headers['Content-Type'] = 'application/x-www-form-urlencoded';
+
+        $request = $this->shopClient->getHttpClient()->createRequest(
+            'post',
+            $authUri,
+            $headers
+        );
+
+        $exception = null;
+
+        try {
+            $response = $this->shopClient->send($request);
+        } catch (Exception\PermissionsException $exception) {
+            $response = $exception->getHttpResponse();
+        }
+
+        $stream = $response->getBody();
+        $stream->rewind();
+
+        $body = $stream->getContents();
+        if (strlen($body) === 0) {
+            throw Exception\CommunicationException::forEmptyResponseBody($request, $response, $exception);
+        }
+        $body = @json_decode($body, true);
+
+        if (!$body || !is_array($body)) {
+            throw Exception\CommunicationException::forInvalidResponseBody($request, $response, $exception);
+        }
+        if (isset($body['error'])) {
+            throw Exception\AuthenticationException::forErrorMessage($body, $shop, $request, $response, $exception);
+        }
+
+        $shop->setToken(null);
+        if ($this->tokenObjectManager !== null) {
+            $this->tokenObjectManager->persist(null);
+            $this->tokenObjectManager->flush();
+        }
+    }
+
     /**
      * {@inheritDoc}
      */
