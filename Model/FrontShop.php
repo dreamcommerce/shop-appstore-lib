@@ -23,7 +23,7 @@ class FrontShop extends BasicAuthShop implements FrontShopInterface
     /**
      * @var string|null
      */
-    private $session = '';
+    private $session;
 
     /**
      * {@inheritDoc}
@@ -54,7 +54,7 @@ class FrontShop extends BasicAuthShop implements FrontShopInterface
 
     public function hasSession(): bool
     {
-        return (bool) strlen($this->session);
+        return (bool) $this->session;
     }
 
     public function getSession(): string
@@ -67,12 +67,23 @@ class FrontShop extends BasicAuthShop implements FrontShopInterface
         $this->session = $session;
     }
 
+    private function _resetSession(): void
+    {
+        $this->session = null;
+    }
+
     /**
      * {@inheritdoc}
      */
     public function setToken(?TokenInterface $token): void
     {
         parent::setToken($token);
-        $this->session = '';
+        $this->_resetSession();
+    }
+
+    public function clearSessions(): void
+    {
+        parent::setToken(null);
+        $this->_resetSession();
     }
 }

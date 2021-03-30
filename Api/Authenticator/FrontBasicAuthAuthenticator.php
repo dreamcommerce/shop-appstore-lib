@@ -162,7 +162,7 @@ final class FrontBasicAuthAuthenticator implements AuthenticatorInterface
             throw Exception\AuthenticationException::forErrorMessage($body, $shop, $request, $response, $exception);
         }
 
-        $shop->setToken(null);
+        $shop->clearSessions();
         if ($this->tokenObjectManager !== null) {
             $this->tokenObjectManager->persist(null);
             $this->tokenObjectManager->flush();

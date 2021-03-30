@@ -32,4 +32,6 @@ interface FrontShopInterface extends BasicAuthShopInterface
     public function getSession(): string;
 
     public function setSession(string $session): void;
+
+    public function clearSessions(): void;
 }
