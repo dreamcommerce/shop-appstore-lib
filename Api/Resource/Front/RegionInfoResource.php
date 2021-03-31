@@ -17,7 +17,7 @@ use DreamCommerce\Component\Common\Exception\NotDefinedException;
 use DreamCommerce\Component\ShopAppstore\Model\FrontShopInterface;
 use Psr\Http\Message\UriInterface;
 
-class BasketListResource extends FrontResource
+class RegionInfoResource extends FrontResource
 {
 
     /**
@@ -25,12 +25,15 @@ class BasketListResource extends FrontResource
      */
     protected function getUri(FrontShopInterface $shop, array $uriData): UriInterface
     {
-        if (!isset($uriData['currency'])) {
-            throw NotDefinedException::forParameter('currency');
+        $params = ['id', 'country_id'];
+        foreach($params as $param) {
+            if (!isset($uriData[$param])) {
+                throw NotDefinedException::forParameter($param);
+            }
         }
 
         $uri = parent::getUri($shop, $uriData);
-        $uri = $uri->withPath($uri->getPath() . '/basket/' . $uriData['currency']);
+        $uri = $uri->withPath($uri->getPath() . '/countries/' . $uriData['country_id'] . '/regions/' . $uriData['id']);
 
         return $uri;
     }

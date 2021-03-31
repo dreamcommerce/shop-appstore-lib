@@ -13,24 +13,18 @@ declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Api\Resource\Front;
 
-use DreamCommerce\Component\Common\Exception\NotDefinedException;
 use DreamCommerce\Component\ShopAppstore\Model\FrontShopInterface;
 use Psr\Http\Message\UriInterface;
 
-class BasketListResource extends FrontResource
+class NewsListResource extends FrontResource
 {
-
     /**
      * {@inheritDoc}
      */
     protected function getUri(FrontShopInterface $shop, array $uriData): UriInterface
     {
-        if (!isset($uriData['currency'])) {
-            throw NotDefinedException::forParameter('currency');
-        }
-
         $uri = parent::getUri($shop, $uriData);
-        $uri = $uri->withPath($uri->getPath() . '/basket/' . $uriData['currency']);
+        $uri = $uri->withPath($uri->getPath() . '/news');
 
         return $uri;
     }
