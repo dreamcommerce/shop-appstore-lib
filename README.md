@@ -5,6 +5,9 @@ See: http://developers.shoper.pl/
 
 # Changelog
 
+## Version 1.2.11
+* \+ added ``Collection`` resource
+
 ## Version 1.2.10
 * \+ added ``LoyaltyEvent`` resource
 
