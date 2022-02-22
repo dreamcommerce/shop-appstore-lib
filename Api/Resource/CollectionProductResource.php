@@ -13,13 +13,6 @@ declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Api\Resource;
 
-use DreamCommerce\Component\ShopAppstore\Api\Criteria;
-use DreamCommerce\Component\ShopAppstore\Api\Exception\LimitExceededException;
-use DreamCommerce\Component\ShopAppstore\Model\ShopInterface;
-use DreamCommerce\Component\ShopAppstore\Model\ShopItemListInterface;
-use DreamCommerce\Component\ShopAppstore\Model\ShopItemPartList;
-use DreamCommerce\Component\ShopAppstore\Model\ShopItemPartListInterface;
-
 class CollectionProductResource extends ItemResource implements ObjectAwareResourceInterface
 {
     /**
