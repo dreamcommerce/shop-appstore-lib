@@ -98,14 +98,14 @@ abstract class ObjectHandleResource extends ItemResource implements ObjectHandle
     /**
      * {@inheritdoc}
      */
-    public function findByPartial(ShopInterface $shop, Criteria $criteria): ShopItemPartListInterface
+    public function findByPartial(ShopInterface $shop, Criteria $criteria, array $uriParameters = []): ShopItemPartListInterface
     {
         $where = $criteria->getWhereExpression();
         if (isset($where['object'], $where['object']['='])) {
             $this->currentObjectName = $where['object']['='];
         }
 
-        $result = parent::findByPartial($shop, $criteria);
+        $result = parent::findByPartial($shop, $criteria, $uriParameters);
         $this->currentObjectName = $this->getDefaultObjectName();
 
         return $result;
@@ -114,14 +114,14 @@ abstract class ObjectHandleResource extends ItemResource implements ObjectHandle
     /**
      * {@inheritdoc}
      */
-    public function insert(ShopInterface $shop, array $data): ShopItemInterface
+    public function insert(ShopInterface $shop, array $data, array $uriParameters = []): ShopItemInterface
     {
         if (!isset($data['object'])) {
             $data['object'] = $this->getDefaultObjectName();
         }
         $this->currentObjectName = $data['object'];
 
-        $result = parent::insert($shop, $data);
+        $result = parent::insert($shop, $data, $uriParameters);
         $this->currentObjectName = $this->getDefaultObjectName();
 
         return $result;
@@ -130,38 +130,38 @@ abstract class ObjectHandleResource extends ItemResource implements ObjectHandle
     /**
      * {@inheritdoc}
      */
-    public function update(ShopInterface $shop, int $id, array $data): void
+    public function update(ShopInterface $shop, int $id, array $data, array $uriParameters = []): void
     {
         if (isset($data['object'])) {
             $this->currentObjectName = $data['object'];
         }
 
-        parent::update($shop, $id, $data);
+        parent::update($shop, $id, $data, $uriParameters);
         $this->currentObjectName = $this->getDefaultObjectName();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function updateItem(ShopItemInterface $shopItem, array $data = null): void
+    public function updateItem(ShopItemInterface $shopItem, array $data = null, array $uriParameters = []): void
     {
         if ($shopItem instanceof MetafieldInterface) {
             $data['object'] = $shopItem->getObject();
         }
 
-        parent::updateItem($shopItem, $data);
+        parent::updateItem($shopItem, $data, $uriParameters);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function deleteItem(ShopItemInterface $shopItem): void
+    public function deleteItem(ShopItemInterface $shopItem, array $uriParameters = []): void
     {
         if ($shopItem instanceof MetafieldInterface) {
             $this->currentObjectName = $shopItem->getObject();
         }
 
-        parent::deleteItem($shopItem);
+        parent::deleteItem($shopItem, $uriParameters);
         $this->currentObjectName = $this->getDefaultObjectName();
     }
 
@@ -180,13 +180,13 @@ abstract class ObjectHandleResource extends ItemResource implements ObjectHandle
     /**
      * {@inheritdoc}
      */
-    protected function getUri(ShopInterface $shop, int $id = null, string $name = null, string $objectName = null): UriInterface
+    protected function getUri(ShopInterface $shop, int $id = null, string $name = null, string $objectName = null, array $uriParameters = []): UriInterface
     {
         if($objectName === null) {
             $objectName = $this->currentObjectName;
         }
 
-        return parent::getUri($shop, $id, $name, $objectName);
+        return parent::getUri($shop, $id, $name, $objectName, $uriParameters);
     }
 
     /**

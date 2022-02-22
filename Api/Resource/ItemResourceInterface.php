@@ -32,7 +32,7 @@ interface ItemResourceInterface extends ResourceInterface
      *
      * @return ShopItemInterface
      */
-    public function find(ShopInterface $shop, int $id): ShopItemInterface;
+    public function find(ShopInterface $shop, int $id, array $uriParameters = []): ShopItemInterface;
 
     /**
      * @param ShopInterface $shop
@@ -40,7 +40,7 @@ interface ItemResourceInterface extends ResourceInterface
      *
      * @return ShopItemListInterface|ShopItemInterface[]
      */
-    public function findBy(ShopInterface $shop, Criteria $criteria): ShopItemListInterface;
+    public function findBy(ShopInterface $shop, Criteria $criteria, array $uriParameters = []): ShopItemListInterface;
 
     /**
      * @param ShopInterface $shop
@@ -48,27 +48,27 @@ interface ItemResourceInterface extends ResourceInterface
      *
      * @return ShopItemPartListInterface|ShopItemInterface[]
      */
-    public function findByPartial(ShopInterface $shop, Criteria $criteria): ShopItemPartListInterface;
+    public function findByPartial(ShopInterface $shop, Criteria $criteria, array $uriParameters = []): ShopItemPartListInterface;
 
     /**
      * @param ShopInterface $shop
      *
      * @return ShopItemListInterface|ShopItemInterface[]
      */
-    public function findAll(ShopInterface $shop): ShopItemListInterface;
+    public function findAll(ShopInterface $shop, array $uriParameters = []): ShopItemListInterface;
 
     /**
      * @param ShopItemListInterface $itemList
      * @param Criteria $criteria
      */
-    public function resume(ShopItemListInterface $itemList, Criteria $criteria): void;
+    public function resume(ShopItemListInterface $itemList, Criteria $criteria, array $uriParameters = []): void;
 
     /**
      * @param ShopInterface $shop
      * @param callable $callback
      * @param Criteria|null $criteria
      */
-    public function walk(ShopInterface $shop, callable $callback, Criteria $criteria = null): void;
+    public function walk(ShopInterface $shop, callable $callback, Criteria $criteria = null, array $uriParameters = []): void;
 
     /**
      * @param ShopInterface $shop
@@ -76,39 +76,39 @@ interface ItemResourceInterface extends ResourceInterface
      *
      * @return ShopItemInterface
      */
-    public function insert(ShopInterface $shop, array $data): ShopItemInterface;
+    public function insert(ShopInterface $shop, array $data, array $uriParameters = []): ShopItemInterface;
 
     /**
      * @param ShopInterface $shop
      * @param int $id
      * @param array $data
      */
-    public function update(ShopInterface $shop, int $id, array $data): void;
+    public function update(ShopInterface $shop, int $id, array $data, array $uriParameters = []): void;
 
     /**
      * @param ShopInterface $shop
      * @param int $id
      */
-    public function delete(ShopInterface $shop, int $id): void;
+    public function delete(ShopInterface $shop, int $id, array $uriParameters = []): void;
 
     /**
      * @param ShopItemInterface $shopItem
      */
-    public function reattach(ShopItemInterface $shopItem): void;
+    public function reattach(ShopItemInterface $shopItem, array $uriParameters = []): void;
 
     /**
      * @param ShopItemInterface $item
      */
-    public function insertItem(ShopItemInterface $item): void;
+    public function insertItem(ShopItemInterface $item, array $uriParameters = []): void;
 
     /**
      * @param ShopItemInterface $item
      * @param array|null $data
      */
-    public function updateItem(ShopItemInterface $item, array $data = null): void;
+    public function updateItem(ShopItemInterface $item, array $data = null, array $uriParameters = []): void;
 
     /**
      * @param ShopItemInterface $item
      */
-    public function deleteItem(ShopItemInterface $item): void;
+    public function deleteItem(ShopItemInterface $item, array $uriParameters = []): void;
 }

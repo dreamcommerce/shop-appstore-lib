@@ -49,15 +49,16 @@ abstract class ItemResource extends Resource implements ItemResourceInterface
         $this->shopItemPartListFactory = $shopItemPartListFactory;
         $this->shopItemListFactory = $shopItemListFactory;
 
+
         parent::__construct($shopClient, $authenticator);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function find(ShopInterface $shop, int $id): ShopItemInterface
+    public function find(ShopInterface $shop, int $id, array $uriParameters = []): ShopItemInterface
     {
-        [$request, $response] = $this->perform($shop, 'GET', $id);
+        [$request, $response] = $this->perform($shop, 'GET', $id, null, null, $uriParameters);
 
         return $this->getShopItemFactory()->createByApiRequest($this, $shop, $request, $response);
     }
@@ -65,14 +66,14 @@ abstract class ItemResource extends Resource implements ItemResourceInterface
     /**
      * {@inheritdoc}
      */
-    public function findBy(ShopInterface $shop, Criteria $criteria): ShopItemListInterface
+    public function findBy(ShopInterface $shop, Criteria $criteria, array $uriParameters = []): ShopItemListInterface
     {
         $criteria = clone $criteria;
         $criteria->rewind();
 
         /** @var ShopItemListInterface $itemList */
         $itemList = $this->getShopItemListFactory()->createByApiResource($this, $shop);
-        $this->resume($itemList, $criteria);
+        $this->resume($itemList, $criteria, $uriParameters);
 
         return $itemList;
     }
@@ -80,9 +81,9 @@ abstract class ItemResource extends Resource implements ItemResourceInterface
     /**
      * {@inheritdoc}
      */
-    public function findByPartial(ShopInterface $shop, Criteria $criteria): ShopItemPartListInterface
+    public function findByPartial(ShopInterface $shop, Criteria $criteria, array $uriParameters = []): ShopItemPartListInterface
     {
-        [$request, $response] = $this->perform($shop, 'GET', null, null, $criteria);
+        [$request, $response] = $this->perform($shop, 'GET', null, null, $criteria, $uriParameters);
 
         return $this->getShopItemPartListFactory()->createByApiRequest($this, $shop, $request, $response);
     }
@@ -90,25 +91,25 @@ abstract class ItemResource extends Resource implements ItemResourceInterface
     /**
      * {@inheritdoc}
      */
-    public function findAll(ShopInterface $shop): ShopItemListInterface
+    public function findAll(ShopInterface $shop, array $uriParameters = []): ShopItemListInterface
     {
-        return $this->findBy($shop, Criteria::create());
+        return $this->findBy($shop, Criteria::create(), $uriParameters);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function resume(ShopItemListInterface $itemList, Criteria $criteria): void
+    public function resume(ShopItemListInterface $itemList, Criteria $criteria, array $uriParameters = []): void
     {
         $this->fetchAll($itemList->getShop(), $criteria, function (ShopItemPartList $itemPartList) use ($itemList) {
             $itemList->addPart($itemPartList);
-        });
+        }, $uriParameters);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function walk(ShopInterface $shop, callable $callback, Criteria $criteria = null): void
+    public function walk(ShopInterface $shop, callable $callback, Criteria $criteria = null, array $uriParameters = []): void
     {
         if ($criteria === null) {
             $criteria = Criteria::create();
@@ -121,16 +122,16 @@ abstract class ItemResource extends Resource implements ItemResourceInterface
             foreach ($itemPartList as $item) {
                 call_user_func($callback, $item);
             }
-        });
+        }, $uriParameters);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function insert(ShopInterface $shop, array $data): ShopItemInterface
+    public function insert(ShopInterface $shop, array $data, array $uriParameters = []): ShopItemInterface
     {
         /** @var ResponseInterface $response */
-        [, $response] = $this->perform($shop, 'POST', null, $data);
+        [, $response] = $this->perform($shop, 'POST', null, $data, null, $uriParameters);
         $stream = $response->getBody();
         $stream->rewind();
         $id = trim($stream->getContents(), '"');
@@ -144,25 +145,25 @@ abstract class ItemResource extends Resource implements ItemResourceInterface
     /**
      * {@inheritdoc}
      */
-    public function update(ShopInterface $shop, int $id, array $data): void
+    public function update(ShopInterface $shop, int $id, array $data, array $uriParameters = []): void
     {
-        $this->perform($shop, 'PUT', $id, $data);
+        $this->perform($shop, 'PUT', $id, $data, null, $uriParameters);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function delete(ShopInterface $shop, int $id): void
+    public function delete(ShopInterface $shop, int $id, array $uriParameters = []): void
     {
-        $this->perform($shop, 'DELETE', $id);
+        $this->perform($shop, 'DELETE', $id, null, null, $uriParameters);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function reattach(ShopItemInterface $shopItem): void
+    public function reattach(ShopItemInterface $shopItem, array $uriParameters = []): void
     {
-        $actualItem = $this->find($shopItem->getShop(), $shopItem->getExternalId());
+        $actualItem = $this->find($shopItem->getShop(), $shopItem->getExternalId(), $uriParameters);
         $this->getShopItemFactory()->createFromArray($actualItem->getData(), $shopItem);
         $shopItem->flush();
     }
@@ -170,13 +171,13 @@ abstract class ItemResource extends Resource implements ItemResourceInterface
     /**
      * {@inheritdoc}
      */
-    public function insertItem(ShopItemInterface $shopItem): void
+    public function insertItem(ShopItemInterface $shopItem, array $uriParameters = []): void
     {
         if ($shopItem->hasExternalId()) {
             // TODO throw exception
         }
 
-        $shopItemResult = $this->insert($shopItem->getShop(), $shopItem->getData());
+        $shopItemResult = $this->insert($shopItem->getShop(), $shopItem->getData(), $uriParameters);
         $shopItem->setExternalId($shopItemResult->getExternalId());
         $shopItem->flush();
     }
@@ -184,7 +185,7 @@ abstract class ItemResource extends Resource implements ItemResourceInterface
     /**
      * {@inheritdoc}
      */
-    public function updateItem(ShopItemInterface $shopItem, array $data = null): void
+    public function updateItem(ShopItemInterface $shopItem, array $data = null, array $uriParameters = []): void
     {
         if (!$shopItem->hasExternalId()) {
             // TODO throw exception
@@ -194,20 +195,20 @@ abstract class ItemResource extends Resource implements ItemResourceInterface
             $data = $shopItem->getDiffData();
         }
 
-        $this->update($shopItem->getShop(), $shopItem->getExternalId(), $data);
+        $this->update($shopItem->getShop(), $shopItem->getExternalId(), $data, $uriParameters);
         $shopItem->flush();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function deleteItem(ShopItemInterface $shopItem): void
+    public function deleteItem(ShopItemInterface $shopItem, array $uriParameters = []): void
     {
         if (!$shopItem->hasExternalId()) {
             // TODO throw exception
         }
 
-        $this->delete($shopItem->getShop(), $shopItem->getExternalId());
+        $this->delete($shopItem->getShop(), $shopItem->getExternalId(), $uriParameters);
     }
 
     /**
@@ -215,11 +216,11 @@ abstract class ItemResource extends Resource implements ItemResourceInterface
      * @param Criteria $criteria
      * @param callable $callback
      */
-    protected function fetchAll(ShopInterface $shop, Criteria $criteria, callable $callback)
+    protected function fetchAll(ShopInterface $shop, Criteria $criteria, callable $callback, array $uriParameters = [])
     {
         do {
             try {
-                $itemPartList = $this->findByPartial($shop, $criteria);
+                $itemPartList = $this->findByPartial($shop, $criteria, $uriParameters);
             } catch (LimitExceededException $exception) {
                 // TODO throw
             }
