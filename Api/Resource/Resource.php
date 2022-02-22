@@ -85,7 +85,7 @@ abstract class Resource implements ResourceInterface
      *
      * @throws CommunicationException
      */
-    protected function perform(ShopInterface $shop, string $method, int $id = null, array $data = null, Criteria $criteria = null): array
+    protected function perform(ShopInterface $shop, string $method, int $id = null, array $data = null, Criteria $criteria = null, array $uriParameters = []): array
     {
         if (!$shop->isAuthenticated()) {
             $authenticator = $this->getAuthByShop($shop);
@@ -104,7 +104,7 @@ abstract class Resource implements ResourceInterface
 
         $request = $shopClient->getHttpClient()->createRequest(
             $method,
-            $this->getUri($shop, $id),
+            $this->getUri($shop, $id, null, null, $uriParameters),
             [
                 'Authorization' => 'Bearer ' . $shop->getToken()->getAccessToken(),
                 'Content-Type' => 'application/json',
@@ -126,10 +126,14 @@ abstract class Resource implements ResourceInterface
      *
      * @return UriInterface
      */
-    protected function getUri(ShopInterface $shop, int $id = null, string $name = null, string $objectName = null): UriInterface
+    protected function getUri(ShopInterface $shop, int $id = null, string $name = null, string $objectName = null, array $uriParameters = []): UriInterface
     {
         if ($name === null) {
             $name = $this->getName();
+        }
+
+        foreach($uriParameters as $parameterName => $parameterValue){
+            $name = str_replace(':'.$parameterName, $parameterValue, $name);
         }
 
         $uri = $shop->getUri();

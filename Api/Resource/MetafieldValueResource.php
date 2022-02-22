@@ -91,20 +91,20 @@ class MetafieldValueResource extends ItemResource implements MetafieldValueResou
     /**
      * {@inheritdoc}
      */
-    public function updateItem(ShopItemInterface $shopItem, array $data = null): void
+    public function updateItem(ShopItemInterface $shopItem, array $data = null, array $uriParameters = []): void
     {
         Assert::isInstanceOf($shopItem, MetafieldInterface::class);
 
-        parent::updateItem($shopItem, $data);
+        parent::updateItem($shopItem, $data, $uriParameters);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function deleteItem(ShopItemInterface $shopItem): void
+    public function deleteItem(ShopItemInterface $shopItem, array $uriParameters = []): void
     {
         Assert::isInstanceOf($shopItem, MetafieldInterface::class);
 
-        parent::deleteItem($shopItem);
+        parent::deleteItem($shopItem, $uriParameters);
     }
 }
