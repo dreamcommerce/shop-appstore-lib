@@ -27,11 +27,11 @@ class FindByOperation extends BaseOperation
      * @param ItemResourceInterface $resource
      * @param Criteria $criteria
      */
-    public function __construct(ItemResourceInterface $resource, Criteria $criteria)
+    public function __construct(ItemResourceInterface $resource, Criteria $criteria, array $uriParameters = [])
     {
         $this->criteria = $criteria;
 
-        parent::__construct($resource);
+        parent::__construct($resource, $uriParameters);
     }
 
     /**

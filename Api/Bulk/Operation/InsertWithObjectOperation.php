@@ -31,11 +31,11 @@ class InsertWithObjectOperation extends InsertOperation implements ObjectOperati
      * @param array $data
      * @param ObjectAwareResourceInterface $objectResource
      */
-    public function __construct(ItemResourceInterface $resource, array $data, ObjectAwareResourceInterface $objectResource)
+    public function __construct(ItemResourceInterface $resource, array $data, ObjectAwareResourceInterface $objectResource, array $uriParameters = [])
     {
         $this->objectResource = $objectResource;
 
-        parent::__construct($resource, $data);
+        parent::__construct($resource, $data, $uriParameters);
     }
 
     /**

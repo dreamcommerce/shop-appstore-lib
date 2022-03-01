@@ -26,11 +26,11 @@ class InsertOperation extends BaseOperation
      * @param ItemResourceInterface $resource
      * @param array $data
      */
-    public function __construct(ItemResourceInterface $resource, array $data)
+    public function __construct(ItemResourceInterface $resource, array $data, array $uriParameters = [])
     {
         $this->data = $data;
 
-        parent::__construct($resource);
+        parent::__construct($resource, $uriParameters);
     }
 
     /**

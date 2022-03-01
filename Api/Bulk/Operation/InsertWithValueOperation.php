@@ -36,7 +36,7 @@ class InsertWithValueOperation extends InsertOperation
      * @param MetafieldInterface $metafield
      * @param mixed $value
      */
-    public function __construct(MetafieldValueResourceInterface $resource, MetafieldInterface $metafield, $value)
+    public function __construct(MetafieldValueResourceInterface $resource, MetafieldInterface $metafield, $value, array $uriParameters = [])
     {
         $data = array(
             'metafield_id' => $metafield->getExternalId(),
@@ -47,7 +47,7 @@ class InsertWithValueOperation extends InsertOperation
         $this->metafield = $metafield;
         $this->value = $value;
 
-        parent::__construct($resource, $data);
+        parent::__construct($resource, $data, $uriParameters);
     }
 
     /**

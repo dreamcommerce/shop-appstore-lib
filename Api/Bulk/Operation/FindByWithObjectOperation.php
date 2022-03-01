@@ -29,11 +29,11 @@ class FindByWithObjectOperation extends FindByOperation implements ObjectOperati
      * @param Criteria $criteria
      * @param ObjectAwareResourceInterface $objectResource
      */
-    public function __construct(ItemResourceInterface $resource, Criteria $criteria, ObjectAwareResourceInterface $objectResource)
+    public function __construct(ItemResourceInterface $resource, Criteria $criteria, ObjectAwareResourceInterface $objectResource, array $uriParameters = [])
     {
         $this->objectResource = $objectResource;
 
-        parent::__construct($resource, $criteria);
+        parent::__construct($resource, $criteria, $uriParameters);
     }
 
     /**

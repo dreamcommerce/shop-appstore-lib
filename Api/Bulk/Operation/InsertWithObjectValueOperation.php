@@ -43,7 +43,7 @@ class InsertWithObjectValueOperation extends InsertOperation
      * @param ShopItemInterface $item
      * @param mixed $value
      */
-    public function __construct(MetafieldValueResourceInterface $resource, MetafieldInterface $metafield, ShopItemInterface $item, $value)
+    public function __construct(MetafieldValueResourceInterface $resource, MetafieldInterface $metafield, ShopItemInterface $item, $value, array $uriParameters = [])
     {
         $data = array(
             'metafield_id' => $metafield->getExternalId(),
@@ -56,7 +56,7 @@ class InsertWithObjectValueOperation extends InsertOperation
         $this->item = $item;
         $this->value = $value;
 
-        parent::__construct($resource, $data);
+        parent::__construct($resource, $data, $uriParameters);
     }
 
     /**

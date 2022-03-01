@@ -23,11 +23,17 @@ abstract class BaseOperation
     private $resource;
 
     /**
+     * @var array
+     */
+    private $uriParameters;
+
+    /**
      * @param ResourceInterface $resource
      */
-    public function __construct(ResourceInterface $resource)
+    public function __construct(ResourceInterface $resource, array $uriParameters = [])
     {
         $this->resource = $resource;
+        $this->uriParameters = $uriParameters;
     }
 
     /**
@@ -36,5 +42,10 @@ abstract class BaseOperation
     public function getResource(): ResourceInterface
     {
         return $this->resource;
+    }
+
+    public function getUriParameters(): array
+    {
+        return $this->uriParameters;
     }
 }
