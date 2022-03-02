@@ -20,8 +20,8 @@ class FetchOperation extends BaseOperation
     /**
      * @param DataResourceInterface $resource
      */
-    public function __construct(DataResourceInterface $resource)
+    public function __construct(DataResourceInterface $resource, array $uriParameters = [])
     {
-        parent::__construct($resource);
+        parent::__construct($resource, $uriParameters);
     }
 }

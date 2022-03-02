@@ -26,11 +26,11 @@ class DeleteOperation extends BaseOperation
      * @param ItemResourceInterface $resource
      * @param int $id
      */
-    public function __construct(ItemResourceInterface $resource, int $id)
+    public function __construct(ItemResourceInterface $resource, int $id, array $uriParameters = [])
     {
         $this->id = $id;
 
-        parent::__construct($resource);
+        parent::__construct($resource, $uriParameters);
     }
 
     /**

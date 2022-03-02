@@ -32,12 +32,12 @@ class UpdateOperation extends BaseOperation
      * @param int $id
      * @param array $data
      */
-    public function __construct(ItemResourceInterface $resource, int $id, array $data)
+    public function __construct(ItemResourceInterface $resource, int $id, array $data, array $uriParameters = [])
     {
         $this->id = $id;
         $this->data = $data;
 
-        parent::__construct($resource);
+        parent::__construct($resource, $uriParameters);
     }
 
     /**

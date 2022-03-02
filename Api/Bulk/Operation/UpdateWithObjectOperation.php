@@ -32,11 +32,11 @@ class UpdateWithObjectOperation extends UpdateOperation
      * @param array $data
      * @param ObjectAwareResourceInterface $objectResource
      */
-    public function __construct(ItemResourceInterface $resource, int $id, array $data, ObjectAwareResourceInterface $objectResource)
+    public function __construct(ItemResourceInterface $resource, int $id, array $data, ObjectAwareResourceInterface $objectResource, array $uriParameters = [])
     {
         $this->objectResource = $objectResource;
 
-        parent::__construct($resource, $id, $data);
+        parent::__construct($resource, $id, $data, $uriParameters);
     }
 
     /**

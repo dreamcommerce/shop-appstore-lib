@@ -74,14 +74,14 @@ class BulkResource extends Resource implements BulkResourceInterface
                 case Bulk\Operation\FetchOperation::class:
                     /** @var Bulk\Operation\FetchOperation $operation */
                     $row['method'] = 'GET';
-                    $row['path'] = $this->getUri($shop, null, $resourceName)->getPath();
+                    $row['path'] = $this->getUri($shop, null, $resourceName, null, $operation->getUriParameters())->getPath();
 
                     break;
                 case Bulk\Operation\FindOperation::class:
                 case Bulk\Operation\FindWithObjectOperation::class:
                     /** @var Bulk\Operation\FindOperation $operation */
                     $row['method'] = 'GET';
-                    $row['path'] = $this->getUri($shop, $operation->getId(), $resourceName, $objectName)->getPath();
+                    $row['path'] = $this->getUri($shop, $operation->getId(), $resourceName, $objectName, $operation->getUriParameters())->getPath();
 
                     break;
                 case Bulk\Operation\FindByOperation::class:
@@ -92,7 +92,7 @@ class BulkResource extends Resource implements BulkResourceInterface
                     $criteria->rewind();
 
                     $row['method'] = 'GET';
-                    $row['path'] = $this->getUri($shop, null, $resourceName, $objectName)->getPath();
+                    $row['path'] = $this->getUri($shop, null, $resourceName, $objectName, $operation->getUriParameters())->getPath();
                     $row['params'] = $criteria->getQueryParams();
 
                     break;
@@ -102,7 +102,7 @@ class BulkResource extends Resource implements BulkResourceInterface
                 case Bulk\Operation\InsertWithValueOperation::class:
                     /** @var Bulk\Operation\InsertOperation $operation */
                     $row['method'] = 'POST';
-                    $row['path'] = $this->getUri($shop, null, $resourceName, $objectName)->getPath();
+                    $row['path'] = $this->getUri($shop, null, $resourceName, $objectName, $operation->getUriParameters())->getPath();
                     $row['body'] = $operation->getData();
 
                     break;
@@ -110,7 +110,7 @@ class BulkResource extends Resource implements BulkResourceInterface
                 case Bulk\Operation\UpdateWithObjectOperation::class:
                     /** @var Bulk\Operation\UpdateOperation $operation */
                     $row['method'] = 'PUT';
-                    $row['path'] = $this->getUri($shop, $operation->getId(), $resourceName, $objectName)->getPath();
+                    $row['path'] = $this->getUri($shop, $operation->getId(), $resourceName, $objectName, $operation->getUriParameters())->getPath();
                     $row['body'] = $operation->getData();
 
                     break;
@@ -118,7 +118,7 @@ class BulkResource extends Resource implements BulkResourceInterface
                 case Bulk\Operation\DeleteWithObjectOperation::class:
                     /** @var Bulk\Operation\DeleteOperation $operation */
                     $row['method'] = 'DELETE';
-                    $row['path'] = $this->getUri($shop, $operation->getId(), $resourceName, $objectName)->getPath();
+                    $row['path'] = $this->getUri($shop, $operation->getId(), $resourceName, $objectName, $operation->getUriParameters())->getPath();
 
                     break;
                 default:

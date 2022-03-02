@@ -28,11 +28,11 @@ class FindWithObjectOperation extends FindOperation implements ObjectOperationIn
      * @param int $id
      * @param ObjectAwareResourceInterface $objectResource
      */
-    public function __construct(ItemResourceInterface $resource, int $id, ObjectAwareResourceInterface $objectResource)
+    public function __construct(ItemResourceInterface $resource, int $id, ObjectAwareResourceInterface $objectResource, array $uriParameters = [])
     {
         $this->objectResource = $objectResource;
 
-        parent::__construct($resource, $id);
+        parent::__construct($resource, $id, $uriParameters);
     }
 
     /**
