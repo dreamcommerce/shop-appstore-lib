@@ -20,14 +20,6 @@ class ReviewsPostResource extends FrontResource
     /**
      * {@inheritDoc}
      */
-    public function isPublic(): bool
-    {
-        return false;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     protected function getUri(FrontShopInterface $shop, array $uriData): UriInterface
     {
         if (!isset($uriData['id'])) {
