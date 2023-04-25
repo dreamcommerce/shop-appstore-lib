@@ -1,14 +1,22 @@
 <?php
 
+/*
+ * This file is part of the DreamCommerce Shop AppStore package.
+ *
+ * (c) DreamCommerce
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Api\Resource\Front;
 
-use DreamCommerce\Component\Common\Exception\NotDefinedException;
 use DreamCommerce\Component\ShopAppstore\Model\FrontShopInterface;
 use Psr\Http\Message\UriInterface;
 
-class ReviewsPostResource extends FrontResource
+class NewsCommentsPostResource extends FrontResource
 {
     /**
      * {@inheritDoc}
@@ -28,7 +36,6 @@ class ReviewsPostResource extends FrontResource
         }
 
         $uri = parent::getUri($shop, $uriData);
-
-        return $uri->withPath($uri->getPath() . '/products/' . $uriData['id'] . '/review/');
+        return $uri->withPath($uri->getPath() . '/news/' . $uriData['id'] . '/comments/');
     }
 }
