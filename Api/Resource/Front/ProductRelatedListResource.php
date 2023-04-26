@@ -52,7 +52,7 @@ class ProductRelatedListResource extends FrontResource
         }
 
         $uri = parent::getUri($shop, $uriData);
-        $uri = $uri->withPath($uri->getPath() . '/products/' . $uriData['currency'] . $uriData['id'] . '/related');
+        $uri = $uri->withPath($uri->getPath() . '/products/' . $uriData['currency'] . '/' . $uriData['id'] . '/related');
 
         return $uri;
     }
