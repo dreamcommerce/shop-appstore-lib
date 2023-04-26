@@ -19,24 +19,22 @@ use DreamCommerce\Component\ShopAppstore\Model\DataInterface;
 use DreamCommerce\Component\ShopAppstore\Model\FrontShopInterface;
 use Psr\Http\Message\UriInterface;
 
-class ProductOptionsListResource extends FrontResource
+class ProductSearchResource extends FrontResource
 {
     /**
      * @param FrontShopInterface $shop
-     * @param int $productId
+     * @param string $query
      * @param string $currencyName
-     * @param string $options
      * @return DataInterface
      * @throws CommunicationException
      */
-    public function getProducts(FrontShopInterface $shop, int $productId, string $currencyName, string $options = ''): DataInterface
+    public function getProducts(FrontShopInterface $shop, string $query, string $currencyName): DataInterface
     {
         return $this->execute(
             $shop, [],
             [
-                'id' => $productId,
                 'currency' => $currencyName,
-                'options' => $options
+                'searchquery' => $query,
             ]
         );
     }
@@ -46,7 +44,7 @@ class ProductOptionsListResource extends FrontResource
      */
     protected function getUri(FrontShopInterface $shop, array $uriData): UriInterface
     {
-        $params = ['id', 'currency'];
+        $params = ['searchquery', 'currency'];
         foreach ($params as $param) {
             if (!isset($uriData[$param])) {
                 throw NotDefinedException::forParameter($param);
@@ -54,7 +52,9 @@ class ProductOptionsListResource extends FrontResource
         }
 
         $uri = parent::getUri($shop, $uriData);
-        $uri = $uri->withPath($uri->getPath() . '/products/' . $uriData['currency'] . '/' . $uriData['id'] . '/options'. '/' . $uriData['options']);
+        $uri = $uri->withPath(
+            $uri->getPath() . '/products/' . $uriData['currency'] . '/search/' . $uriData['searchquery']
+        );
 
         return $uri;
     }
