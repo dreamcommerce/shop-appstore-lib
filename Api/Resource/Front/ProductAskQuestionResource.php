@@ -48,7 +48,7 @@ class ProductAskQuestionResource extends FrontResource
     protected function getUri(FrontShopInterface $shop, array $uriData): UriInterface
     {
         if (!isset($uriData['id'])) {
-            throw NotDefinedException::forParameter('currency');
+            throw NotDefinedException::forParameter('id');
         }
 
         $uri = parent::getUri($shop, $uriData);
