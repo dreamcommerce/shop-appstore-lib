@@ -28,7 +28,7 @@ class OrderRefundResource extends ItemResource implements ObjectAwareResourceInt
      */
     public function getExternalIdName(): string
     {
-        return 'refund_id';
+        return 'transaction_id';
     }
 
     /**
