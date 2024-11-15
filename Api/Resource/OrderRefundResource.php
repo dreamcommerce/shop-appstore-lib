@@ -36,6 +36,6 @@ class OrderRefundResource extends ItemResource implements ObjectAwareResourceInt
      */
     public function getObjectName(): string
     {
-        return 'order-refund';
+        return 'order-transaction';
     }
 }
