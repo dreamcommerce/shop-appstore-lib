@@ -36,6 +36,6 @@ class ProductSafetyProducerResource extends ItemResource implements ObjectAwareR
      */
     public function getObjectName(): string
     {
-        return 'product-safety-producer';
+        return 'gpsr-producer';
     }
 }
