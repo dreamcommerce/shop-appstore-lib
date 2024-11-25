@@ -28,7 +28,7 @@ class ProductSafetyProducerResource extends ItemResource implements ObjectAwareR
      */
     public function getExternalIdName(): string
     {
-        return 'producer_id';
+        return 'gpsr_producer_id';
     }
 
     /**
