@@ -28,7 +28,7 @@ class PaymentChannelResource extends ItemResource implements ObjectAwareResource
      */
     public function getExternalIdName(): string
     {
-        return 'channels';
+        return 'channel_id';
     }
 
     /**
