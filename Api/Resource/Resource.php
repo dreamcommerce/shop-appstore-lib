@@ -133,7 +133,7 @@ abstract class Resource implements ResourceInterface
         }
 
         foreach($uriParameters as $parameterName => $parameterValue){
-            $name = str_replace(':'.$parameterName, $parameterValue, $name);
+            $name = str_replace(':'.$parameterName, (string) $parameterValue, $name);
         }
 
         $uri = $shop->getUri();
