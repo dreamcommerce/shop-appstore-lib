@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace DreamCommerce\Component\ShopAppstore\Api\Authenticator;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use DreamCommerce\Component\Common\Factory\DateTimeFactoryInterface;
 use DreamCommerce\Component\ShopAppstore\Api\Exception\AuthenticationException;
 use DreamCommerce\Component\ShopAppstore\Api\Exception\RefreshTokenException;

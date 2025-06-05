@@ -15,7 +15,7 @@ namespace DreamCommerce\Component\ShopAppstore\Api\Authenticator;
 
 use DateInterval;
 use DateTimeZone;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use DreamCommerce\Component\Common\Factory\DateTimeFactory;
 use DreamCommerce\Component\Common\Factory\DateTimeFactoryInterface;
 use DreamCommerce\Component\ShopAppstore\Api\Exception;
