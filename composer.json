@@ -14,19 +14,20 @@
     }
   ],
   "require": {
-    "php": "^7.1",
+    "php": ">=8.2",
     "ext-json": "*",
     "sylius/resource": "^1.0",
     "sylius/registry": "^1.0",
     "psr/http-message": "^1.0",
-    "dreamcommerce/common-bundle": "dev-master",
-    "doctrine/common": "^2.6"
+    "doctrine/persistence": "^2.0 || ^3.0",
+    "dreamcommerce/common-bundle": "dev-dev8.2"
   },
   "require-dev": {
-    "phpunit/phpunit": "^6.5",
-    "symplify/easy-coding-standard": "^2.4",
-    "sylius-labs/coding-standard": "^1.0",
-    "guzzlehttp/guzzle": "^6.2"
+    "phpunit/phpunit": "9.3.0",
+    "sylius-labs/coding-standard": "4.0.0",
+    "guzzlehttp/guzzle": "^6.2",
+    "rector/rector": "^2.0.10",
+    "symplify/easy-coding-standard": "9.0.0"
   },
   "autoload": {
     "psr-4": { "DreamCommerce\\Component\\ShopAppstore\\": "" },
@@ -35,5 +36,10 @@
     ]
   },
   "minimum-stability": "dev",
-  "prefer-stable": true
+  "prefer-stable": true,
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": false
+    }
+  }
 }

@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace DreamCommerce\Component\ShopAppstore\Tests\Billing;
 
 use DateTime;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use DreamCommerce\Component\Common\Factory\UriFactoryInterface;
 use DreamCommerce\Component\ShopAppstore\Billing\Dispatcher;
 use DreamCommerce\Component\ShopAppstore\Billing\DispatcherInterface;
